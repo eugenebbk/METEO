@@ -55,6 +55,7 @@ uint8_t flagBoard = 0;            // ??????? ?????? ????????
 uint8_t receiveRingBuf[32] = {0}; // ??????? ?????? ????????
 
 uint8_t requestTemperature = 0x5e;
+	uint8_t exitTemperature8[12] = {0};
 
 /* USER CODE END PV */
 
@@ -106,10 +107,7 @@ int main(void)
   MX_USART3_UART_Init();
   MX_UART4_Init();
   /* USER CODE BEGIN 2 */
-  //	HAL_GPIO_WritePin(GPIOA,GPIO_PIN_9,GPIO_PIN_RESET );
   HAL_GPIO_WritePin(GPIOC, GPIO_PIN_4, GPIO_PIN_RESET);
-  //	HAL_UART_Receive_IT (&huart6, str, 1);
-  //  HAL_UART_IRQHandler(&huart6);
 
   //__HAL_UART_ENABLE_IT(&huart4, UART_IT_IDLE);
   HAL_UART_Receive_IT(&huart4, &receiveRingBuf[0], 12);
@@ -121,30 +119,17 @@ int main(void)
   while (1)
   {
 
-    // 		HAL_Delay(200);
-    // 	HAL_GPIO_TogglePin(GPIOC,GPIO_PIN_3 );
-    // // CDC_Receive_FS(Buf[0],8);
-    // 	HAL_GPIO_WritePin(GPIOB,GPIO_PIN_5,GPIO_PIN_SET );
-
-    // 	HAL_UART_Transmit(&huart1,Buf,30,100);
-    // 	HAL_GPIO_WritePin(GPIOB,GPIO_PIN_5,GPIO_PIN_RESET );
-    // 		HAL_Delay(200);
-    /*
-        HAL_Delay(200);
-        PIN_EN_TRANSMIT_UART4(1);
-        HAL_UART_Transmit(&huart4, &requestTemperature, 1, 100);
-        PIN_EN_TRANSMIT_UART4(0);
-    */
     HAL_Delay(1);
     // if (flagBoard & INTERRUPT_USB_MASK)
     if (flagBoard == 1)
     {
       //          flagBoard &= 0xFE;
       flagBoard = 0;
+      HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_11);
       PIN_EN_TRANSMIT_UART4(1);
       HAL_UART_Transmit(&huart4, &requestTemperature, 1, 100);
       //          HAL_UART_Transmit_IT(&huart4, &requestTemperature, 1);
-      HAL_Delay(30);
+      HAL_Delay(300);
       PIN_EN_TRANSMIT_UART4(0);
       // CDC_Transmit_FS(str, 1);
     }
@@ -377,19 +362,27 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart) {
 void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 {
   // receiveDataBuf = {0}
-	const float DS18B20_T_STEP_float = 0.0625;
+  const float DS18B20_T_STEP_float = 0.0625;
+  const uint16_t startWord = {0xFD55};
+  const uint8_t startWord8 [2] = {0xFD, 0x55};
+	uint16_t exitTemperature[6] = {0};
+
+	
 	
   if (huart->Instance == UART4) // c
   {
-		uint8_t outData_temp[24] = {0};
-		float temperature_fl[5] = {0};
+		/*
+    uint8_t outData_temp[24] = {0};
+    float temperature_fl[5] = {0};
+
 		
-		for(size_t i = 0; i<5; i++){
-			int16_t temp16b = (int16_t)(receiveRingBuf[i*2+2]<<8 | receiveRingBuf[i*2+1+2]); //(a << 8) | b
-			temperature_fl[i] = (float)(int32_t)temp16b * DS18B20_T_STEP_float;
-		}
-    
-		//    if (memcmp(receiveRingBuf, &requestTemperature, 1))
+    for (size_t i = 0; i < 5; i++)
+    {
+      int16_t temp16b = (int16_t)(receiveRingBuf[i * 2 + 2] << 8 | receiveRingBuf[i * 2 + 1 + 2]); //(a << 8) | b
+      temperature_fl[i] = (float)(int32_t)temp16b * DS18B20_T_STEP_float;
+    }
+
+    //    if (memcmp(receiveRingBuf, &requestTemperature, 1))
     //    {
     //      // for (size_t i = 0; i < 5; i++)
     //      // {
@@ -406,17 +399,19 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 
     HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_11);
     memcpy(&outData_temp[0], &receiveRingBuf[0], 2);
-    memcpy(&outData_temp[4], &temperature_fl[0], sizeof(float)*5);
+    memcpy(&outData_temp[1], &temperature_fl[0], sizeof(float) * 5);
     CDC_Transmit_FS(&outData_temp[0], sizeof(outData_temp));
+		*/
+		
+		HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_11);
+    memcpy(&exitTemperature8[0], &startWord8[0], 2);
+    memcpy(&exitTemperature8[2], &receiveRingBuf[2], 10);
+    CDC_Transmit_FS(&exitTemperature8[0], sizeof(exitTemperature8));
   }
 
   HAL_UART_Receive_IT(&huart4, &receiveRingBuf[0], 12);
   // __HAL_UART_CLEAR_IDLEFLAG(&huart4);
   // __HAL_UART_ENABLE_IT(&huart4, UART_IT_IDLE);
-	
-	
-	
-	
 }
 
 //  uint16_t sign = tRegValue & DS18B20_SIGN_MASK;

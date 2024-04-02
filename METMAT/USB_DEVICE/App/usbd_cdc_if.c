@@ -270,7 +270,6 @@ static int8_t CDC_Receive_FS(uint8_t* Buf, uint32_t *Len)
   USBD_CDC_SetRxBuffer(&hUsbDeviceFS, &Buf[0]);
   USBD_CDC_ReceivePacket(&hUsbDeviceFS);		
 //	HAL_UART_Transmit(&huart6, Buf, *Len,10);
-	HAL_GPIO_TogglePin(GPIOC,GPIO_PIN_11 );
   return (USBD_OK);
   /* USER CODE END 6 */
 }
