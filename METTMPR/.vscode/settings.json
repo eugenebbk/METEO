@@ -1,5 +1,6 @@
 {
     "files.associations": {
-        "onewire.h": "c"
+        "onewire.h": "c",
+        "compare": "c"
     }
 }
