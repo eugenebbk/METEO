@@ -105,7 +105,7 @@ void HAL_UARTEx_RxEventCallback(UART_HandleTypeDef *huart, uint16_t Size)
 
 	uint8_t holeOp = 0;
   // HAL_Delay(30);
-  size_t counterTemp = 25000 * 60; // 1ms*30
+  size_t counterTemp = 25000 * 20; // 300ms
   while (--counterTemp)
   {
     holeOp++;
@@ -140,12 +140,12 @@ void HAL_UARTEx_RxEventCallback(UART_HandleTypeDef *huart, uint16_t Size)
       //      HAL_Delay(100);
       // HAL_Delay(5);
 
-      counterTemp = 25000 * 5; // 1ms*5
-      while (--counterTemp)
-      {
-//        asm("NOP");
-				holeOp--;
-      }
+			counterTemp = 25000 * 2; // 30ms
+       while (--counterTemp)
+       {
+ //        asm("NOP");
+ 				holeOp--;
+       }
       
       HAL_GPIO_WritePin(GPIOB, GPIO_PIN_5, GPIO_PIN_RESET);
     }
