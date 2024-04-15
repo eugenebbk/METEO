@@ -3,9 +3,9 @@
 <title>Static Call Graph - [METTMPR\METTMPR.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image METTMPR\METTMPR.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 6190004: Last Updated: Mon Apr 15 18:54:41 2024
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 6180002: Last Updated: Mon Apr 15 22:59:46 2024
 <BR><P>
-<H3>Maximum Stack Usage =        280 bytes + Unknown(Functions without stacksize, Cycles, Untraceable Function Pointers)</H3><H3>
+<H3>Maximum Stack Usage =        288 bytes + Unknown(Functions without stacksize, Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
 __rt_entry_main &rArr; main &rArr; initDS18B20 &rArr; DS18B20_ReadRom &rArr; ExecuteCommand &rArr; OneWire_ProcessByte &rArr; OneWire_ProcessBit &rArr; HAL_UART_Receive &rArr; UART_WaitOnFlagUntilTimeout
 <P>
@@ -252,7 +252,7 @@ Global Symbols
 <P><STRONG><a name="[105]"></a>__rt_entry_postsh_1</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, __rtentry2.o(.ARM.Collect$$rtentry$$00000009))
 
 <P><STRONG><a name="[76]"></a>__rt_entry_main</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, __rtentry2.o(.ARM.Collect$$rtentry$$0000000D))
-<BR><BR>[Stack]<UL><LI>Max Depth = 280 + Unknown Stack Size
+<BR><BR>[Stack]<UL><LI>Max Depth = 288 + Unknown Stack Size
 <LI>Call Chain = __rt_entry_main &rArr; main &rArr; initDS18B20 &rArr; DS18B20_ReadRom &rArr; ExecuteCommand &rArr; OneWire_ProcessByte &rArr; OneWire_ProcessBit &rArr; HAL_UART_Receive &rArr; UART_WaitOnFlagUntilTimeout
 </UL>
 <BR>[Calls]<UL><LI><a href="#[77]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
@@ -671,7 +671,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[d8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;initDS18B20
 </UL>
 
-<P><STRONG><a name="[87]"></a>DS18B20_ReadScratchpad</STRONG> (Thumb, 388 bytes, Stack size 40 bytes, ds18b20.o(.text.DS18B20_ReadScratchpad))
+<P><STRONG><a name="[87]"></a>DS18B20_ReadScratchpad</STRONG> (Thumb, 384 bytes, Stack size 40 bytes, ds18b20.o(.text.DS18B20_ReadScratchpad))
 <BR><BR>[Stack]<UL><LI>Max Depth = 208<LI>Call Chain = DS18B20_ReadScratchpad &rArr; ExecuteCommand &rArr; OneWire_ProcessByte &rArr; OneWire_ProcessBit &rArr; HAL_UART_Receive &rArr; UART_WaitOnFlagUntilTimeout
 </UL>
 <BR>[Calls]<UL><LI><a href="#[81]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ExecuteCommand
@@ -1205,8 +1205,8 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[77]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[77]"></a>main</STRONG> (Thumb, 420 bytes, Stack size 40 bytes, main.o(.text.main))
-<BR><BR>[Stack]<UL><LI>Max Depth = 280 + Unknown Stack Size
+<P><STRONG><a name="[77]"></a>main</STRONG> (Thumb, 482 bytes, Stack size 48 bytes, main.o(.text.main))
+<BR><BR>[Stack]<UL><LI>Max Depth = 288 + Unknown Stack Size
 <LI>Call Chain = main &rArr; initDS18B20 &rArr; DS18B20_ReadRom &rArr; ExecuteCommand &rArr; OneWire_ProcessByte &rArr; OneWire_ProcessBit &rArr; HAL_UART_Receive &rArr; UART_WaitOnFlagUntilTimeout
 </UL>
 <BR>[Calls]<UL><LI><a href="#[dd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_UART_Transmit_IT

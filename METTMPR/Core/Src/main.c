@@ -164,6 +164,7 @@ int main(void)
   /* USER CODE BEGIN 2 */
 
   // __HAL_UART_ENABLE_IT(&huart1, UART_IT_IDLE);
+			__HAL_UART_CLEAR_IDLEFLAG(&huart1);
   HAL_UARTEx_ReceiveToIdle_IT(&huart1, RxData, sizeof(RxData));
 
   __HAL_TIM_CLEAR_FLAG(&htim10, TIM_SR_UIF);
@@ -213,6 +214,7 @@ int main(void)
       }
       HAL_GPIO_WritePin(GPIOB, GPIO_PIN_5, GPIO_PIN_RESET);
       flagsInterrupts.UART1_int = 0;
+			__HAL_UART_CLEAR_IDLEFLAG(&huart1);
 			HAL_UARTEx_ReceiveToIdle_IT(&huart1, RxData, sizeof(RxData));
 		
     }
