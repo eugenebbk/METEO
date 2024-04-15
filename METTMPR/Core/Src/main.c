@@ -101,40 +101,25 @@ void HAL_UARTEx_RxEventCallback(UART_HandleTypeDef *huart, uint16_t Size)
 {
 
   uint8_t holeOp = 0;
-  // HAL_Delay(30);
   size_t counterTemp = 25000 * 20; // 300ms
   while (--counterTemp)
   {
     holeOp++;
   }
-//bla
+  
   indx = Size;
   if (huart->Instance == USART1) // check if the interrupt comes from
   {
     // if (memcmp(RxData, &fullPacket[0], Size))
     // {
-
     // }
 
     flagRxUART = 1;
 
     if (memcmp(RxData, &fullPacket[0], sizeof(fullPacket)))
     {
-
       flagsInterrupts.UART1_int = 1;
-      HAL_GPIO_WritePin(GPIOB, GPIO_PIN_5, GPIO_PIN_SET);
-      HAL_UART_Transmit_IT(&huart1, &fullPacket[0], sizeof(fullPacket));
-
-      counterTemp = 25000 * 2; // 30ms
-      while (--counterTemp)
-      {
-        //        asm("NOP");
-        holeOp--;
-      }
-      HAL_GPIO_WritePin(GPIOB, GPIO_PIN_5, GPIO_PIN_RESET);
     }
-
-    HAL_UARTEx_ReceiveToIdle_IT(&huart1, RxData, sizeof(RxData));
   }
 }
 
@@ -216,8 +201,20 @@ int main(void)
 
     if (flagsInterrupts.UART1_int)
     {
-
+						
+			uint8_t holeOp = 0;
+			size_t counterTemp = 25000 * 2; // 30ms
+			HAL_GPIO_WritePin(GPIOB, GPIO_PIN_5, GPIO_PIN_SET);
+      HAL_UART_Transmit_IT(&huart1, &fullPacket[0], sizeof(fullPacket));
+      while (--counterTemp)
+      {
+        //        asm("NOP");
+        holeOp<<1; //nop operation
+      }
+      HAL_GPIO_WritePin(GPIOB, GPIO_PIN_5, GPIO_PIN_RESET);
       flagsInterrupts.UART1_int = 0;
+			HAL_UARTEx_ReceiveToIdle_IT(&huart1, RxData, sizeof(RxData));
+		
     }
 
     // receiving from onewire sensor calculate temperature
