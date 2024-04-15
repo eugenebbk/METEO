@@ -49,6 +49,20 @@ extern "C" {
     uint8_t startBite : 3;   // 0-7
   } startByte_t;
 
+
+  typedef struct
+  {
+    // uint8_t tempSensor[5]:1;   // 0-1
+    uint8_t TIM10_int : 1; // 0-1
+    uint8_t UART1_int : 1; // 0-1
+    uint8_t UART4_int : 1; // 0-1
+    uint8_t UART5_int : 1; // 0-1
+    uint8_t UART6_int : 1; // 0-1
+    uint8_t UART7_int : 1; // 0-1
+    uint8_t UART8_int : 1; // 0-1
+    uint8_t UART9_int : 1; // 0-1
+  } flagsInterrupts_t;
+
 /* USER CODE END ET */
 
 /* Exported constants --------------------------------------------------------*/

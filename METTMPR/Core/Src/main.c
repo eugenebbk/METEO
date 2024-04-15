@@ -23,6 +23,7 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "ds18b20.h"
+#include "ds18b20_init.h"
 #include "onewire.h"
 #include "string.h"
 /* USER CODE END Includes */
@@ -48,13 +49,14 @@ TIM_HandleTypeDef htim10;
 UART_HandleTypeDef huart4;
 UART_HandleTypeDef huart5;
 UART_HandleTypeDef huart7;
-UART_HandleTypeDef huart1;
 UART_HandleTypeDef huart2;
 UART_HandleTypeDef huart3;
 
+UART_HandleTypeDef huart1;
+
 /* USER CODE BEGIN PV */
-DS18B20 temperatureSensor[5];
-DS18B20_Status errorDS18B20[5] = {0};
+DS18B20 temperatureSensor[numbSensorsDS18B20];
+DS18B20_Status errorDS18B20[numbSensorsDS18B20] = {0};
 
 startByte_t startByte = {0};
 uint8_t fullPacket[12] = {0xFD, 0x55, 0};
@@ -63,6 +65,8 @@ uint8_t receiveByte = {0};
 uint8_t RxData[16] = {0};
 int indx = 0;
 uint8_t flagRxUART = 0;
+
+flagsInterrupts_t flagsInterrupts = {0};
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -76,114 +80,63 @@ static void MX_USART2_UART_Init(void);
 static void MX_USART3_UART_Init(void);
 static void MX_TIM10_Init(void);
 /* USER CODE BEGIN PFP */
-char txUARTBuffer[100] = {0};
-uint8_t Data[8];
-uint16_t size;
-uint8_t rData[2];
+
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
 
-//__weak void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim){
-
-//}
-
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 {
-  //		HAL_IWDG_Refresh(&hiwdg);
-  //	uint8_t StatByte1= 0;
-  //	uint8_t temp_sensor= 0;
-
-  if (htim->Instance == TIM10) // check if the interrupt comes from TIM7
+  if (htim->Instance == TIM10) // check if the interrupt comes from TIM10 //750ms
   {
+    // HAL_IWDG_Refresh(&hiwdg);
+    HAL_TIM_Base_Stop_IT(&htim10);
+    flagsInterrupts.TIM10_int = 1;
+    __HAL_TIM_SET_COUNTER(&htim10, 0);
   }
 }
 
 void HAL_UARTEx_RxEventCallback(UART_HandleTypeDef *huart, uint16_t Size)
 {
 
-	uint8_t holeOp = 0;
+  uint8_t holeOp = 0;
   // HAL_Delay(30);
   size_t counterTemp = 25000 * 20; // 300ms
   while (--counterTemp)
   {
     holeOp++;
   }
-
+//bla
   indx = Size;
   if (huart->Instance == USART1) // check if the interrupt comes from
   {
-    // const uint8_t startPacket = 0x5D;
-    // const uint8_t startBites = 7;
-    // startByte.startBite = startBites;
-
-    // for (size_t i = 0; i < 5; i++)
-    // {
-    //   startByte.tempSensor[i] = (uint8_t)errorDS18B20[i];
-    // }
-
     // if (memcmp(RxData, &fullPacket[0], Size))
     // {
 
     // }
+
     flagRxUART = 1;
+
     if (memcmp(RxData, &fullPacket[0], sizeof(fullPacket)))
     {
-      // for (size_t i = 0; i < 5; i++)
-      // {
-      //   memcpy(&fullPacket[i * 2 + 2], &temperatureSensor[i].sourceTemperature, 2);
-      // }
 
+      flagsInterrupts.UART1_int = 1;
       HAL_GPIO_WritePin(GPIOB, GPIO_PIN_5, GPIO_PIN_SET);
       HAL_UART_Transmit_IT(&huart1, &fullPacket[0], sizeof(fullPacket));
-      //      HAL_Delay(100);
-      // HAL_Delay(5);
 
-			counterTemp = 25000 * 2; // 30ms
-       while (--counterTemp)
-       {
- //        asm("NOP");
- 				holeOp--;
-       }
-      
+      counterTemp = 25000 * 2; // 30ms
+      while (--counterTemp)
+      {
+        //        asm("NOP");
+        holeOp--;
+      }
       HAL_GPIO_WritePin(GPIOB, GPIO_PIN_5, GPIO_PIN_RESET);
     }
 
     HAL_UARTEx_ReceiveToIdle_IT(&huart1, RxData, sizeof(RxData));
   }
 }
-
-// void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
-// {
-//   if (huart->Instance == USART1) // check if the interrupt comes from TIM7
-//   {
-//     // const uint8_t startPacket = 0x5D;
-//     // const uint8_t startBites = 7;
-//     // startByte.startBite = startBites;
-
-//     // for (size_t i = 0; i < 5; i++)
-//     // {
-//     //   startByte.tempSensor[i] = (uint8_t)errorDS18B20[i];
-//     // }
-
-//     if (memcmp(huart->pRxBuffPtr, &fullPacket[0], sizeof(fullPacket)))
-//     {
-//       for (size_t i = 0; i < 5; i++)
-//       {
-//         memcpy(&fullPacket[i * 2 + 1], &temperatureSensor[i].sourceTemperature, 2);
-//       }
-
-//       HAL_GPIO_WritePin(GPIOB, GPIO_PIN_5, GPIO_PIN_SET);
-//       HAL_UART_Transmit_IT(&huart1, &fullPacket[0], sizeof(fullPacket));
-// 			HAL_Delay(5);
-//       HAL_GPIO_WritePin(GPIOB, GPIO_PIN_5, GPIO_PIN_RESET);
-//     }
-//   }
-//   HAL_UART_Receive_IT(&huart1, &receiveByte, 1);
-//   // __HAL_UART_CLEAR_IDLEFLAG(&huart1);
-//   __HAL_UART_ENABLE_IT(&huart1, UART_IT_IDLE);
-// }
 
 /* USER CODE END 0 */
 
@@ -226,42 +179,14 @@ int main(void)
   /* USER CODE BEGIN 2 */
 
   // __HAL_UART_ENABLE_IT(&huart1, UART_IT_IDLE);
-
-  // HAL_UART_Receive_IT(&huart1, &receiveByte, 1);
   HAL_UARTEx_ReceiveToIdle_IT(&huart1, RxData, sizeof(RxData));
 
-  //---- my
+  __HAL_TIM_CLEAR_FLAG(&htim10, TIM_SR_UIF);
+  HAL_TIM_Base_Start_IT(&htim10);
 
-  DS18B20_Init(&temperatureSensor[0], &huart2);
-  DS18B20_Init(&temperatureSensor[1], &huart3);
-  DS18B20_Init(&temperatureSensor[2], &huart4);
-  DS18B20_Init(&temperatureSensor[3], &huart5);
-  DS18B20_Init(&temperatureSensor[4], &huart7);
-
-  for (size_t i = 0; i < 5; i++)
-  {
-
-    // DS18B20_Init(&temperatureSensor[i], &huart2);
-    errorDS18B20[i] |= DS18B20_InitializationCommand(&temperatureSensor[i]); // reset
-    errorDS18B20[i] |= DS18B20_ReadRom(&temperatureSensor[i]);               // 0x33
-    errorDS18B20[i] |= DS18B20_ReadScratchpad(&temperatureSensor[i]);        // 0xbe func
-    // while (errorDS18B20[i])
-    // {
-
-    // }
-  }
-
-  int8_t settings[3];
-  settings[0] = (uint8_t)125;
-  settings[1] = (uint8_t)-55;
-  settings[2] = DS18B20_12_BITS_CONFIG;
-
-  for (size_t i = 0; i < 5; i++)
-  {
-    DS18B20_InitializationCommand(&temperatureSensor[i]);
-    DS18B20_SkipRom(&temperatureSensor[i]);
-    DS18B20_WriteScratchpad(&temperatureSensor[i], (uint8_t *)&settings[0]);
-  }
+  initDS18B20(&temperatureSensor[0], &errorDS18B20[0], numbSensorsDS18B20);
+  // send request to onewire sensor for measuring temperature
+  requestToCalculationTemperature(&temperatureSensor[0], &errorDS18B20[0], numbSensorsDS18B20);
 
   /* USER CODE END 2 */
 
@@ -275,35 +200,28 @@ int main(void)
 
     //    		}
 
-    for (size_t i = 0; i < 5; i++)
+    if (flagsInterrupts.TIM10_int)
     {
-      DS18B20_InitializationCommand(&temperatureSensor[i]);
-      DS18B20_SkipRom(&temperatureSensor[i]);
-      DS18B20_ConvertT(&temperatureSensor[i], DS18B20_NONE);
+      flagsInterrupts.TIM10_int = 0;
+      receiveTemperature(&temperatureSensor[0], &errorDS18B20[0], numbSensorsDS18B20);
+      // writing temperature to exit packet
+      for (size_t i = 0; i < numbSensorsDS18B20; i++)
+      {
+        memcpy(&fullPacket[i * 2 + 2], &temperatureSensor[i].sourceTemperature, 2);
+      }
+      // send request to onewire sensor for measuring temperature
+      requestToCalculationTemperature(&temperatureSensor[0], &errorDS18B20[0], numbSensorsDS18B20);
+      HAL_TIM_Base_Start_IT(&htim10);
     }
 
-    // HAL_TIM_Base_Start_IT(&htim10);
-    //  sleep
-    HAL_Delay(750);
-    for (size_t i = 0; i < 5; i++)
+    if (flagsInterrupts.UART1_int)
     {
-      DS18B20_InitializationCommand(&temperatureSensor[i]);
-      DS18B20_SkipRom(&temperatureSensor[i]);
-      DS18B20_ReadScratchpad(&temperatureSensor[i]);
+
+      flagsInterrupts.UART1_int = 0;
     }
 
-    HAL_Delay(750);
+    // receiving from onewire sensor calculate temperature
 
-    for (size_t i = 0; i < 5; i++)
-    {
-      memcpy(&fullPacket[i * 2 + 2], &temperatureSensor[i].sourceTemperature, 2);
-    }
-
-    // HAL_GPIO_WritePin(GPIOB, GPIO_PIN_5, GPIO_PIN_SET);
-    //  HAL_UART_Transmit_IT(&huart1, &fullPacket[0], sizeof(fullPacket));
-    //       HAL_UART_Transmit_IT(&huart1, &fullPacket[0], sizeof(fullPacket));
-    // HAL_Delay(3);
-    // HAL_GPIO_WritePin(GPIOB, GPIO_PIN_5, GPIO_PIN_RESET);
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
@@ -376,9 +294,9 @@ static void MX_TIM10_Init(void)
 
   /* USER CODE END TIM10_Init 1 */
   htim10.Instance = TIM10;
-  htim10.Init.Prescaler = 225;
+  htim10.Init.Prescaler = 24999;
   htim10.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim10.Init.Period = 750;
+  htim10.Init.Period = 749;
   htim10.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
   htim10.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
   if (HAL_TIM_Base_Init(&htim10) != HAL_OK)
