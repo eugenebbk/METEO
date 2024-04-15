@@ -101,7 +101,7 @@ void HAL_UARTEx_RxEventCallback(UART_HandleTypeDef *huart, uint16_t Size)
 {
 
   uint8_t holeOp = 0;
-  size_t counterTemp = 25000 * 20; // 300ms
+  size_t counterTemp = 25000 * 2; // 300ms
   while (--counterTemp)
   {
     holeOp++;
@@ -204,7 +204,7 @@ int main(void)
     {
 						
 			uint8_t holeOp = 0;
-			size_t counterTemp = 25000 * 2; // 30ms
+			size_t counterTemp = 25000 * 1; // 30ms
 			HAL_GPIO_WritePin(GPIOB, GPIO_PIN_5, GPIO_PIN_SET);
       HAL_UART_Transmit_IT(&huart1, &fullPacket[0], sizeof(fullPacket));
       while (--counterTemp)
