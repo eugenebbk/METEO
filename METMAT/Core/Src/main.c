@@ -59,6 +59,7 @@ uint8_t exitTemperature8[12] = {0};
 // uart
 
 uint8_t RxData[16] = {0};
+uint8_t RxData6[60] = {0};
 int indx = 0;
 uint8_t fullPacket[12] = {0xFD, 0x55, 0};
 
@@ -76,9 +77,9 @@ void SystemClock_Config(void);
 /* USER CODE END 0 */
 
 /**
-  * @brief  The application entry point.
-  * @retval int
-  */
+ * @brief  The application entry point.
+ * @retval int
+ */
 int main(void)
 {
   /* USER CODE BEGIN 1 */
@@ -107,7 +108,7 @@ int main(void)
   MX_SPI1_Init();
   MX_USART3_UART_Init();
   MX_UART4_Init();
-  MX_USART6_UART_Init();
+//  MX_USART6_UART_Init();
   /* USER CODE BEGIN 2 */
   HAL_GPIO_WritePin(GPIOC, GPIO_PIN_4, GPIO_PIN_RESET);
 
@@ -116,6 +117,7 @@ int main(void)
   // HAL_UART_Receive_IT(&huart4, &receiveRingBuf[0], 12);
 
   HAL_UARTEx_ReceiveToIdle_IT(&huart4, RxData, sizeof(RxData));
+  HAL_UARTEx_ReceiveToIdle_IT(&huart6, RxData6, sizeof(RxData6));
 
   /* USER CODE END 2 */
 
@@ -147,21 +149,21 @@ int main(void)
 }
 
 /**
-  * @brief System Clock Configuration
-  * @retval None
-  */
+ * @brief System Clock Configuration
+ * @retval None
+ */
 void SystemClock_Config(void)
 {
   RCC_OscInitTypeDef RCC_OscInitStruct = {0};
   RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
 
   /** Configure the main internal regulator output voltage
-  */
+   */
   __HAL_RCC_PWR_CLK_ENABLE();
   __HAL_PWR_VOLTAGESCALING_CONFIG(PWR_REGULATOR_VOLTAGE_SCALE1);
   /** Initializes the RCC Oscillators according to the specified parameters
-  * in the RCC_OscInitTypeDef structure.
-  */
+   * in the RCC_OscInitTypeDef structure.
+   */
   RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSE;
   RCC_OscInitStruct.HSEState = RCC_HSE_ON;
   RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
@@ -176,9 +178,8 @@ void SystemClock_Config(void)
     Error_Handler();
   }
   /** Initializes the CPU, AHB and APB buses clocks
-  */
-  RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
-                              |RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2;
+   */
+  RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK | RCC_CLOCKTYPE_SYSCLK | RCC_CLOCKTYPE_PCLK1 | RCC_CLOCKTYPE_PCLK2;
   RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_PLLCLK;
   RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV2;
   RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV1;
@@ -224,7 +225,6 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart) {
 //     /*
 //     uint8_t outData_temp[24] = {0};
 //     float temperature_fl[5] = {0};
-
 
 //     for (size_t i = 0; i < 5; i++)
 //     {
@@ -286,7 +286,7 @@ void HAL_UARTEx_RxEventCallback(UART_HandleTypeDef *huart, uint16_t Size)
   const uint8_t startWord8[2] = {0xFD, 0x55};
   indx = Size;
 
-  if (huart->Instance == UART4) // check if the interrupt comes from 
+  if (huart->Instance == UART4) // check if the interrupt comes from
   {
     // const uint8_t startPacket = 0x5D;
     // const uint8_t startBites = 7;
@@ -319,11 +319,16 @@ void HAL_UARTEx_RxEventCallback(UART_HandleTypeDef *huart, uint16_t Size)
       memcpy(&exitTemperature8[2], &RxData[2], 10);
       CDC_Transmit_FS(&exitTemperature8[0], sizeof(exitTemperature8));
       // CDC_Transmit_FS(&RxData[0], 12);
-
-      
     }
 
     HAL_UARTEx_ReceiveToIdle_IT(&huart4, RxData, sizeof(RxData));
+  }
+  
+  if (huart->Instance == USART6) // check if the interrupt comes from
+  {
+
+    CDC_Transmit_FS(&RxData6[0], sizeof(RxData6));
+    HAL_UARTEx_ReceiveToIdle_IT(&huart6, RxData6, sizeof(RxData6));
   }
 }
 
@@ -345,9 +350,9 @@ void HAL_UARTEx_RxEventCallback(UART_HandleTypeDef *huart, uint16_t Size)
 /* USER CODE END 4 */
 
 /**
-  * @brief  This function is executed in case of error occurrence.
-  * @retval None
-  */
+ * @brief  This function is executed in case of error occurrence.
+ * @retval None
+ */
 void Error_Handler(void)
 {
   /* USER CODE BEGIN Error_Handler_Debug */
@@ -359,14 +364,14 @@ void Error_Handler(void)
   /* USER CODE END Error_Handler_Debug */
 }
 
-#ifdef  USE_FULL_ASSERT
+#ifdef USE_FULL_ASSERT
 /**
-  * @brief  Reports the name of the source file and the source line number
-  *         where the assert_param error has occurred.
-  * @param  file: pointer to the source file name
-  * @param  line: assert_param error line source number
-  * @retval None
-  */
+ * @brief  Reports the name of the source file and the source line number
+ *         where the assert_param error has occurred.
+ * @param  file: pointer to the source file name
+ * @param  line: assert_param error line source number
+ * @retval None
+ */
 void assert_failed(uint8_t *file, uint32_t line)
 {
   /* USER CODE BEGIN 6 */

@@ -1,0 +1,410 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<locale xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <ask_button>Query</ask_button>
+  <set_button>Set</set_button>
+  <save_button>Save</save_button>
+  <start_button>Start</start_button>
+  <stop_button>Stop</stop_button>
+  <cancel_button>Cancel</cancel_button>
+  <close_button>Close</close_button>
+  <select_button>Select</select_button>
+  <minutes>min</minutes>
+  <seconds>s</seconds>
+  <milliseconds>ms</milliseconds>
+  <microseconds>us</microseconds>
+  <nanoseconds>ns</nanoseconds>
+  <meters>m</meters>
+  <glonass>GLONASS</glonass>
+  <gps>GPS</gps>
+  <galileo>Galileo</galileo>
+  <yes>Yes</yes>
+  <no>No</no>
+  <error>ERROR!</error>
+  <km_per_hour>km/h</km_per_hour>
+  <cold>Cold Start</cold>
+  <warm>Warm Start</warm>
+  <hot>Hot Start</hot>
+  <warning>Warning!</warning>
+  <use_logging>Start Debug logging</use_logging>
+  <name>Name:</name>
+  <speed>Speed:</speed>
+  <serial_port>Serial Port</serial_port>
+  <file>File</file>
+  <delay>Delay:</delay>
+  <result>Result:</result>
+  <parameter>Parameter</parameter>
+  <value>Value</value>
+  <switch_on>On</switch_on>
+  <switch_off>Off</switch_off>
+  <uart0>UART0</uart0>
+  <uart2>UART1</uart2>
+  <usb>USB</usb>
+  <about>About</about>
+  <version>Version</version>
+  <work_result>Work result!</work_result>
+  <read_error>Read data error!</read_error>
+  <scale>Scale:</scale>
+  <latitude>Latitude:</latitude>
+  <longitude>Longitude:</longitude>
+  <altitude>Altitude:</altitude>
+  <no_nmea_port_name_error>NMEA port name is not ser!</no_nmea_port_name_error>
+  <no_debug_port_name_error>Debug port name is not set!</no_debug_port_name_error>
+  <megabytes>Mb</megabytes>
+  <clean_button>Clean</clean_button>
+  <clean_all_button>Clean all</clean_all_button>
+  <setup_button>Setup</setup_button>
+  <nmea_messages_gns>GNS</nmea_messages_gns>
+  <nmea_messages_gga>GGA</nmea_messages_gga>
+  <nmea_messages_gsa>GSA</nmea_messages_gsa>
+  <nmea_messages_gst>GST</nmea_messages_gst>
+  <nmea_messages_vtg>VTG</nmea_messages_vtg>
+  <nmea_messages_rmc>RMC</nmea_messages_rmc>
+  <nmea_messages_gsv>GSV</nmea_messages_gsv>
+  <nmea_messages_gll>GLL</nmea_messages_gll>
+  <nmea_messages_zda>ZDA</nmea_messages_zda>
+  <st_messages_pstmnoise>PSTMNOISE</st_messages_pstmnoise>
+  <st_messages_pstmrf>PSTMRF</st_messages_pstmrf>
+  <st_messages_pstmtg>PSTMTG</st_messages_pstmtg>
+  <st_messages_pstmts>PSTMTS</st_messages_pstmts>
+  <st_messages_pstmpa>PSTMPA</st_messages_pstmpa>
+  <st_messages_pstmsat>PSTMSAT</st_messages_pstmsat>
+  <st_messages_pstmres>PSTMRES</st_messages_pstmres>
+  <st_messages_pstmtim>PSTMTIM</st_messages_pstmtim>
+  <st_messages_pstmwaas>PSTMWAAS</st_messages_pstmwaas>
+  <st_messages_pstmdiff>PSTMDIFF</st_messages_pstmdiff>
+  <st_messages_pstmcorr>PSTMCORR</st_messages_pstmcorr>
+  <st_messages_pstmsbas>PSTMSBAS</st_messages_pstmsbas>
+  <st_messages_pstmtestrf>PSTMTESTRF</st_messages_pstmtestrf>
+  <st_messages_pstmppsdata>PSTMPPSDATA</st_messages_pstmppsdata>
+  <st_messages_pstmcpu>PSTMCPU</st_messages_pstmcpu>
+  <st_messages_pstmtraimstatus>PSTMTRAIMSTATUS</st_messages_pstmtraimstatus>
+  <st_messages_pstmposhold>PSTMPOSHOLD</st_messages_pstmposhold>
+  <st_messages_pstmkfcov>PSTMKFCOV</st_messages_pstmkfcov>
+  <st_messages_pstmagps>PSTMAGPS</st_messages_pstmagps>
+  <st_messages_pstmlowpowerdata>PSTMLOWPOWERDATA</st_messages_pstmlowpowerdata>
+  <st_messages_pstmnotchstatus>PSTMNOTCHSTATUS</st_messages_pstmnotchstatus>
+  <main_form_caption>NAVIA GLONASS + GPS</main_form_caption>
+  <main_menu_file_exit>Exit</main_menu_file_exit>
+  <main_menu_settings>Settings</main_menu_settings>
+  <main_menu_measurement>Measurement</main_menu_measurement>
+  <main_menu_control>Control</main_menu_control>
+  <main_menu_information>Information</main_menu_information>
+  <main_menu_settings_communication>Communication...</main_menu_settings_communication>
+  <main_menu_settings_timings>Timings...</main_menu_settings_timings>
+  <main_menu_settings_navia_assist>Navia assist...</main_menu_settings_navia_assist>
+  <main_menu_settings_logging>Log-files...</main_menu_settings_logging>
+  <main_menu_settings_other>Other...</main_menu_settings_other>
+  <main_menu_measurement_ttf>TTFF...</main_menu_measurement_ttf>
+  <main_menu_measurement_deviations>Deviations...</main_menu_measurement_deviations>
+  <main_menu_control_command>Command console...</main_menu_control_command>
+  <main_menu_control_fast_firmware_upgrade>Firmware update...</main_menu_control_fast_firmware_upgrade>
+  <main_menu_information_about>About...</main_menu_information_about>
+  <main_menu_information_help>Help...</main_menu_information_help>
+  <main_control_group>Controls:</main_control_group>
+  <main_tab_resets>Restart</main_tab_resets>
+  <main_tab_resets_cold_restart_group>Cold restart:</main_tab_resets_cold_restart_group>
+  <main_tab_resets_cold_restart_use_mask>Use mask</main_tab_resets_cold_restart_use_mask>
+  <main_tab_resets_cold_restart_use_mask_group>Mask:</main_tab_resets_cold_restart_use_mask_group>
+  <main_tab_resets_cold_restart_mask_reset_almanac>Reset Almanac</main_tab_resets_cold_restart_mask_reset_almanac>
+  <main_tab_resets_cold_restart_mask_reset_ephemeris>Reset Ephemeris</main_tab_resets_cold_restart_mask_reset_ephemeris>
+  <main_tab_resets_cold_restart_mask_reset_coordinates>Invalidate coordinates</main_tab_resets_cold_restart_mask_reset_coordinates>
+  <main_tab_resets_cold_restart_mask_reset_time>Invalidate time</main_tab_resets_cold_restart_mask_reset_time>
+  <main_tab_resets_cold_restart_mask_nvm_swap>Swap NVM</main_tab_resets_cold_restart_mask_nvm_swap>
+  <main_tab_resets_cold_restart_mask_reset_utc>Invalidate UTC</main_tab_resets_cold_restart_mask_reset_utc>
+  <main_tab_resets_reset_button>Engine Reset</main_tab_resets_reset_button>
+  <main_tab_resets_restart_button>Engine Restart</main_tab_resets_restart_button>
+  <main_tab_resets_time_to_fix>TTFF:</main_tab_resets_time_to_fix>
+  <main_tab_calculate_ttff_button>Calculae TTFF</main_tab_calculate_ttff_button>
+  <main_tab_resets_use_navia_assist>Use "Navia assist"</main_tab_resets_use_navia_assist>
+  <main_tab_resets_navia_assist_no_data_error>No "Navia assist" data!</main_tab_resets_navia_assist_no_data_error>
+  <main_tab_data_direction>Output direction</main_tab_data_direction>
+  <main_tab_data_direction_info_1>NMEA over USB on ML8088S only avaliable.</main_tab_data_direction_info_1>
+  <main_tab_data_direction_nmea_speed_group>NMEA Connection Speed:</main_tab_data_direction_nmea_speed_group>
+  <main_tab_data_direction_same_config_error>You can't set the same value for NMEA и Debug!</main_tab_data_direction_same_config_error>
+  <main_tab_data_direction_bandwidth>Bandwidth:</main_tab_data_direction_bandwidth>
+  <main_tab_data_direction_gnss_fix_rate_group>GNSS fix rate:</main_tab_data_direction_gnss_fix_rate_group>
+  <main_tab_data_direction_gnss_fix_rate_label>Rate:</main_tab_data_direction_gnss_fix_rate_label>
+  <main_tab_one_pps>1 PPS</main_tab_one_pps>
+  <main_tab_one_pps_signal_mode_group>PPS mode:</main_tab_one_pps_signal_mode_group>
+  <main_tab_one_pps_signal_on>1 PPS ON</main_tab_one_pps_signal_on>
+  <main_tab_one_pps_signal_change_polarity>Change polarity</main_tab_one_pps_signal_change_polarity>
+  <main_tab_one_pps_signal_delay_group>PPS Delay:</main_tab_one_pps_signal_delay_group>
+  <main_tab_one_pps_signal_pulse_duration_group>PPS Duration:</main_tab_one_pps_signal_pulse_duration_group>
+  <main_tab_one_pps_signal_pulse_duration>Duration:</main_tab_one_pps_signal_pulse_duration>
+  <main_tab_one_pps_signal_synchronized>PPS synchronized:</main_tab_one_pps_signal_synchronized>
+  <main_tab_one_pps_traim_group>TRAIM:</main_tab_one_pps_traim_group>
+  <main_tab_one_pps_traim_status>Status:</main_tab_one_pps_traim_status>
+  <main_tab_one_pps_traim_alarm>Alarm:</main_tab_one_pps_traim_alarm>
+  <main_tab_one_pps_traim_average_error>Average error:</main_tab_one_pps_traim_average_error>
+  <main_tab_one_pps_traim_used_satellites>Used satellites:</main_tab_one_pps_traim_used_satellites>
+  <main_tab_one_pps_traim_unused_satellites>Unused satellites:</main_tab_one_pps_traim_unused_satellites>
+  <main_tab_sattelites>Satellites</main_tab_sattelites>
+  <main_tab_sattelites_alignment_group>Satellites constellation (restart required):</main_tab_sattelites_alignment_group>
+  <main_tab_sattelites_use_glonass>Use GLONASS</main_tab_sattelites_use_glonass>
+  <main_tab_sattelites_use_gps>Use GPS</main_tab_sattelites_use_gps>
+  <main_tab_sattelites_use_galileo>Use Galileo</main_tab_sattelites_use_galileo>
+  <main_tab_sattelites_fast_constellation_switch_group>Fast constellation switch (without save):</main_tab_sattelites_fast_constellation_switch_group>
+  <main_tab_sattelites_show_sbas_satellite>Show diff. correction satellite</main_tab_sattelites_show_sbas_satellite>
+  <main_tab_nmea_messages>NMEA messages</main_tab_nmea_messages>
+  <main_tab_nmea_messages_list_group>NMEA messages list:</main_tab_nmea_messages_list_group>
+  <main_tab_nmea_messages_st_messages_button>ST messages</main_tab_nmea_messages_st_messages_button>
+  <main_tab_nmea_messages_advanced_settings_button>Advanced settings</main_tab_nmea_messages_advanced_settings_button>
+  <main_tab_nmea_messages_filter_settings_group>Messages filter:</main_tab_nmea_messages_filter_settings_group>
+  <main_tab_path_log>Route log</main_tab_path_log>
+  <main_tab_path_log_valid_points>Valid points:</main_tab_path_log_valid_points>
+  <main_tab_path_log_invalid_points>Invalid points:</main_tab_path_log_invalid_points>
+  <main_tab_path_log_missed_points>Missed points:</main_tab_path_log_missed_points>
+  <main_tab_path_log_distance>Route distance log:</main_tab_path_log_distance>
+  <main_tab_path_log_reset_button>Reset</main_tab_path_log_reset_button>
+  <main_tab_path_log_from_file_button>From file...</main_tab_path_log_from_file_button>
+  <main_tab_path_log_use_messages>Plot route from messages:</main_tab_path_log_use_messages>
+  <main_tab_path_log_start_chart_point_group>Chart start plot:</main_tab_path_log_start_chart_point_group>
+  <main_tab_path_log_start_chart_point_set_first>Set first plot</main_tab_path_log_start_chart_point_set_first>
+  <main_tab_path_log_start_chart_point_set_current_button>Current plot</main_tab_path_log_start_chart_point_set_current_button>
+  <main_tab_accuracy>Accuracy</main_tab_accuracy>
+  <main_tab_accuracy_default_2d_group>Default 2D DOPs:</main_tab_accuracy_default_2d_group>
+  <main_tab_accuracy_default_3d_group>Default 3D DOPs:</main_tab_accuracy_default_3d_group>
+  <main_tab_accuracy_startup_2d_group>Startup 2D DOPs:</main_tab_accuracy_startup_2d_group>
+  <main_tab_accuracy_startup_3d_group>Startup 3D DOPs:</main_tab_accuracy_startup_3d_group>
+  <main_tab_diff_mode>Diff. mode</main_tab_diff_mode>
+  <main_tab_diff_mode_active>Differential mode is active:</main_tab_diff_mode_active>
+  <main_tab_diff_mode_source_group>Differential mode source:</main_tab_diff_mode_source_group>
+  <main_tab_diff_mode_source_sbas>SBAS</main_tab_diff_mode_source_sbas>
+  <main_tab_diff_mode_source_rtcm>RTCM</main_tab_diff_mode_source_rtcm>
+  <main_tab_diff_mode_rtcm_data_active>Is data on port RTCM SC-104:</main_tab_diff_mode_rtcm_data_active>
+  <main_tab_diff_mode_rtcm_parameters_group>Parameters:</main_tab_diff_mode_rtcm_parameters_group>
+  <main_tab_agps>AGPS</main_tab_agps>
+  <main_tab_agps_control_group>Control:</main_tab_agps_control_group>
+  <main_tab_agps_control_internal_agps_mode>Internal AGPS</main_tab_agps_control_internal_agps_mode>
+  <main_tab_agps_control_internal_agps_reset_button>Reset</main_tab_agps_control_internal_agps_reset_button>
+  <main_tab_agps_state_group>State:</main_tab_agps_state_group>
+  <main_tab_agps_state_calculation_done>AGPS calculation done:</main_tab_agps_state_calculation_done>
+  <main_tab_agps_visualisation_group>Visualisation:</main_tab_agps_visualisation_group>
+  <main_tab_agps_visualisation_enable_messages_button>Enable messages</main_tab_agps_visualisation_enable_messages_button>
+  <main_tab_agps_visualisation_disble_messages_button>Disable messages</main_tab_agps_visualisation_disble_messages_button>
+  <main_tab_parameters>Parameters</main_tab_parameters>
+  <main_tab_diff_mode_active>Differential mode activity:</main_tab_diff_mode_active>
+  <main_tab_diff_mode_enable_disable_button>Enable/Disable</main_tab_diff_mode_enable_disable_button>
+  <main_tab_parameters_value>Value:</main_tab_parameters_value>
+  <main_tab_parameters_write_mode>Parameter write mode:</main_tab_parameters_write_mode>
+  <main_tab_parameters_reset_settings_button>Default settings</main_tab_parameters_reset_settings_button>
+  <main_tab_parameters_write_mode_overwrite>Overwrite</main_tab_parameters_write_mode_overwrite>
+  <main_tab_parameters_write_mode_or>OR</main_tab_parameters_write_mode_or>
+  <main_tab_parameters_write_mode_and_with_value_invertion>AND with value inversion</main_tab_parameters_write_mode_and_with_value_invertion>
+  <main_tab_parameters_destination>Data location:</main_tab_parameters_destination>
+  <main_tab_parameters_destination_current>Current settings</main_tab_parameters_destination_current>
+  <main_tab_parameters_destination_nvram>NVRAM settings</main_tab_parameters_destination_nvram>
+  <main_tab_parameters_destination_default>Default settings</main_tab_parameters_destination_default>
+  <main_tab_lpwfi>LPWFI</main_tab_lpwfi>
+  <main_tab_lpwfi_on_defaults>Default settings</main_tab_lpwfi_on_defaults>
+  <main_tab_lpwfi_on_new_values_group>New values:</main_tab_lpwfi_on_new_values_group>
+  <main_tab_lpwfi_run_fix>Work time if fix:</main_tab_lpwfi_run_fix>
+  <main_tab_lpwfi_run_no_fix>Fix max wait time:</main_tab_lpwfi_run_no_fix>
+  <main_tab_lpwfi_sleep_fix>Sleep time if fix:</main_tab_lpwfi_sleep_fix>
+  <main_tab_lpwfi_sleep_no_fix>Sleep time if no fix:</main_tab_lpwfi_sleep_no_fix>
+  <main_tab_position_hold>Position hold</main_tab_position_hold>
+  <main_tab_position_hold_auto_survey_setup_group>Auto survey setup:</main_tab_position_hold_auto_survey_setup_group>
+  <main_tab_position_hold_auto_survey_samples>Auto survey samples:</main_tab_position_hold_auto_survey_samples>
+  <main_tab_position_hold_auto_survey_samples_extra>"0" - disable auto survey</main_tab_position_hold_auto_survey_samples_extra>
+  <main_tab_position_hold_manual_setup_group>Manual setup:</main_tab_position_hold_manual_setup_group>
+  <main_tab_position_hold_manual_setup_is_enable>Enable</main_tab_position_hold_manual_setup_is_enable>
+  <main_tab_position_hold_message_pstmposhold_group>Message $PSTMPOSHOLD:</main_tab_position_hold_message_pstmposhold_group>
+  <main_tab_position_hold_manual_setup_enable_label>Enable:</main_tab_position_hold_manual_setup_enable_label>
+  <main_tab_other>Misc.</main_tab_other>
+  <main_tab_other_version_group>Firmware version:</main_tab_other_version_group>
+  <main_tab_other_library>Library:</main_tab_other_library>
+  <main_tab_other_compiler_type>Compiler type:</main_tab_other_compiler_type>
+  <main_tab_other_compile_time>Compile time:</main_tab_other_compile_time>
+  <main_tab_other_custom_version_string_group>Custom version string:</main_tab_other_custom_version_string_group>
+  <main_tab_other_custom_version_string_version>Version:</main_tab_other_custom_version_string_version>
+  <main_form_pdop>PDOP:</main_form_pdop>
+  <main_form_hdop>HDOP:</main_form_hdop>
+  <main_form_vdop>VDOP:</main_form_vdop>
+  <main_form_speed>Velocity:</main_form_speed>
+  <main_form_course>Cource:</main_form_course>
+  <main_form_date>Date:</main_form_date>
+  <main_form_time>Time:</main_form_time>
+  <main_form_data_valid>Data valid:</main_form_data_valid>
+  <main_form_status_have_new_data>Have new data</main_form_status_have_new_data>
+  <main_form_status_no_new_data>No new data</main_form_status_no_new_data>
+  <start_error>Start Error!</start_error>
+  <stop_error>Stop Error!</stop_error>
+  <no_nmea_port_speed_error>NMEA port speed ERROR!</no_nmea_port_speed_error>
+  <double_restart_error>Double restart send error!</double_restart_error>
+  <invalid_input_data_error>Invalid input data!</invalid_input_data_error>
+  <possibly_debug_data_found_error>Possibly debug data found!</possibly_debug_data_found_error>
+  <operation_break_by_user>Break by user!</operation_break_by_user>
+  <no_device_response_on_command_error>No device response on command!</no_device_response_on_command_error>
+  <invalid_command_format_error>Invalid command format!</invalid_command_format_error>
+  <is_disable_st_debug_logging>Turn off debug logging?</is_disable_st_debug_logging>
+  <debug_logging_disabled>Debug logging disabled!</debug_logging_disabled>
+  <rtcm_translation_disabled>RTCM-correction translation disabled!</rtcm_translation_disabled>
+  <no_file_data_source_error>No data source file name set!</no_file_data_source_error>
+  <no_serial_port_name_error>Serial port not set!</no_serial_port_name_error>
+  <invalid_serial_port_speed_error>Debug log</invalid_serial_port_speed_error>
+  <cant_open_serial_port_error>Can't open serial port</cant_open_serial_port_error>
+  <st_debug_logging_no_serial_port_name_error>Debug log serial port name not set!</st_debug_logging_no_serial_port_name_error>
+  <st_debug_logging_invalid_serial_port_speed_error>Debug log invalid serial port baudrate!</st_debug_logging_invalid_serial_port_speed_error>
+  <st_debug_logging_rtcm_no_serial_port_name_error>Diff corrections log serial port name not set!</st_debug_logging_rtcm_no_serial_port_name_error>
+  <st_debug_logging_rtcm_invalid_serial_port_speed_error>Diff corrections invalid serial port baudrate!</st_debug_logging_rtcm_invalid_serial_port_speed_error>
+  <st_debug_logging_error>Debug log file Error!</st_debug_logging_error>
+  <communication_configuration_caption>Communication settings</communication_configuration_caption>
+  <communication_configuration_nmea_tab>NMEA</communication_configuration_nmea_tab>
+  <communication_configuration_debug_tab>Debug</communication_configuration_debug_tab>
+  <communication_configuration_rtcm_tab>RTCM</communication_configuration_rtcm_tab>
+  <communication_configuration_nmea_port_data_source_group>NMEA data source:</communication_configuration_nmea_port_data_source_group>
+  <communication_configuration_nmea_port_auto_config_button>Port search</communication_configuration_nmea_port_auto_config_button>
+  <communication_configuration_nmea_port_auto_config_failure>No NMEA serial port settings found!</communication_configuration_nmea_port_auto_config_failure>
+  <communication_configuration_nmea_port_auto_config_success>NMEA serial port settings succesfully changed!</communication_configuration_nmea_port_auto_config_success>
+  <communication_configuration_nmea_port_auto_config_checking>Checking:</communication_configuration_nmea_port_auto_config_checking>
+  <communication_configuration_nmea_port_read_data_interval>NMEA port read data interval set:</communication_configuration_nmea_port_read_data_interval>
+  <communication_configuration_nmea_port_file_start_position>Start offset:</communication_configuration_nmea_port_file_start_position>
+  <communication_configuration_nmea_port_file_stop_position>Stop offset:</communication_configuration_nmea_port_file_stop_position>
+  <communication_configuration_st_debug_port_group>Debug port settings:</communication_configuration_st_debug_port_group>
+  <communication_configuration_rtcm_sc_104_group>Port RTCM SC-104 source:</communication_configuration_rtcm_sc_104_group>
+  <communication_configuration_is_connect_rtcm_sc_104_to_debug>Send RTCM SC-104 data to debug</communication_configuration_is_connect_rtcm_sc_104_to_debug>
+  <communication_configuration_same_port_name_error>You can't set same port name to different data sources!</communication_configuration_same_port_name_error>
+  <communication_configuration_no_rtcm_sc_104_port_name_error>RTCM SC-104 port name not set!</communication_configuration_no_rtcm_sc_104_port_name_error>
+  <communication_configuration_no_serial_port_found>No serial port found on this computer!</communication_configuration_no_serial_port_found>
+  <communication_configuration_rtcm_data_source_group>Data source:</communication_configuration_rtcm_data_source_group>
+  <communication_configuration_network_source>RTCM-Server</communication_configuration_network_source>
+  <communication_configuration_network_source_group>RTCM-Server:</communication_configuration_network_source_group>
+  <communication_configuration_rtcm_network_source_connection_error>RTCM server connection error!</communication_configuration_rtcm_network_source_connection_error>
+  <communication_short_configuration_caption>NMEA port settings</communication_short_configuration_caption>
+  <timings_configuration_caption>Timing settings</timings_configuration_caption>
+  <timings_configuration_stop_drawing_delay>Graphic data display timeout:</timings_configuration_stop_drawing_delay>
+  <timings_configuration_next_point_delay>Interval between two points:</timings_configuration_next_point_delay>
+  <ttf_mesurement_caption>TTFF Measurement</ttf_mesurement_caption>
+  <ttf_mesurement_parameters_group>Parameters:</ttf_mesurement_parameters_group>
+  <ttf_mesurement_parameters_loops_number>TTFF loops number:</ttf_mesurement_parameters_loops_number>
+  <ttf_mesurement_parameters_restart_command_type>TTFF restart command type:</ttf_mesurement_parameters_restart_command_type>
+  <ttf_mesurement_parameters_max_wait_time>TTFF measurement timeout:</ttf_mesurement_parameters_max_wait_time>
+  <ttf_mesurement_result_min_time>Minimal TTFF value</ttf_mesurement_result_min_time>
+  <ttf_mesurement_result_max_time>Maximum TTFF value</ttf_mesurement_result_max_time>
+  <ttf_mesurement_result_average_time>Average TTFF</ttf_mesurement_result_average_time>
+  <ttf_mesurement_result_cycle>TTFF cycle</ttf_mesurement_result_cycle>
+  <ttf_mesurement_result_timeout>TTFF measurement timeout!</ttf_mesurement_result_timeout>
+  <data_source_invalid_settings>Invalid data source settings!</data_source_invalid_settings>
+  <deviations_worker_no_reference_file_name_error>No reference file name!</deviations_worker_no_reference_file_name_error>
+  <deviations_worker_reference_point_not_set_error>Reference plot valie is not set!</deviations_worker_reference_point_not_set_error>
+  <deviations_worker_no_comparing_file_name_error>No comparing file name!</deviations_worker_no_comparing_file_name_error>
+  <deviations_worker_no_data_into_file_error>No valid data in file!</deviations_worker_no_data_into_file_error>
+  <deviations_worker_no_points_to_compare_error>No points for comparison found!</deviations_worker_no_points_to_compare_error>
+  <deviations_worker_invalid_message_type_error>Invalid message type!</deviations_worker_invalid_message_type_error>
+  <deviations_measurements_caption>Deviation measurement</deviations_measurements_caption>
+  <deviations_measurements_reference_type_group>Reference data type:</deviations_measurements_reference_type_group>
+  <deviations_measurements_reference_type_file>Reference file type</deviations_measurements_reference_type_file>
+  <deviations_measurements_reference_type_point>Reference point type</deviations_measurements_reference_type_point>
+  <deviations_measurements_reference_type_point_group>Reference point:</deviations_measurements_reference_type_point_group>
+  <deviations_measurements_reference_type_point_set_start_chart_button>Set start chart point</deviations_measurements_reference_type_point_set_start_chart_button>
+  <deviations_measurements_reference_gga_file_group>GGA data reference file:</deviations_measurements_reference_gga_file_group>
+  <deviations_measurements_comparing_gga_file_group>GGA data compared file:</deviations_measurements_comparing_gga_file_group>
+  <deviations_measurements_point_type>Points type:</deviations_measurements_point_type>
+  <deviations_measurements_break_by_user_error>Operation interrupted by user!</deviations_measurements_break_by_user_error>
+  <deviations_measurements_squared_error>Standard deviation</deviations_measurements_squared_error>
+  <deviations_measurements_min_error>Minimal Deviation</deviations_measurements_min_error>
+  <deviations_measurements_max_error>Maximal Deviation</deviations_measurements_max_error>
+  <deviations_measurements_average_error>Average Deviation</deviations_measurements_average_error>
+  <deviations_measurements_checked_points_number>Points used</deviations_measurements_checked_points_number>
+  <command_console_caption>Commands console</command_console_caption>
+  <command_console_response_group>Console response:</command_console_response_group>
+  <command_console_show_last_messages>Show last messages</command_console_show_last_messages>
+  <command_console_clear_button>Clear</command_console_clear_button>
+  <command_console_commands_group>Commands:</command_console_commands_group>
+  <command_console_send_button>Send</command_console_send_button>
+  <firmware_update_caption>Firmware update</firmware_update_caption>
+  <firmware_update_before_start_0>Please switch the module to programming mode</firmware_update_before_start_0>
+  <firmware_update_before_start_1>before you start.</firmware_update_before_start_1>
+  <firmware_update_file_name_group>Firmware file name:</firmware_update_file_name_group>
+  <firmware_update_erase_nvram>Erase NVRAM</firmware_update_erase_nvram>
+  <firmware_update_no_firmware_file_error>No firmware file set!</firmware_update_no_firmware_file_error>
+  <firmware_update_no_bootloader_error>No bootloader set!</firmware_update_no_bootloader_error>
+  <firmware_update_load_firmware_file_error>Firmware file read error!</firmware_update_load_firmware_file_error>
+  <firmware_update_no_response_error>No response from device!</firmware_update_no_response_error>
+  <firmware_update_invalid_response_error>Invalid device response!</firmware_update_invalid_response_error>
+  <firmware_update_update_complete>Firmware update complete!</firmware_update_update_complete>
+  <firmware_update_serial_port_read_data_error>Serial port read data error!</firmware_update_serial_port_read_data_error>
+  <firmware_update_invalid_file_format_error>Invalid firmware file format!</firmware_update_invalid_file_format_error>
+  <google_earth_caption>Settings for "Google Earth"</google_earth_caption>
+  <google_earth_use_google_earth_logging>Log track</google_earth_use_google_earth_logging>
+  <google_earth_track_refresh_time>Refresh time:</google_earth_track_refresh_time>
+  <google_earth_line_thickness>Track line thickness:</google_earth_line_thickness>
+  <google_earth_line_color>Line color:</google_earth_line_color>
+  <google_earth_path_line_1>You can download "Google Earth" follow next link:</google_earth_path_line_1>
+  <google_earth_path_line_2></google_earth_path_line_2>
+  <fast_firmware_upgrade_caption>Firmware update</fast_firmware_upgrade_caption>
+  <fast_firmware_upgrade_info_label_0>Attention!</fast_firmware_upgrade_info_label_0>
+  <fast_firmware_upgrade_info_label_1>If failure will occur in upgrade firmware process</fast_firmware_upgrade_info_label_1>
+  <fast_firmware_upgrade_info_label_2>then device can fry.</fast_firmware_upgrade_info_label_2>
+  <fast_firmware_upgrade_info_label_3>If it happened call to manufacturer.</fast_firmware_upgrade_info_label_3>
+  <fast_firmware_upgrade_info_label_4></fast_firmware_upgrade_info_label_4>
+  <fast_firmware_upgrade_upload_speed>Upload speed:</fast_firmware_upgrade_upload_speed>
+  <fast_firmware_upgrade_too_old_version_error>Current version does'n support fast firmware update option!</fast_firmware_upgrade_too_old_version_error>
+  <navia_assist_configuration_caption>"Navia assist" settings</navia_assist_configuration_caption>
+  <navia_assist_configuration_server_group>Server:</navia_assist_configuration_server_group>
+  <navia_assist_configuration_server_ip_address>IP-address:</navia_assist_configuration_server_ip_address>
+  <navia_assist_configuration_server_tcp_port>TCP-port:</navia_assist_configuration_server_tcp_port>
+  <navia_assist_configuration_is_use_gzip_compression>Using GZIP data compression</navia_assist_configuration_is_use_gzip_compression>
+  <about_dialog_program_description>This porigram is using to configure NAVIA module and show sattelites information.</about_dialog_program_description>
+  <logging_configuration_dialog_caption>Logging settings</logging_configuration_dialog_caption>
+  <logging_configuration_dialog_general_directory_group>All logs general folder:</logging_configuration_dialog_general_directory_group>
+  <logging_configuration_dialog_general_directory_check>All logs in one folder</logging_configuration_dialog_general_directory_check>
+  <logging_configuration_dialog_general_directory_directory>folder:</logging_configuration_dialog_general_directory_directory>
+  <logging_configuration_dialog_nmea_messages_group>NMEA messages:</logging_configuration_dialog_nmea_messages_group>
+  <logging_configuration_dialog_all_nmea_messages_group>All messages over NMEA serial port:</logging_configuration_dialog_all_nmea_messages_group>
+  <logging_configuration_dialog_missed_points_group>Missed points:</logging_configuration_dialog_missed_points_group>
+  <logging_configuration_dialog_debug_group>Debug information:</logging_configuration_dialog_debug_group>
+  <logging_configuration_dialog_commands_console_group>Commands console:</logging_configuration_dialog_commands_console_group>
+  <logging_configuration_dialog_rtcm_group>RTCM:</logging_configuration_dialog_rtcm_group>
+  <logging_configuration_dialog_no_nmea_log_file_name>No NMEA log-file name set!</logging_configuration_dialog_no_nmea_log_file_name>
+  <logging_configuration_dialog_no_raw_log_file_name>No raw log-file name set!</logging_configuration_dialog_no_raw_log_file_name>
+  <logging_configuration_dialog_no_missed_points_log_file_name>No missed points log-file name set!</logging_configuration_dialog_no_missed_points_log_file_name>
+  <logging_configuration_dialog_no_debug_log_file_name>No debug log-file name set!</logging_configuration_dialog_no_debug_log_file_name>
+  <logging_configuration_dialog_no_command_console_log_file_name>No commands console log-file name set!</logging_configuration_dialog_no_command_console_log_file_name>
+  <logging_configuration_dialog_no_rtcm_log_file_name>No RTCM log-file name set!</logging_configuration_dialog_no_rtcm_log_file_name>
+  <big_path_log_caption>Accepted points</big_path_log_caption>
+  <other_settings_caption>Other settings</other_settings_caption>
+  <other_settings_is_update_parameters_on_tab_enter>Ask data on tab switch</other_settings_is_update_parameters_on_tab_enter>
+  <other_settings_is_show_popup>Show popups</other_settings_is_show_popup>
+  <other_settings_is_show_message_on_command_error>Show message on command error</other_settings_is_show_message_on_command_error>
+  <other_settings_is_show_notification_icon>Show icon into notification area</other_settings_is_show_notification_icon>
+  <other_settings_set_defaults>Set defaults</other_settings_set_defaults>
+  <other_settings_ask_confirmation_set_defaults>Are you shure to set defaults?</other_settings_ask_confirmation_set_defaults>
+  <other_settings_log_file_max_size>Log file max size:</other_settings_log_file_max_size>
+  <other_settings_select_traim_used_satellites>Select TRAIM used satellites</other_settings_select_traim_used_satellites>
+  <other_settings_auto_polling_group>Messages automatic sending:</other_settings_auto_polling_group >
+  <other_settings_auto_polling_interval>Interval:</other_settings_auto_polling_interval>
+  <other_settings_auto_polling_messages>Messages (one per sline):</other_settings_auto_polling_messages>
+  <st_messages_caption>Сообщения ST</st_messages_caption>
+  <advanced_messages_caption>Advanced messages settings</advanced_messages_caption>
+  <advanced_messages_nmea0_tab>Messages list NMEA0</advanced_messages_nmea0_tab>
+  <advanced_messages_nmea1_tab>Messages list NMEA1</advanced_messages_nmea1_tab>
+  <advanced_messages_nmea2_tab>Messages list NMEA2</advanced_messages_nmea2_tab>
+  <advanced_messages_nmea_group>NMEA:</advanced_messages_nmea_group>
+  <advanced_messages_st_group>ST:</advanced_messages_st_group>
+  <advanced_messages_output_rate>Message list output rate:</advanced_messages_output_rate>
+  <advanced_messages_nmea2_warning_text0>High rate or high accuracy messages list only!</advanced_messages_nmea2_warning_text0>
+  <advanced_messages_nmea2_warning_text1>Too much messages set is not recommended!</advanced_messages_nmea2_warning_text1>
+  <advanced_messages_nmea2_warning_text2>Module restart required!</advanced_messages_nmea2_warning_text2>
+  <messages_filter_caption>Showing messages filter</messages_filter_caption>
+  <messages_filter_text0>One line is one rule.</messages_filter_text0>
+  <messages_filter_text1>Symbol "?" is replacing any one symbol.</messages_filter_text1>
+  <messages_filter_text2>Symbol "*" is replacing none, one or more symbol.</messages_filter_text2>
+  <messages_filter_align_text_group>Messages align text:</messages_filter_align_text_group>
+  <messages_filter_filter_group>Filter:</messages_filter_filter_group>
+  <ntrip_server_caption>NTRIP-server settings</ntrip_server_caption>
+  <ntrip_server_server_group>Server:</ntrip_server_server_group>
+  <ntrip_server_server_address>Address:</ntrip_server_server_address>
+  <ntrip_server_server_tcp_port>TCP-port:</ntrip_server_server_tcp_port>
+  <ntrip_server_data_source_group>Data source:</ntrip_server_data_source_group>
+  <ntrip_server_data_source_is_base_autorization>Basic autorization</ntrip_server_data_source_is_base_autorization>
+  <ntrip_server_data_source_login>Login:</ntrip_server_data_source_login>
+  <ntrip_server_data_source_password>Password:</ntrip_server_data_source_password>
+  <ntrip_server_no_address_error>NTRIP-server address not set!</ntrip_server_no_address_error>
+  <ntrip_server_no_data_source_records_error>No data source records found!</ntrip_server_no_data_source_records_error>
+  <ntrip_server_no_server_response_error>No NTRIP-server response!</ntrip_server_no_server_response_error>
+  <ntrip_server_invalid_server_response_error>NTRIP-server invalid response!</ntrip_server_invalid_server_response_error>
+  <ntrip_server_no_data_source_select_error>Data source not set to NTIP-server!</ntrip_server_no_data_source_select_error>
+  <ntrip_server_no_login_error>Login not set!</ntrip_server_no_login_error>
+  <ntrip_server_no_password_error>Password not set!</ntrip_server_no_password_error>
+</locale>

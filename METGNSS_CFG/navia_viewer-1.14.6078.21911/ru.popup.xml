@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<popup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <menu_communication>Настройки связи</menu_communication>
+  <menu_timings>Настройки временных интервалов</menu_timings>
+  <menu_google_earth>Настройки взаимодействия с программой "Google Earth"</menu_google_earth>
+  <menu_logging>Настройки файлов ведения истории (лог-файлов)</menu_logging>
+  <menu_ttf>Измерение времени нахождения решения модулем</menu_ttf>
+  <menu_deviations>Измерение отклонений трека путем сравнением с эталоном</menu_deviations>
+  <menu_commands>Команды модулю</menu_commands>
+  <menu_fast_firmware_upgrade>Обновление ПО модуля</menu_fast_firmware_upgrade>
+  <restart_tab_hot_button>Команда "горячего" перезапуска модуля</restart_tab_hot_button>
+  <restart_tab_warm_button>Команда "теплого" перезапуска модуля</restart_tab_warm_button>
+  <restart_tab_cold_button>Команда "холодного" перезапуска модуля</restart_tab_cold_button>
+  <restart_tab_cold_use_mask>Включите задание нестандартного списока очищаемых параметров для "холодного" перезапуска</restart_tab_cold_use_mask>
+  <restart_tab_cold_mask>Выберите список параметров, очищаемых при "холодном" перезапуске</restart_tab_cold_mask>
+  <restart_tab_cold_mask_nvm_swap>Принудительное переключение банков NVM при старте</restart_tab_cold_mask_nvm_swap>
+  <restart_tab_reset_button>Команда "сброса" модуля</restart_tab_reset_button>
+  <restart_tab_restart_button>Команда перезапуска модуля</restart_tab_restart_button>
+  <restart_tab_ttff>Время до получения первого сообщения с верными координатами, считается после подачи комады "горячего", "теплого" или "холодного" перезапуска</restart_tab_ttff>
+  <restart_tab_calculate_ttff_button>Начать заново отсчет времени до получения первого валидного решения (без команд перезапуска)</restart_tab_calculate_ttff_button>
+  <main_form_chart>Список спутников в зоне радиовидимости с их номером, силой сигнала и признаком использования в решении навигационной задачи</main_form_chart>
+  <main_form_pdop>Фактор ухудшения точности по местоположению</main_form_pdop>
+  <main_form_hdop>Фактор ухудшения точности в горизонтальной плоскости</main_form_hdop>
+  <main_form_vdop>Фактор ухудшения точности в вертикальной плоскости</main_form_vdop>
+  <main_form_latitude>Широта в градусах, минутах и секундах</main_form_latitude>
+  <main_form_longitude>Долгота в градусах, минутах и секундах</main_form_longitude>
+  <main_form_velocity>Скорость, км./ч.</main_form_velocity>
+  <main_form_course>Направление движения в градусах</main_form_course>
+  <main_form_height>Высота над уровнем моря</main_form_height>
+  <main_form_date>Текущая дата</main_form_date>
+  <main_form_time>Текущее время</main_form_time>
+  <main_form_is_data_valid>Признак валидности данных</main_form_is_data_valid>
+  <main_form_precision>Режим определения координат</main_form_precision>
+  <main_form_diff_mode>Признак работы с дифференциальными поправками</main_form_diff_mode>
+  <main_form_gl>Среднее и усредненное максимальное значение уровня сигнала спутников ГЛОНАСС</main_form_gl>
+  <main_form_gp>Среднее и усредненное максимальное значение уровня сигнала спутников GPS</main_form_gp>
+  <main_form_start_button>Начать прием, анализ и отправку сообщений от навигационного модуля</main_form_start_button>
+  <main_form_stop_button>Остановить работу</main_form_stop_button>
+  <main_form_status_string>Источник получения данных, задается в настройках связи</main_form_status_string>
+  <main_form_data_indicator>Индикатор наличия новых данных</main_form_data_indicator>
+  <main_form_glonass_noise>Оценка шумовой обстановки ГЛОНАСС</main_form_glonass_noise>
+  <main_form_gps_noise>Оценка шумовой обстановки GPS</main_form_gps_noise>
+  <data_out_tab_nmea>Выберите порт для вывода данных NMEA</data_out_tab_nmea>
+  <data_out_tab_debug>Выберите порт для вывода отладочной инфомации</data_out_tab_debug>
+  <data_out_tab_nmea_port_speed>Укажите скорость вывода данных по порту NMEA</data_out_tab_nmea_port_speed>
+  <data_out_tab_channel_bandwidth>Процент загрузки канала при выводе текущего набора сообщений (средний / максимальный)</data_out_tab_channel_bandwidth>
+  <data_out_tab_gnss_fix_rate>Период расчета и выдачи данных решения модулем в секундах</data_out_tab_gnss_fix_rate>
+  <one_pps_tab_enable_1pps>Включение выхода сигнала 1PPS</one_pps_tab_enable_1pps>
+  <one_pps_tab_1pps_polarity>Изменение полярности сигнала 1PPS</one_pps_tab_1pps_polarity>
+  <one_pps_tab_1pps_delay>Значение задержки фронта сигнала 1PPS относительно времени GNSS (компенсация длины антенного кабеля)</one_pps_tab_1pps_delay>
+  <one_pps_tab_1pps_duration>Значение длительности сигнала 1PPS</one_pps_tab_1pps_duration>
+  <sattelites_tab_sattelites_set>Задание используемых группировок спутников для работы, требуется перезапуск модуля</sattelites_tab_sattelites_set>
+  <sattelites_tab_fast_constellation>Задание используемых группировок спутников без сохранения, без перезапуска модуля</sattelites_tab_fast_constellation>
+  <sattelites_tab_chart>Расположение видимых спутинков</sattelites_tab_chart>
+  <messages_tab_sending_messages_list>Список передаваемых модулем сообщений</messages_tab_sending_messages_list>
+  <messages_tab_received_messages_list>Принятые от модуля сообщения</messages_tab_received_messages_list>
+  <path_tab_chart>Показываем валидные точки, по двойному \"клику\" можно открыть большое окно</path_tab_chart>
+  <path_tab_scale>Масштаб области отображения валидных точек</path_tab_scale>
+  <path_tab_valid_points>Количество принятых валидных точек (в сообщении $GxRMC стоит флаг "A")</path_tab_valid_points>
+  <path_tab_invalid_points>Количество принятых невалидных точек (в сообщении $GxRMC стоит флаг "V")</path_tab_invalid_points>
+  <path_tab_missed_points>Количество точек, задержка между которыми превышает интервал, заданных в настройках</path_tab_missed_points>
+  <path_tab_path_length>Пройденный путь, считается от первой валидной точки</path_tab_path_length>
+  <path_tab_path_calculation_message_type>Тип сообщения, по которому считается пройденный путь</path_tab_path_calculation_message_type>
+  <path_tab_path_start_point>Можно указать стартовую точку на графике (вместо первой валидной)</path_tab_path_start_point>
+  <path_tab_path_clear_button>Очистить массив показываемых точек</path_tab_path_clear_button>
+  <path_tab_path_from_file_button>Загрузить из файла данные для отображения пути</path_tab_path_from_file_button>
+  <accuracy_tab_default_2d>Стартовое значение факторов ухудшения точности в режиме 2D</accuracy_tab_default_2d>
+  <accuracy_tab_default_3d>Стартовое значение факторов ухудшения точности в режиме 3D</accuracy_tab_default_3d>
+  <accuracy_tab_startup_2d>Рабочее значение факторов ухудшения точности в режиме 2D</accuracy_tab_startup_2d>
+  <accuracy_tab_startup_3d>Рабочее значение факторов ухудшения точности в режиме 3D</accuracy_tab_startup_3d>
+  <diff_mode_tab_is_active>Признак активности дифференциального режима</diff_mode_tab_is_active>
+  <diff_mode_tab_data_source>Укажите источник дифференциальных поправок</diff_mode_tab_data_source>
+  <diff_mode_tab_is_data_found>Признак наличия входных данных с дифференциальными поправками</diff_mode_tab_is_data_found>
+  <agps_tab_settings>Включение режима AGPS, рекомендуется внутренний режим (без необходимости подключения к сети интернет)</agps_tab_settings>
+  <agps_tab_state>Состояние расчетов модуля AGPS</agps_tab_state>
+  <agps_tab_chart>Срок "жизни" поправок AGPS</agps_tab_chart>
+  <position_hold_auto_survey>Укажите количество точек, по которым будет считаться усредненное значение координат в режиме Position hold</position_hold_auto_survey>
+  <parameters_tab_parameter_number>Номер параметра</parameters_tab_parameter_number>
+  <parameters_tab_parameter_value>Значение параметра, может быть либо шестнадцатиричным значением без префикса "0x", либо строкой</parameters_tab_parameter_value>
+  <parameters_tab_write_mode>Способ изменения значения параметра в памяти модуля</parameters_tab_write_mode>
+  <parameters_tab_data_destination>Область памяти, в которой располагается выбранный параметр</parameters_tab_data_destination>
+  <parameters_tab_restore_defaults_button>Восстановление заводских настроек модуля</parameters_tab_restore_defaults_button>
+  <other_tab_version>Текущая версия программного обеспечения модуля</other_tab_version>
+  <other_tab_custom>Строка кастомизации прошивки модуля</other_tab_custom>
+  <communication_dialog_nmea_serial_port>Для получения данных будет использоваться последовательный порт</communication_dialog_nmea_serial_port>
+  <communication_dialog_file>Данные для отображения будут считываться из файла</communication_dialog_file>
+  <communication_dialog_nmea_serial_port_name>Выберите последовательный порт для сообщений NMEA</communication_dialog_nmea_serial_port_name>
+  <communication_dialog_serial_port_speed>Выберите скороть получения данных по последовательному порту</communication_dialog_serial_port_speed>
+  <communication_dialog_nmea_serial_auto_config_button>Автоматическое определение номера последовательного порта и скорости обмена по порту NMEA</communication_dialog_nmea_serial_auto_config_button>
+  <communication_dialog_file_name>Выберите файл с сообщениями NMEA, из которого будут считываться данные</communication_dialog_file_name>
+  <communication_dialog_file_read_delay>Выберите задержку между порциями сообщений при считывании из файла (читаем все от одного сообщения $GxRMC до следующего)</communication_dialog_file_read_delay>
+  <communication_dialog_file_start_position>Первая передаваемая точка относительно начала файла (считается по сообщениям $GxRMC)</communication_dialog_file_start_position>
+  <communication_dialog_file_stop_position>Последняя передаваемая точка относительно начала файла (считается по сообщениям $GxRMC)</communication_dialog_file_stop_position>
+  <communication_dialog_debug_serial_port_name>Выберите последовательный порт для получения отладочной инфомации</communication_dialog_debug_serial_port_name>
+  <communication_dialog_diff_data_serial_port_name>Выберите последовательный порт для получения дифференциальных поправок</communication_dialog_diff_data_serial_port_name>
+  <communication_dialog_diff_data_enable>Включить перенаправление данных дифференциальных поправок в порт отладочной информации</communication_dialog_diff_data_enable>
+  <communication_dialog_rtcm_souce_serial_port>В качестве источника поправок будет использоваться последовательный порт</communication_dialog_rtcm_souce_serial_port>
+  <communication_dialog_rtcm_soutce_server>В качестве источника поправок будет использоваться RTCM-сервер</communication_dialog_rtcm_soutce_server>
+  <timings_dialog_show_snr_delay>Время, в течении которого, отображаются данные о спутниках при отсутствии инфомации</timings_dialog_show_snr_delay>
+  <timings_dialog_next_point_delay>Время, по истечении которого фиксируется факт пропуска точки, если не пришло новое сообщение с координатами</timings_dialog_next_point_delay>
+  <google_earth_dialog_use_logging>Включить формирование трека для программы "Google Earth", для отображения выберите файл "navia_link.kml"</google_earth_dialog_use_logging>
+  <google_earth_dialog_refresh_track_time>Укажите период обновления трека программой "Google Earth"</google_earth_dialog_refresh_track_time>
+  <google_earth_dialog_track_thickness>Укажите толщину линии трека</google_earth_dialog_track_thickness>
+  <google_earth_dialog_track_color>Укажите цвет линии трека</google_earth_dialog_track_color>
+  <ttff_dialog_loop_number>Количество измерений параметра Time To First Fix</ttff_dialog_loop_number>
+  <ttff_dialog_restart_type>Укажите тип команды перезапуска</ttff_dialog_restart_type>
+  <ttff_dialog_max_wait_time>Максимальное время ожидания валидных координат, по истечении которого начинается новое измерение</ttff_dialog_max_wait_time>
+  <ttff_dialog_use_logging>Сохраняем результат работы в файле "ttf_calc.log"</ttff_dialog_use_logging>
+  <devialtions_dialog_reference_data_type_file>Можно задать файл с эталонными значениями</devialtions_dialog_reference_data_type_file>
+  <devialtions_dialog_reference_data_type_point>Можно задать координаты эталонной точки</devialtions_dialog_reference_data_type_point>
+  <devialtions_dialog_reference_set_point>Укажите координаты эталонной точки</devialtions_dialog_reference_set_point>
+  <devialtions_dialog_reference_file_name>Выберите файл с эталонными значениями сообщений NMEA</devialtions_dialog_reference_file_name>
+  <devialtions_dialog_reference_message_type>Тип эталонных сообщений NMEA</devialtions_dialog_reference_message_type>
+  <devialtions_dialog_comparing_file_name>Выберите файл с проверяемыми значениями сообщений NMEA</devialtions_dialog_comparing_file_name>
+  <devialtions_dialog_comparing_message_type>Тип проверяемых сообщений NMEA</devialtions_dialog_comparing_message_type>
+  <commands_dialog_device_response>Ответ от модуля, отображение начинается после отправки первой команды</commands_dialog_device_response>
+  <commands_dialog_show_last_message>Прокручивать список до последнего принятого сообщения</commands_dialog_show_last_message>
+  <commands_dialog_command>Введите команду для отправки модулю</commands_dialog_command>
+  <fast_firmware_upgrade_dialog_firmware_file_name>Выберите файл, содержащий обновление программного обеспечения модуля</fast_firmware_upgrade_dialog_firmware_file_name>
+  <fast_firmware_upgrade_dialog_upload_speed>Скорость передачи, рекомендуется задавать 115200</fast_firmware_upgrade_dialog_upload_speed>
+  <fast_firmware_upgrade_dialog_clean_nvram>Очищаем предварительно сделанные настройки модуля (рекомендуется)</fast_firmware_upgrade_dialog_clean_nvram>
+  <fast_firmware_upgrade_dialog_status_string>Порт обмена данными NMEA, скорость и процент выполнения работы</fast_firmware_upgrade_dialog_status_string>
+  <logging_configuration_dialog_is_nmea_logging>Включить ведение лог-файла сообщений NMEA</logging_configuration_dialog_is_nmea_logging>
+  <logging_configuration_dialog_select_nmea_log_file>Выберите имя лог-файла для сообщений NMEA</logging_configuration_dialog_select_nmea_log_file>
+  <logging_configuration_dialog_is_raw_logging>Включить ведение лог-файла всех сообщений по порту NMEA</logging_configuration_dialog_is_raw_logging>
+  <logging_configuration_dialog_select_raw_log_file>Выберите имя лог-файла для всех сообщений по порту NMEA</logging_configuration_dialog_select_raw_log_file>
+  <logging_configuration_dialog_is_missed_points_logging>Включить ведение лог-файла пропущенных точек</logging_configuration_dialog_is_missed_points_logging>
+  <logging_configuration_dialog_select_missed_points_log_file>Выберите имя лог-файла для пропущенных точек</logging_configuration_dialog_select_missed_points_log_file>
+  <logging_configuration_dialog_is_debug_logging>Включить ведение лог-файла отладочной информации</logging_configuration_dialog_is_debug_logging>
+  <logging_configuration_dialog_select_debug_log_file>Выберите имя лог-файла для отладочной информации</logging_configuration_dialog_select_debug_log_file>
+  <logging_configuration_dialog_is_commands_console_logging>Включить ведение лог-файла командной консоли</logging_configuration_dialog_is_commands_console_logging>
+  <logging_configuration_dialog_select_commands_console_log_file>Выберите имя лог-файла для командной консоли</logging_configuration_dialog_select_commands_console_log_file>
+  <logging_configuration_dialog_is_rtcm_logging>Включить ведение лог-файла RTCM</logging_configuration_dialog_is_rtcm_logging>
+  <logging_configuration_dialog_select_rtcm_log_file>Выберите имя лог-файла для RTCM</logging_configuration_dialog_select_rtcm_log_file>
+  <st_messages_pstmniose>Оценка шумовой обстановки</st_messages_pstmniose>
+  <st_messages_pstmrf>Информация о качестве сигнала</st_messages_pstmrf>
+  <st_messages_pstmtg>Временные параметры и количество спутников</st_messages_pstmtg>
+  <st_messages_pstmts>Информация о спутниках</st_messages_pstmts>
+  <st_messages_pstmpa>Алгоритм вычисление координат</st_messages_pstmpa>
+  <st_messages_pstmsat>Информация о спутниках</st_messages_pstmsat>
+  <st_messages_pstmres>Position residual</st_messages_pstmres>
+  <st_messages_pstmtim>Признак корректности времени</st_messages_pstmtim>
+  <st_messages_pstmwaas>PSTMWAAS</st_messages_pstmwaas>
+  <st_messages_pstmdiff>Информация о поправках</st_messages_pstmdiff>
+  <st_messages_pstmcorr>PSTMCORR</st_messages_pstmcorr>
+  <st_messages_pstmsbas>Информация SBAS</st_messages_pstmsbas>
+  <st_messages_pstmtestrf>Тестовая информация о качестве сигнала</st_messages_pstmtestrf>
+  <st_messages_pstmppsdata>Информация о режиме PPS</st_messages_pstmppsdata>
+  <st_messages_pstmcpu>Частота процессора и процент загрузки</st_messages_pstmcpu>
+  <st_messages_pstmtraimstatus>TRAIM algorithm status</st_messages_pstmtraimstatus>
+  <st_messages_pstmposhold>Текущие координаты и состояние Position hold</st_messages_pstmposhold>
+  <st_messages_pstmkfcov>Стандартное отклонение координат, скорость, разложение скорости по векторам</st_messages_pstmkfcov>
+  <st_messages_pstmagps>Список спутников, возраст эфемерид AGPS</st_messages_pstmagps>
+  <st_messages_pstmlowpowerdata>Состояние модуля в режиме экономии энергии</st_messages_pstmlowpowerdata>
+  <st_messages_pstmnotchstatus>Состояние NOTCH-фильта</st_messages_pstmnotchstatus>
+  <nmea_messages_gns>Данные определения места</nmea_messages_gns>
+  <nmea_messages_gga>Данные определения места по GPS</nmea_messages_gga>
+  <nmea_messages_gsa>Активные спутники и фактор ухудшения точности</nmea_messages_gsa>
+  <nmea_messages_gst>Ошибка определения координат</nmea_messages_gst>
+  <nmea_messages_vtg>Курс и скорость относительно грунта</nmea_messages_vtg>
+  <nmea_messages_rmc>Рекомендуемый минимальный набор данных определения места</nmea_messages_rmc>
+  <nmea_messages_gsv>Спутники в зоне радиовидимости</nmea_messages_gsv>
+  <nmea_messages_gll>Координаты места</nmea_messages_gll>
+  <nmea_messages_zda>Время и дата</nmea_messages_zda>
+  <ntrip_server_address>Введите адрес сервера (например "www.igs.org" или "137.79.24.21")</ntrip_server_address>
+  <ntrip_server_tcp_port>Введите TCP-порт сервера (например 2101)</ntrip_server_tcp_port>
+  <ntrip_server_ask_data_source_button>Запросить список источников данных у сервера</ntrip_server_ask_data_source_button>
+  <ntrip_server_data_source>Выберите источник данных из списка</ntrip_server_data_source>
+  <ntrip_server_basic_autorization>Использовать подключение к серверу с ипользванием имени пользователя и пароля</ntrip_server_basic_autorization>
+</popup>

@@ -1,0 +1,408 @@
+<?xml version="1.0" encoding="utf-8"?>
+<locale xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <ask_button>Запросить</ask_button>
+  <set_button>Установить</set_button>
+  <save_button>Сохранить</save_button>
+  <start_button>Пуск</start_button>
+  <stop_button>Стоп</stop_button>
+  <cancel_button>Отмена</cancel_button>
+  <close_button>Закрыть</close_button>
+  <select_button>Выбрать</select_button>
+  <minutes>мин.</minutes>
+  <seconds>сек.</seconds>
+  <milliseconds>мс.</milliseconds>
+  <microseconds>мкс.</microseconds>
+  <nanoseconds>нс.</nanoseconds>
+  <meters>м.</meters>
+  <glonass>ГЛОНАСС</glonass>
+  <gps>GPS</gps>
+  <galileo>Галилео</galileo>
+  <yes>Да</yes>
+  <no>Нет</no>
+  <error>Ошибка!</error>
+  <km_per_hour>км./ч.</km_per_hour>
+  <cold>Холодный</cold>
+  <warm>Теплый</warm>
+  <hot>Горячий</hot>
+  <warning>Внимание!</warning>
+  <use_logging>Вести лог файл</use_logging>
+  <name>Имя:</name>
+  <speed>Скорость:</speed>
+  <serial_port>Последовательный порт</serial_port>
+  <file>Файл</file>
+  <delay>Задержка:</delay>
+  <result>Результат:</result>
+  <parameter>Параметр</parameter>
+  <value>Значение</value>
+  <switch_on>Включить</switch_on>
+  <switch_off>Выключить</switch_off>
+  <uart0>UART0</uart0>
+  <uart2>UART1</uart2>
+  <usb>USB</usb>
+  <about>О</about>
+  <version>Версия</version>
+  <work_result>Результат работы!</work_result>
+  <read_error>Ошибка чтения данных!</read_error>
+  <scale>Масштаб:</scale>
+  <latitude>Широта:</latitude>
+  <longitude>Долгота:</longitude>
+  <altitude>Высота:</altitude>
+  <no_nmea_port_name_error>Не указано имя порт NMEA!</no_nmea_port_name_error>
+  <no_debug_port_name_error>Не указано имя порта для отладочной информации!</no_debug_port_name_error>
+  <megabytes>Мб.</megabytes>
+  <clean_button>Очистить</clean_button>
+  <clean_all_button>Очистить все</clean_all_button>
+  <setup_button>Настроить</setup_button>
+  <nmea_messages_gns>GNS</nmea_messages_gns>
+  <nmea_messages_gga>GGA</nmea_messages_gga>
+  <nmea_messages_gsa>GSA</nmea_messages_gsa>
+  <nmea_messages_gst>GST</nmea_messages_gst>
+  <nmea_messages_vtg>VTG</nmea_messages_vtg>
+  <nmea_messages_rmc>RMC</nmea_messages_rmc>
+  <nmea_messages_gsv>GSV</nmea_messages_gsv>
+  <nmea_messages_gll>GLL</nmea_messages_gll>
+  <nmea_messages_zda>ZDA</nmea_messages_zda>
+  <st_messages_pstmnoise>PSTMNOISE</st_messages_pstmnoise>
+  <st_messages_pstmrf>PSTMRF</st_messages_pstmrf>
+  <st_messages_pstmtg>PSTMTG</st_messages_pstmtg>
+  <st_messages_pstmts>PSTMTS</st_messages_pstmts>
+  <st_messages_pstmpa>PSTMPA</st_messages_pstmpa>
+  <st_messages_pstmsat>PSTMSAT</st_messages_pstmsat>
+  <st_messages_pstmres>PSTMRES</st_messages_pstmres>
+  <st_messages_pstmtim>PSTMTIM</st_messages_pstmtim>
+  <st_messages_pstmwaas>PSTMWAAS</st_messages_pstmwaas>
+  <st_messages_pstmdiff>PSTMDIFF</st_messages_pstmdiff>
+  <st_messages_pstmcorr>PSTMCORR</st_messages_pstmcorr>
+  <st_messages_pstmsbas>PSTMSBAS</st_messages_pstmsbas>
+  <st_messages_pstmtestrf>PSTMTESTRF</st_messages_pstmtestrf>
+  <st_messages_pstmppsdata>PSTMPPSDATA</st_messages_pstmppsdata>
+  <st_messages_pstmcpu>PSTMCPU</st_messages_pstmcpu>
+  <st_messages_pstmtraimstatus>PSTMTRAIMSTATUS</st_messages_pstmtraimstatus>
+  <st_messages_pstmposhold>PSTMPOSHOLD</st_messages_pstmposhold>
+  <st_messages_pstmkfcov>PSTMKFCOV</st_messages_pstmkfcov>
+  <st_messages_pstmagps>PSTMAGPS</st_messages_pstmagps>
+  <st_messages_pstmlowpowerdata>PSTMLOWPOWERDATA</st_messages_pstmlowpowerdata>
+  <st_messages_pstmnotchstatus>PSTMNOTCHSTATUS</st_messages_pstmnotchstatus>
+  <main_form_caption>Навиа ГЛОНАСС + GPS</main_form_caption>
+  <main_menu_file_exit>Выход</main_menu_file_exit>
+  <main_menu_settings>Настройки</main_menu_settings>
+  <main_menu_measurement>Измерения</main_menu_measurement>
+  <main_menu_control>Управление</main_menu_control>
+  <main_menu_information>Справка</main_menu_information>
+  <main_menu_settings_communication>Связь...</main_menu_settings_communication>
+  <main_menu_settings_timings>Задержки...</main_menu_settings_timings>
+  <main_menu_settings_navia_assist>Навиа assist...</main_menu_settings_navia_assist>
+  <main_menu_settings_logging>Лог-файлы...</main_menu_settings_logging>
+  <main_menu_settings_other>Прочие...</main_menu_settings_other>
+  <main_menu_measurement_ttf>TTFF...</main_menu_measurement_ttf>
+  <main_menu_measurement_deviations>Отклонения...</main_menu_measurement_deviations>
+  <main_menu_control_command>Команды...</main_menu_control_command>
+  <main_menu_control_fast_firmware_upgrade>Обновление ПО...</main_menu_control_fast_firmware_upgrade>
+  <main_menu_information_about>О программе...</main_menu_information_about>
+  <main_menu_information_help>Помощь...</main_menu_information_help>
+  <main_control_group>Управление:</main_control_group>
+  <main_tab_resets>Перезапуск</main_tab_resets>
+  <main_tab_resets_cold_restart_group>Параметры холодного перезапуска:</main_tab_resets_cold_restart_group>
+  <main_tab_resets_cold_restart_use_mask>Использовать маску</main_tab_resets_cold_restart_use_mask>
+  <main_tab_resets_cold_restart_use_mask_group>Маска</main_tab_resets_cold_restart_use_mask_group>
+  <main_tab_resets_cold_restart_mask_reset_almanac>Сбросить альманах</main_tab_resets_cold_restart_mask_reset_almanac>
+  <main_tab_resets_cold_restart_mask_reset_ephemeris>Сбросить эфемериды</main_tab_resets_cold_restart_mask_reset_ephemeris>
+  <main_tab_resets_cold_restart_mask_reset_coordinates>Сбросить координаты</main_tab_resets_cold_restart_mask_reset_coordinates>
+  <main_tab_resets_cold_restart_mask_reset_time>Сбросить время</main_tab_resets_cold_restart_mask_reset_time>
+  <main_tab_resets_cold_restart_mask_nvm_swap>Переключить NVM</main_tab_resets_cold_restart_mask_nvm_swap>
+  <main_tab_resets_cold_restart_mask_reset_utc>Сбросить UTC</main_tab_resets_cold_restart_mask_reset_utc>
+  <main_tab_resets_reset_button>Сброс</main_tab_resets_reset_button>
+  <main_tab_resets_restart_button>Перезапуск</main_tab_resets_restart_button>
+  <main_tab_resets_time_to_fix>TTFF:</main_tab_resets_time_to_fix>
+  <main_tab_calculate_ttff_button>Считаем TTFF</main_tab_calculate_ttff_button>
+  <main_tab_resets_use_navia_assist>Использовать "Навиа assist"</main_tab_resets_use_navia_assist>
+  <main_tab_resets_navia_assist_no_data_error>Нет данных "Навиа assist"!</main_tab_resets_navia_assist_no_data_error>
+  <main_tab_data_direction>Вывод данных</main_tab_data_direction>
+  <main_tab_data_direction_info_1>Вывод NMEA через USB доступен только на модулях ML8088S.</main_tab_data_direction_info_1>
+  <main_tab_data_direction_nmea_speed_group>Скорость обмена по порту NMEA:</main_tab_data_direction_nmea_speed_group>
+  <main_tab_data_direction_same_config_error>Нельзя выбирать одинаковое значение для NMEA и Debug!</main_tab_data_direction_same_config_error>
+  <main_tab_data_direction_bandwidth>Загрузка канала:</main_tab_data_direction_bandwidth>
+  <main_tab_data_direction_gnss_fix_rate_group>Период выдачи решения:</main_tab_data_direction_gnss_fix_rate_group>
+  <main_tab_data_direction_gnss_fix_rate_label>Период:</main_tab_data_direction_gnss_fix_rate_label>
+  <main_tab_one_pps>1 PPS</main_tab_one_pps>
+  <main_tab_one_pps_signal_mode_group>Режим работы сигнала PPS:</main_tab_one_pps_signal_mode_group>
+  <main_tab_one_pps_signal_on>1 PPS включен</main_tab_one_pps_signal_on>
+  <main_tab_one_pps_signal_change_polarity>Изменить полярность</main_tab_one_pps_signal_change_polarity>
+  <main_tab_one_pps_signal_delay_group>Задержка сигнала PPS:</main_tab_one_pps_signal_delay_group>
+  <main_tab_one_pps_signal_pulse_duration_group>Длительность импульса сигнала PPS:</main_tab_one_pps_signal_pulse_duration_group>
+  <main_tab_one_pps_signal_pulse_duration>Длительность:</main_tab_one_pps_signal_pulse_duration>
+  <main_tab_one_pps_signal_synchronized>Сигнал PPS синхронизован:</main_tab_one_pps_signal_synchronized>
+  <main_tab_one_pps_traim_group>TRAIM:</main_tab_one_pps_traim_group>
+  <main_tab_one_pps_traim_status>Статус:</main_tab_one_pps_traim_status>
+  <main_tab_one_pps_traim_alarm>Порог ошибки:</main_tab_one_pps_traim_alarm>
+  <main_tab_one_pps_traim_average_error>Средняя ошибка:</main_tab_one_pps_traim_average_error>
+  <main_tab_one_pps_traim_used_satellites>Используемые спутники:</main_tab_one_pps_traim_used_satellites>
+  <main_tab_one_pps_traim_unused_satellites>Неиспользуемые спутники:</main_tab_one_pps_traim_unused_satellites>
+  <main_tab_sattelites>Спутники</main_tab_sattelites>
+  <main_tab_sattelites_alignment_group>Спутниковые группировки (нужен перезапуск модуля):</main_tab_sattelites_alignment_group>
+  <main_tab_sattelites_use_glonass>Используем ГЛОНАСС</main_tab_sattelites_use_glonass>
+  <main_tab_sattelites_use_gps>Используем GPS</main_tab_sattelites_use_gps>
+  <main_tab_sattelites_use_galileo>Используем Galileo</main_tab_sattelites_use_galileo>
+  <main_tab_sattelites_fast_constellation_switch_group>Быстрая смена спутниковых группировок (без сохранения):</main_tab_sattelites_fast_constellation_switch_group>
+  <main_tab_sattelites_show_sbas_satellite>Показывать спутник дифф. коррекции</main_tab_sattelites_show_sbas_satellite>
+  <main_tab_nmea_messages>Сообщения</main_tab_nmea_messages>
+  <main_tab_nmea_messages_list_group>Список передаваемых сообщений NMEA:</main_tab_nmea_messages_list_group>
+  <main_tab_nmea_messages_st_messages_button>Сообщения ST</main_tab_nmea_messages_st_messages_button>
+  <main_tab_nmea_messages_advanced_settings_button>Расширенные настройки</main_tab_nmea_messages_advanced_settings_button>
+  <main_tab_nmea_messages_filter_settings_group>Фильтр сообщений:</main_tab_nmea_messages_filter_settings_group>
+  <main_tab_path_log>Путь</main_tab_path_log>
+  <main_tab_path_log_valid_points>Правильные точки:</main_tab_path_log_valid_points>
+  <main_tab_path_log_invalid_points>Неправильные точки:</main_tab_path_log_invalid_points>
+  <main_tab_path_log_missed_points>Пропущенные точки:</main_tab_path_log_missed_points>
+  <main_tab_path_log_distance>Пройденный путь:</main_tab_path_log_distance>
+  <main_tab_path_log_reset_button>Сброс</main_tab_path_log_reset_button>
+  <main_tab_path_log_from_file_button>Из файла</main_tab_path_log_from_file_button>
+  <main_tab_path_log_use_messages>Считаем по сообщениям:</main_tab_path_log_use_messages>
+  <main_tab_path_log_start_chart_point_group>Начальная точка на графике:</main_tab_path_log_start_chart_point_group>
+  <main_tab_path_log_start_chart_point_set_first>Задать первую точку</main_tab_path_log_start_chart_point_set_first>
+  <main_tab_path_log_start_chart_point_set_current_button>Текущая точка</main_tab_path_log_start_chart_point_set_current_button>
+  <main_tab_accuracy>Точность</main_tab_accuracy>
+  <main_tab_accuracy_default_2d_group>Значения по умолчанию 2D DOP:</main_tab_accuracy_default_2d_group>
+  <main_tab_accuracy_default_3d_group>Значения по умолчанию 3D DOP:</main_tab_accuracy_default_3d_group>
+  <main_tab_accuracy_startup_2d_group>Стартовые значения 2D DOP:</main_tab_accuracy_startup_2d_group>
+  <main_tab_accuracy_startup_3d_group>Стартовые значения 3D DOP:</main_tab_accuracy_startup_3d_group>
+  <main_tab_diff_mode>Дифф. режим</main_tab_diff_mode>
+  <main_tab_diff_mode_active>Дифференциальный режим активен:</main_tab_diff_mode_active>
+  <main_tab_diff_mode_source_group>Источник дифференциальных поправок:</main_tab_diff_mode_source_group>
+  <main_tab_diff_mode_source_sbas>SBAS</main_tab_diff_mode_source_sbas>
+  <main_tab_diff_mode_source_rtcm>RTCM</main_tab_diff_mode_source_rtcm>
+  <main_tab_diff_mode_rtcm_data_active>Наличие данных на порту RTCM SC-104:</main_tab_diff_mode_rtcm_data_active>
+  <main_tab_diff_mode_rtcm_parameters_group>Параметры:</main_tab_diff_mode_rtcm_parameters_group>
+  <main_tab_agps>AGPS</main_tab_agps>
+  <main_tab_agps_control_group>Управление:</main_tab_agps_control_group>
+  <main_tab_agps_control_internal_agps_mode>Внутренний AGPS</main_tab_agps_control_internal_agps_mode>
+  <main_tab_agps_control_internal_agps_reset_button>Сброс</main_tab_agps_control_internal_agps_reset_button>
+  <main_tab_agps_state_group>Состояние:</main_tab_agps_state_group>
+  <main_tab_agps_state_calculation_done>Расчеты AGPS завершены:</main_tab_agps_state_calculation_done>
+  <main_tab_agps_visualisation_group>Отображение:</main_tab_agps_visualisation_group>
+  <main_tab_agps_visualisation_enable_messages_button>Включить сообщения</main_tab_agps_visualisation_enable_messages_button>
+  <main_tab_agps_visualisation_disble_messages_button>Выключить сообщения</main_tab_agps_visualisation_disble_messages_button>
+  <main_tab_parameters>Параметры</main_tab_parameters>
+  <main_tab_parameters_value>Значение:</main_tab_parameters_value>
+  <main_tab_parameters_write_mode>Режим записи:</main_tab_parameters_write_mode>
+  <main_tab_parameters_reset_settings_button>Сброс настроек</main_tab_parameters_reset_settings_button>
+  <main_tab_parameters_write_mode_overwrite>Перезаписать</main_tab_parameters_write_mode_overwrite>
+  <main_tab_parameters_write_mode_or>OR</main_tab_parameters_write_mode_or>
+  <main_tab_parameters_write_mode_and_with_value_invertion>AND с инверсией значения</main_tab_parameters_write_mode_and_with_value_invertion>
+  <main_tab_parameters_destination>Расположение данных:</main_tab_parameters_destination>
+  <main_tab_parameters_destination_current>Текущие настройки</main_tab_parameters_destination_current>
+  <main_tab_parameters_destination_nvram>Сохраненные настройки</main_tab_parameters_destination_nvram>
+  <main_tab_parameters_destination_default>Заводские настройки</main_tab_parameters_destination_default>
+  <main_tab_lpwfi>LPWFI</main_tab_lpwfi>
+  <main_tab_lpwfi_on_defaults>Настройки по-умолчанию</main_tab_lpwfi_on_defaults>
+  <main_tab_lpwfi_on_new_values_group>Новые значения:</main_tab_lpwfi_on_new_values_group>
+  <main_tab_lpwfi_run_fix>Время работы, если есть решение:</main_tab_lpwfi_run_fix>
+  <main_tab_lpwfi_run_no_fix>Макс. время ожидания решения:</main_tab_lpwfi_run_no_fix>
+  <main_tab_lpwfi_sleep_fix>Время сна, если есть решение:</main_tab_lpwfi_sleep_fix>
+  <main_tab_lpwfi_sleep_no_fix>Время сна, если нет решения:</main_tab_lpwfi_sleep_no_fix>
+  <main_tab_position_hold>Position hold</main_tab_position_hold>
+  <main_tab_position_hold_auto_survey_setup_group>Установка авто усреднения:</main_tab_position_hold_auto_survey_setup_group>
+  <main_tab_position_hold_auto_survey_samples>Количество отсчетов:</main_tab_position_hold_auto_survey_samples>
+  <main_tab_position_hold_auto_survey_samples_extra>"0" - выключение усреднения</main_tab_position_hold_auto_survey_samples_extra>
+  <main_tab_position_hold_manual_setup_group>Ручная установка:</main_tab_position_hold_manual_setup_group>
+  <main_tab_position_hold_manual_setup_is_enable>Включено</main_tab_position_hold_manual_setup_is_enable>
+  <main_tab_position_hold_message_pstmposhold_group>Сообщение $PSTMPOSHOLD:</main_tab_position_hold_message_pstmposhold_group>
+  <main_tab_position_hold_manual_setup_enable_label>Включено:</main_tab_position_hold_manual_setup_enable_label>
+  <main_tab_other>Прочее</main_tab_other>
+  <main_tab_other_version_group>Версия программного обеспечения:</main_tab_other_version_group>
+  <main_tab_other_library>Библиотека:</main_tab_other_library>
+  <main_tab_other_compiler_type>Тип компилятора:</main_tab_other_compiler_type>
+  <main_tab_other_compile_time>Время компиляции:</main_tab_other_compile_time>
+  <main_tab_other_custom_version_string_group>Текстовое обозначение версии:</main_tab_other_custom_version_string_group>
+  <main_tab_other_custom_version_string_version>Версия:</main_tab_other_custom_version_string_version>
+  <main_form_pdop>PDOP:</main_form_pdop>
+  <main_form_hdop>HDOP:</main_form_hdop>
+  <main_form_vdop>VDOP:</main_form_vdop>
+  <main_form_speed>Скорость:</main_form_speed>
+  <main_form_course>Курс:</main_form_course>
+  <main_form_date>Дата:</main_form_date>
+  <main_form_time>Время:</main_form_time>
+  <main_form_data_valid>Данные верны:</main_form_data_valid>
+  <main_form_status_have_new_data>Есть данные</main_form_status_have_new_data>
+  <main_form_status_no_new_data>Нет данных</main_form_status_no_new_data>
+  <start_error>Ошибка запуска!</start_error>
+  <stop_error>Ошибка завершения работы!</stop_error>
+  <no_nmea_port_speed_error>Не указана скорость обмена по порту NMEA!</no_nmea_port_speed_error>
+  <double_restart_error>Ошибка отправки дублирующей команды сброса!</double_restart_error>
+  <invalid_input_data_error>Неверный формат входных данных!</invalid_input_data_error>
+  <possibly_debug_data_found_error>Возможно подключен вывод отладочной информации от модуля!</possibly_debug_data_found_error>
+  <operation_break_by_user>Операция прервана пользователем!</operation_break_by_user>
+  <no_device_response_on_command_error>Нет ответа от устройства на данную команду!</no_device_response_on_command_error>
+  <invalid_command_format_error>Неверный формат команды!</invalid_command_format_error>
+  <is_disable_st_debug_logging>Выключить ведение лог-файла отладочной информации?</is_disable_st_debug_logging>
+  <debug_logging_disabled>Лог-файла отладочной информации выключен!</debug_logging_disabled>
+  <rtcm_translation_disabled>Передача RTCM-поправок выключена!</rtcm_translation_disabled>
+  <no_file_data_source_error>Не указано имя файла, используемого в качестве источника данных!</no_file_data_source_error>
+  <no_serial_port_name_error>Не указано имя последовательного порта!</no_serial_port_name_error>
+  <invalid_serial_port_speed_error>Неверное значение скорости последовательного порта!</invalid_serial_port_speed_error>
+  <cant_open_serial_port_error>Невозможно открыть последовательный порт</cant_open_serial_port_error>
+  <st_debug_logging_no_serial_port_name_error>Не указано имя последовательного порта отладочной информации!</st_debug_logging_no_serial_port_name_error>
+  <st_debug_logging_invalid_serial_port_speed_error>Неверное значение скорости последовательного порта отладочной информации!</st_debug_logging_invalid_serial_port_speed_error>
+  <st_debug_logging_rtcm_no_serial_port_name_error>Не указано имя последовательного порта дифф. поправок!</st_debug_logging_rtcm_no_serial_port_name_error>
+  <st_debug_logging_rtcm_invalid_serial_port_speed_error>Неверное значение скорости последовательного порта дифф. поправок!</st_debug_logging_rtcm_invalid_serial_port_speed_error>
+  <st_debug_logging_error>Ошибка ведения лог-файла отладочной информации!</st_debug_logging_error>
+  <communication_configuration_caption>Настройка связи</communication_configuration_caption>
+  <communication_configuration_nmea_tab>NMEA</communication_configuration_nmea_tab>
+  <communication_configuration_debug_tab>Debug</communication_configuration_debug_tab>
+  <communication_configuration_rtcm_tab>RTCM</communication_configuration_rtcm_tab>
+  <communication_configuration_nmea_port_data_source_group>Источник данных:</communication_configuration_nmea_port_data_source_group>
+  <communication_configuration_nmea_port_auto_config_button>Поиск порта</communication_configuration_nmea_port_auto_config_button>
+  <communication_configuration_nmea_port_auto_config_failure>Не удалось определить настройки последовательного порта NMEA!</communication_configuration_nmea_port_auto_config_failure>
+  <communication_configuration_nmea_port_auto_config_success>Настройки последовательного порта NMEA успешно обновлены!</communication_configuration_nmea_port_auto_config_success>
+  <communication_configuration_nmea_port_auto_config_checking>Проверяем:</communication_configuration_nmea_port_auto_config_checking>
+  <communication_configuration_nmea_port_read_data_interval>Период чтения порции данных:</communication_configuration_nmea_port_read_data_interval>
+  <communication_configuration_nmea_port_file_start_position>Стартовая позиция:</communication_configuration_nmea_port_file_start_position>
+  <communication_configuration_nmea_port_file_stop_position>Конечная позиция:</communication_configuration_nmea_port_file_stop_position>
+  <communication_configuration_st_debug_port_group>Порт отладочной информации:</communication_configuration_st_debug_port_group>
+  <communication_configuration_rtcm_sc_104_group>Порт источника RTCM SC-104:</communication_configuration_rtcm_sc_104_group>
+  <communication_configuration_is_connect_rtcm_sc_104_to_debug>Подать поток RTCM SC-104 на отладочный порт</communication_configuration_is_connect_rtcm_sc_104_to_debug>
+  <communication_configuration_same_port_name_error>Невозможно задать один порт для разных источников данных!</communication_configuration_same_port_name_error>
+  <communication_configuration_no_rtcm_sc_104_port_name_error>Не указано имя порта RTCM SC-104!</communication_configuration_no_rtcm_sc_104_port_name_error>
+  <communication_configuration_no_serial_port_found>На компьютере не найдены последовательные порты!</communication_configuration_no_serial_port_found>
+  <communication_configuration_rtcm_data_source_group>Источник данных:</communication_configuration_rtcm_data_source_group>
+  <communication_configuration_network_source>RTCM-Сервер</communication_configuration_network_source>
+  <communication_configuration_network_source_group>RTCM-Сервер:</communication_configuration_network_source_group>
+  <communication_configuration_rtcm_network_source_connection_error>Ошибка подключения к сетевому источнику поправок RTCM!</communication_configuration_rtcm_network_source_connection_error>
+  <communication_short_configuration_caption>Настройка порта NMEA</communication_short_configuration_caption>
+  <timings_configuration_caption>Настройка временных интервалов</timings_configuration_caption>
+  <timings_configuration_stop_drawing_delay>Задержка прекращения отображения данных:</timings_configuration_stop_drawing_delay>
+  <timings_configuration_next_point_delay>Ожидаемый интервал между двумя точками:</timings_configuration_next_point_delay>
+  <ttf_mesurement_caption>Измерение параметра TTFF</ttf_mesurement_caption>
+  <ttf_mesurement_parameters_group>Параметры:</ttf_mesurement_parameters_group>
+  <ttf_mesurement_parameters_loops_number>Количество циклов:</ttf_mesurement_parameters_loops_number>
+  <ttf_mesurement_parameters_restart_command_type>Тип команды перезапуска:</ttf_mesurement_parameters_restart_command_type>
+  <ttf_mesurement_parameters_max_wait_time>Максимальное время ожидания валидных данных:</ttf_mesurement_parameters_max_wait_time>
+  <ttf_mesurement_result_min_time>Минимальное время</ttf_mesurement_result_min_time>
+  <ttf_mesurement_result_max_time>Максимальное время</ttf_mesurement_result_max_time>
+  <ttf_mesurement_result_average_time>Среднее время</ttf_mesurement_result_average_time>
+  <ttf_mesurement_result_cycle>Цикл</ttf_mesurement_result_cycle>
+  <ttf_mesurement_result_timeout>Превышено время ожидания!</ttf_mesurement_result_timeout>
+  <data_source_invalid_settings>Неверные настройки источника данных!</data_source_invalid_settings>
+  <deviations_worker_no_reference_file_name_error>Не указано имя эталонного файла!</deviations_worker_no_reference_file_name_error>
+  <deviations_worker_reference_point_not_set_error>Не задано значение эталонной точки!</deviations_worker_reference_point_not_set_error>
+  <deviations_worker_no_comparing_file_name_error>Не указано имя сравниваемого файла!</deviations_worker_no_comparing_file_name_error>
+  <deviations_worker_no_data_into_file_error>Не найдено данных для работы в файле</deviations_worker_no_data_into_file_error>
+  <deviations_worker_no_points_to_compare_error>Не найдено точек для сравнения!</deviations_worker_no_points_to_compare_error>
+  <deviations_worker_invalid_message_type_error>Неверный формат сообщения!</deviations_worker_invalid_message_type_error>
+  <deviations_measurements_caption>Измерение отклонений</deviations_measurements_caption>
+  <deviations_measurements_reference_type_group>Тип эталонных значений:</deviations_measurements_reference_type_group>
+  <deviations_measurements_reference_type_file>Файл эталонных значений</deviations_measurements_reference_type_file>
+  <deviations_measurements_reference_type_point>Эталонная точка</deviations_measurements_reference_type_point>
+  <deviations_measurements_reference_type_point_group>Эталонная точка:</deviations_measurements_reference_type_point_group>
+  <deviations_measurements_reference_type_point_set_start_chart_button>Начальная точка на графике</deviations_measurements_reference_type_point_set_start_chart_button>
+  <deviations_measurements_reference_gga_file_group>Файл эталонных значений GGA:</deviations_measurements_reference_gga_file_group>
+  <deviations_measurements_comparing_gga_file_group>Файл проверяемых значений GGA:</deviations_measurements_comparing_gga_file_group>
+  <deviations_measurements_point_type>Тип точек:</deviations_measurements_point_type>
+  <deviations_measurements_break_by_user_error>Операция прервана пользователем!</deviations_measurements_break_by_user_error>
+  <deviations_measurements_squared_error>Среднеквадратическое отклонение</deviations_measurements_squared_error>
+  <deviations_measurements_min_error>Минимальное отклонение</deviations_measurements_min_error>
+  <deviations_measurements_max_error>Максимальное отклонение</deviations_measurements_max_error>
+  <deviations_measurements_average_error>Среднее отклонение</deviations_measurements_average_error>
+  <deviations_measurements_checked_points_number>Количество проверенных точек</deviations_measurements_checked_points_number>
+  <command_console_caption>Командная консоль</command_console_caption>
+  <command_console_response_group>Ответы от устройства:</command_console_response_group>
+  <command_console_show_last_messages>Показывать последние сообщения</command_console_show_last_messages>
+  <command_console_clear_button>Очистить</command_console_clear_button>
+  <command_console_commands_group>Команды:</command_console_commands_group>
+  <command_console_send_button>Отправить</command_console_send_button>
+  <firmware_update_caption>Обновление ПО модуля</firmware_update_caption>
+  <firmware_update_before_start_0>Перед началом работы переведите модуль в</firmware_update_before_start_0>
+  <firmware_update_before_start_1>режим программирования.</firmware_update_before_start_1>
+  <firmware_update_file_name_group>Имя файла с новым ПО модуля:</firmware_update_file_name_group>
+  <firmware_update_erase_nvram>Сбросить настройки</firmware_update_erase_nvram>
+  <firmware_update_no_firmware_file_error>Не указан файл с ПО модуля!</firmware_update_no_firmware_file_error>
+  <firmware_update_no_bootloader_error>Не указан код первичного загрузчика!</firmware_update_no_bootloader_error>
+  <firmware_update_load_firmware_file_error>Ошибка чтения файла с ПО модуля!</firmware_update_load_firmware_file_error>
+  <firmware_update_no_response_error>Нет ответа от устройства!</firmware_update_no_response_error>
+  <firmware_update_invalid_response_error>Неверный код ответа от устройства!</firmware_update_invalid_response_error>
+  <firmware_update_update_complete>Обновление ПО модуля успешно завершено!</firmware_update_update_complete>
+  <firmware_update_serial_port_read_data_error>Ошибка чтения данных из последовательного порта!</firmware_update_serial_port_read_data_error>
+  <firmware_update_invalid_file_format_error>Неверный формат файла с обновлением ПО!</firmware_update_invalid_file_format_error>
+  <google_earth_caption>Настройки для "Google Earth"</google_earth_caption>
+  <google_earth_use_google_earth_logging>Формировать трек</google_earth_use_google_earth_logging>
+  <google_earth_track_refresh_time>Период обновления:</google_earth_track_refresh_time>
+  <google_earth_line_thickness>Толщина линии трека:</google_earth_line_thickness>
+  <google_earth_line_color>Цвет линии:</google_earth_line_color>
+  <google_earth_path_line_1>Вы можете скачать программу "Google Earth"</google_earth_path_line_1>
+  <google_earth_path_line_2>по следующей ссылке:</google_earth_path_line_2>
+  <fast_firmware_upgrade_caption>Обновление ПО модуля</fast_firmware_upgrade_caption>
+  <fast_firmware_upgrade_info_label_0>Внимание!</fast_firmware_upgrade_info_label_0>
+  <fast_firmware_upgrade_info_label_1>Сбой в процессе обновления ПО может привести к</fast_firmware_upgrade_info_label_1>
+  <fast_firmware_upgrade_info_label_2>неработоспособности устройства!</fast_firmware_upgrade_info_label_2>
+  <fast_firmware_upgrade_info_label_3>Если устройство вышло из строя в процессе обновления</fast_firmware_upgrade_info_label_3>
+  <fast_firmware_upgrade_info_label_4>обратитесь к производителю.</fast_firmware_upgrade_info_label_4>
+  <fast_firmware_upgrade_upload_speed>Скорость загрузки обновления:</fast_firmware_upgrade_upload_speed>
+  <fast_firmware_upgrade_too_old_version_error>Данная версия не поддерживает возможность быстрого обновления!</fast_firmware_upgrade_too_old_version_error>
+  <navia_assist_configuration_caption>Настройки "Навиа assist"</navia_assist_configuration_caption>
+  <navia_assist_configuration_server_group>Сервер:</navia_assist_configuration_server_group>
+  <navia_assist_configuration_server_ip_address>IP-адрес:</navia_assist_configuration_server_ip_address>
+  <navia_assist_configuration_server_tcp_port>TCP-порт:</navia_assist_configuration_server_tcp_port>
+  <navia_assist_configuration_is_use_gzip_compression>Используется GZIP-сжатие данных</navia_assist_configuration_is_use_gzip_compression>
+  <about_dialog_program_description>Данная программа предназначена для настройки модулей НАВИА и отображения текущей спутниковой обстановки.</about_dialog_program_description>
+  <logging_configuration_dialog_caption>Настройки логирования</logging_configuration_dialog_caption>
+  <logging_configuration_dialog_general_directory_group>Общая папка для всех лог-файлов:</logging_configuration_dialog_general_directory_group>
+  <logging_configuration_dialog_general_directory_check>Все лог-файлы в одной папке</logging_configuration_dialog_general_directory_check>
+  <logging_configuration_dialog_general_directory_directory>Папка:</logging_configuration_dialog_general_directory_directory>
+  <logging_configuration_dialog_nmea_messages_group>Сообщения NMEA:</logging_configuration_dialog_nmea_messages_group>
+  <logging_configuration_dialog_all_nmea_messages_group>Все сообщения по порту NMEA:</logging_configuration_dialog_all_nmea_messages_group>
+  <logging_configuration_dialog_missed_points_group>Пропущенные точки:</logging_configuration_dialog_missed_points_group>
+  <logging_configuration_dialog_debug_group>Отладочная информация:</logging_configuration_dialog_debug_group>
+  <logging_configuration_dialog_commands_console_group>Командная консоль:</logging_configuration_dialog_commands_console_group>
+  <logging_configuration_dialog_rtcm_group>RTCM:</logging_configuration_dialog_rtcm_group>
+  <logging_configuration_dialog_no_nmea_log_file_name>Не указано имя лог-файла для сообщений NMEA!</logging_configuration_dialog_no_nmea_log_file_name>
+  <logging_configuration_dialog_no_raw_log_file_name>Не указано имя лог-файла для всех сообщений по порту NMEA!</logging_configuration_dialog_no_raw_log_file_name>
+  <logging_configuration_dialog_no_missed_points_log_file_name>Не указано имя лог-файла для пропущенных точек!</logging_configuration_dialog_no_missed_points_log_file_name>
+  <logging_configuration_dialog_no_debug_log_file_name>Не указано имя лог-файла для отладочной информации!</logging_configuration_dialog_no_debug_log_file_name>
+  <logging_configuration_dialog_no_command_console_log_file_name>Не указано имя лог-файла для командной консоли!</logging_configuration_dialog_no_command_console_log_file_name>
+  <logging_configuration_dialog_no_rtcm_log_file_name>Не указано имя лог-файла дифф. поправок!</logging_configuration_dialog_no_rtcm_log_file_name>
+  <big_path_log_caption>Полученные точки</big_path_log_caption>
+  <other_settings_caption>Прочие настройки</other_settings_caption>
+  <other_settings_is_update_parameters_on_tab_enter>Запрашивать данные при переключении вкладок</other_settings_is_update_parameters_on_tab_enter>
+  <other_settings_is_show_popup>Показывать всплывающие подсказки</other_settings_is_show_popup>
+  <other_settings_is_show_message_on_command_error>Выводить сообщения об ошибках обработки команд</other_settings_is_show_message_on_command_error>
+  <other_settings_is_show_notification_icon>Показывать иконку в области уведомлений</other_settings_is_show_notification_icon>
+  <other_settings_set_defaults>Сброс настроек</other_settings_set_defaults>
+  <other_settings_ask_confirmation_set_defaults>Вы уверены, что хотите сбросить настройки?</other_settings_ask_confirmation_set_defaults>
+  <other_settings_log_file_max_size>Максимальный размер лог-файла:</other_settings_log_file_max_size>
+  <other_settings_select_traim_used_satellites>Выделят используемые в TRAIM спутники</other_settings_select_traim_used_satellites>
+  <other_settings_auto_polling_group>Автоматическая передача сообщений:</other_settings_auto_polling_group >
+  <other_settings_auto_polling_interval>Интервал:</other_settings_auto_polling_interval>
+  <other_settings_auto_polling_messages>Сообщения (одно на строку):</other_settings_auto_polling_messages>
+  <st_messages_caption>Сообщения ST</st_messages_caption>
+  <advanced_messages_caption>Расширенные настройки сообщений</advanced_messages_caption>
+  <advanced_messages_nmea0_tab>Список сообщений NMEA0</advanced_messages_nmea0_tab>
+  <advanced_messages_nmea1_tab>Список сообщений NMEA1</advanced_messages_nmea1_tab>
+  <advanced_messages_nmea2_tab>Список сообщений NMEA2</advanced_messages_nmea2_tab>
+  <advanced_messages_nmea_group>NMEA:</advanced_messages_nmea_group>
+  <advanced_messages_st_group>ST:</advanced_messages_st_group>
+  <advanced_messages_output_rate>Частота отправки сообщений:</advanced_messages_output_rate>
+  <advanced_messages_nmea2_warning_text0>Данный список используется для передачи сообщений с высокой точностью!</advanced_messages_nmea2_warning_text0>
+  <advanced_messages_nmea2_warning_text1>Не рекомендуется указывать в данном списке большое количество сообщений!</advanced_messages_nmea2_warning_text1>
+  <advanced_messages_nmea2_warning_text2>Изменение настроек происходит после перезагрузки модуля!</advanced_messages_nmea2_warning_text2>
+  <messages_filter_caption>Фильтр отображаемых сообщений</messages_filter_caption>
+  <messages_filter_text0>Каждая строка задает одно правило.</messages_filter_text0>
+  <messages_filter_text1>Символ "?" заменяет один любой символ.</messages_filter_text1>
+  <messages_filter_text2>Символ "*" заменяет нули и более любых символов.</messages_filter_text2>
+  <messages_filter_align_text_group>Выравнивание вывода сообщений:</messages_filter_align_text_group>
+  <messages_filter_filter_group>Фильтр:</messages_filter_filter_group>
+  <ntrip_server_caption>Настройка NTRIP-сервера</ntrip_server_caption>
+  <ntrip_server_server_group>Сервер:</ntrip_server_server_group>
+  <ntrip_server_server_address>Адрес:</ntrip_server_server_address>
+  <ntrip_server_server_tcp_port>TCP-порт:</ntrip_server_server_tcp_port>
+  <ntrip_server_data_source_group>Источник данных:</ntrip_server_data_source_group>
+  <ntrip_server_data_source_is_base_autorization>Базовая авторизация</ntrip_server_data_source_is_base_autorization>
+  <ntrip_server_data_source_login>Имя пользователя:</ntrip_server_data_source_login>
+  <ntrip_server_data_source_password>Пароль:</ntrip_server_data_source_password>
+  <ntrip_server_no_address_error>Не указан адрес NTRIP-сервера!</ntrip_server_no_address_error>
+  <ntrip_server_no_data_source_records_error>Не обнаружено записей с источниками данных!</ntrip_server_no_data_source_records_error>
+  <ntrip_server_no_server_response_error>Нет ответа от NTRIP-сервера!</ntrip_server_no_server_response_error>
+  <ntrip_server_invalid_server_response_error>Неверный ответ от NTRIP-сервера!</ntrip_server_invalid_server_response_error>
+  <ntrip_server_no_data_source_select_error>Не выбран источник данных для NTRIP-сервера!</ntrip_server_no_data_source_select_error>
+  <ntrip_server_no_login_error>Не указано имя пользователя!</ntrip_server_no_login_error>
+  <ntrip_server_no_password_error>Не указан пароль!</ntrip_server_no_password_error>
+</locale>
