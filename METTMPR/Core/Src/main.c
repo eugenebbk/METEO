@@ -49,13 +49,12 @@ TIM_HandleTypeDef htim10;
 UART_HandleTypeDef huart4;
 UART_HandleTypeDef huart5;
 UART_HandleTypeDef huart7;
+UART_HandleTypeDef huart1;
 UART_HandleTypeDef huart2;
 UART_HandleTypeDef huart3;
 
-UART_HandleTypeDef huart1;
-
 /* USER CODE BEGIN PV */
-DS18B20 temperatureSensor[numbSensorsDS18B20];
+DS18B20 temperatureSensor[numbSensorsDS18B20] = {0};
 DS18B20_Status errorDS18B20[numbSensorsDS18B20] = {0};
 
 startByte_t startByte = {0};
@@ -106,7 +105,7 @@ void HAL_UARTEx_RxEventCallback(UART_HandleTypeDef *huart, uint16_t Size)
   {
     holeOp++;
   }
-  
+
   indx = Size;
   if (huart->Instance == USART1) // check if the interrupt comes from
   {
@@ -126,9 +125,9 @@ void HAL_UARTEx_RxEventCallback(UART_HandleTypeDef *huart, uint16_t Size)
 /* USER CODE END 0 */
 
 /**
- * @brief  The application entry point.
- * @retval int
- */
+  * @brief  The application entry point.
+  * @retval int
+  */
 int main(void)
 {
 
@@ -164,16 +163,21 @@ int main(void)
   /* USER CODE BEGIN 2 */
 
   // __HAL_UART_ENABLE_IT(&huart1, UART_IT_IDLE);
-			__HAL_UART_CLEAR_IDLEFLAG(&huart1);
+
+  __HAL_UART_CLEAR_IDLEFLAG(&huart1);
   HAL_UARTEx_ReceiveToIdle_IT(&huart1, RxData, sizeof(RxData));
+
+   initDS18B20(&temperatureSensor[0], &errorDS18B20[0], numbSensorsDS18B20);
+  // // send request to onewire sensor for measuring temperature
+   requestToCalculationTemperature(&temperatureSensor[0], &errorDS18B20[0], numbSensorsDS18B20);
 
   __HAL_TIM_CLEAR_FLAG(&htim10, TIM_SR_UIF);
   HAL_TIM_Base_Start_IT(&htim10);
 
-  initDS18B20(&temperatureSensor[0], &errorDS18B20[0], numbSensorsDS18B20);
-  // send request to onewire sensor for measuring temperature
-  requestToCalculationTemperature(&temperatureSensor[0], &errorDS18B20[0], numbSensorsDS18B20);
-
+        int8_t settings[3];
+      settings[0] = (uint8_t)125;
+      settings[1] = (uint8_t)-55;
+      settings[2] = DS18B20_12_BITS_CONFIG;
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -189,34 +193,114 @@ int main(void)
     if (flagsInterrupts.TIM10_int)
     {
       flagsInterrupts.TIM10_int = 0;
-      receiveTemperature(&temperatureSensor[0], &errorDS18B20[0], numbSensorsDS18B20);
-      // writing temperature to exit packet
-      for (size_t i = 0; i < numbSensorsDS18B20; i++)
-      {
-        memcpy(&fullPacket[i * 2 + 2], &temperatureSensor[i].sourceTemperature, 2);
-      }
-      // send request to onewire sensor for measuring temperature
-      requestToCalculationTemperature(&temperatureSensor[0], &errorDS18B20[0], numbSensorsDS18B20);
+       receiveTemperature(&temperatureSensor[0], &errorDS18B20[0], numbSensorsDS18B20);
+       // writing temperature to exit packet
+       for (size_t i = 0; i < numbSensorsDS18B20; i++)
+       {
+         memcpy(&fullPacket[i * 2 + 2], &temperatureSensor[i].sourceTemperature, 2);
+       }
+       // send request to onewire sensor for measuring temperature
+       requestToCalculationTemperature(&temperatureSensor[0], &errorDS18B20[0], numbSensorsDS18B20);
+
+      //--debug
+
+
+      // HAL_Delay(750);
+      // HAL_GPIO_WritePin(GPIOB,GPIO_PIN_5,GPIO_PIN_SET );
+      // HAL_UART_Transmit(&huart1,Start,2,HAL_MAX_DELAY);
+      // HAL_GPIO_WritePin(GPIOB,GPIO_PIN_5,GPIO_PIN_RESET );
+
+//      //  nomer=2;
+//      DS18B20_Init(&temperatureSensor[0], &huart5);
+
+//      DS18B20_InitializationCommand(&temperatureSensor[0]);
+//      DS18B20_ReadRom(&temperatureSensor[0]);
+//      DS18B20_ReadScratchpad(&temperatureSensor[0]);
+
+//      DS18B20_InitializationCommand(&temperatureSensor[0]);
+//      DS18B20_SkipRom(&temperatureSensor[0]);
+//      DS18B20_WriteScratchpad(&temperatureSensor[0], settings);
+//      DS18B20_InitializationCommand(&temperatureSensor[0]);
+//      DS18B20_SkipRom(&temperatureSensor[0]);
+//      DS18B20_ConvertT(&temperatureSensor[0], DS18B20_DELAY);
+
+//      // nomer=4;
+
+//      DS18B20_Init(&temperatureSensor[1], &huart3);
+
+//      DS18B20_InitializationCommand(&temperatureSensor[1]);
+//      DS18B20_ReadRom(&temperatureSensor[1]);
+//      DS18B20_ReadScratchpad(&temperatureSensor[1]);
+
+//      DS18B20_InitializationCommand(&temperatureSensor[1]);
+//      DS18B20_SkipRom(&temperatureSensor[1]);
+//      DS18B20_WriteScratchpad(&temperatureSensor[1], settings);
+//      DS18B20_InitializationCommand(&temperatureSensor[1]);
+//      DS18B20_SkipRom(&temperatureSensor[1]);
+//      DS18B20_ConvertT(&temperatureSensor[1], DS18B20_DELAY);
+
+//      // nomer=6;
+
+//      DS18B20_Init(&temperatureSensor[2], &huart2);
+
+//      DS18B20_InitializationCommand(&temperatureSensor[2]);
+//      DS18B20_ReadRom(&temperatureSensor[2]);
+//      DS18B20_ReadScratchpad(&temperatureSensor[2]);
+
+//      DS18B20_InitializationCommand(&temperatureSensor[2]);
+//      DS18B20_SkipRom(&temperatureSensor[2]);
+//      DS18B20_WriteScratchpad(&temperatureSensor[2], settings);
+//      DS18B20_InitializationCommand(&temperatureSensor[2]);
+//      DS18B20_SkipRom(&temperatureSensor[2]);
+//      DS18B20_ConvertT(&temperatureSensor[2], DS18B20_DELAY);
+
+//      // nomer=8;
+//      DS18B20_Init(&temperatureSensor[3], &huart4);
+
+//      DS18B20_InitializationCommand(&temperatureSensor[3]);
+//      DS18B20_ReadRom(&temperatureSensor[3]);
+//      DS18B20_ReadScratchpad(&temperatureSensor[3]);
+
+//      DS18B20_InitializationCommand(&temperatureSensor[3]);
+//      DS18B20_SkipRom(&temperatureSensor[3]);
+//      DS18B20_WriteScratchpad(&temperatureSensor[3], settings);
+//      DS18B20_InitializationCommand(&temperatureSensor[3]);
+//      DS18B20_SkipRom(&temperatureSensor[3]);
+//      DS18B20_ConvertT(&temperatureSensor[3], DS18B20_DELAY);
+
+//      // nomer=10;
+//      DS18B20_Init(&temperatureSensor[4], &huart7);
+
+//      DS18B20_InitializationCommand(&temperatureSensor[4]);
+//      DS18B20_ReadRom(&temperatureSensor[4]);
+//      DS18B20_ReadScratchpad(&temperatureSensor[4]);
+
+//      DS18B20_InitializationCommand(&temperatureSensor[4]);
+//      DS18B20_SkipRom(&temperatureSensor[4]);
+//      DS18B20_WriteScratchpad(&temperatureSensor[4], settings);
+//      DS18B20_InitializationCommand(&temperatureSensor[4]);
+//      DS18B20_SkipRom(&temperatureSensor[4]);
+//      DS18B20_ConvertT(&temperatureSensor[4], DS18B20_DELAY);
+
       HAL_TIM_Base_Start_IT(&htim10);
     }
 
     if (flagsInterrupts.UART1_int)
     {
-						
-			uint8_t holeOp = 0;
-			size_t counterTemp = 25000 * 1; // 30ms
-			HAL_GPIO_WritePin(GPIOB, GPIO_PIN_5, GPIO_PIN_SET);
+
+      uint8_t holeOp = 0;
+      size_t counterTemp = 25000 * 1; // 30ms
+      HAL_GPIO_WritePin(GPIOB, GPIO_PIN_5, GPIO_PIN_SET);
       HAL_UART_Transmit_IT(&huart1, &fullPacket[0], sizeof(fullPacket));
       while (--counterTemp)
       {
         //        asm("NOP");
-        holeOp<<1; //nop operation
+        holeOp << 1; // nop operation
       }
       HAL_GPIO_WritePin(GPIOB, GPIO_PIN_5, GPIO_PIN_RESET);
       flagsInterrupts.UART1_int = 0;
-			__HAL_UART_CLEAR_IDLEFLAG(&huart1);
-			HAL_UARTEx_ReceiveToIdle_IT(&huart1, RxData, sizeof(RxData));
-		
+      __HAL_UART_CLEAR_IDLEFLAG(&huart1);
+      HAL_UARTEx_ReceiveToIdle_IT(&huart1, RxData, sizeof(RxData));
     }
 
     // receiving from onewire sensor calculate temperature
@@ -229,28 +313,28 @@ int main(void)
 }
 
 /**
- * @brief System Clock Configuration
- * @retval None
- */
+  * @brief System Clock Configuration
+  * @retval None
+  */
 void SystemClock_Config(void)
 {
   RCC_OscInitTypeDef RCC_OscInitStruct = {0};
   RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
 
   /** Configure the main internal regulator output voltage
-   */
+  */
   __HAL_RCC_PWR_CLK_ENABLE();
   __HAL_PWR_VOLTAGESCALING_CONFIG(PWR_REGULATOR_VOLTAGE_SCALE1);
 
   /** Initializes the RCC Oscillators according to the specified parameters
-   * in the RCC_OscInitTypeDef structure.
-   */
+  * in the RCC_OscInitTypeDef structure.
+  */
   RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSE;
   RCC_OscInitStruct.HSEState = RCC_HSE_ON;
   RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
   RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSE;
   RCC_OscInitStruct.PLL.PLLM = 6;
-  RCC_OscInitStruct.PLL.PLLN = 50;
+  RCC_OscInitStruct.PLL.PLLN = 200;
   RCC_OscInitStruct.PLL.PLLP = RCC_PLLP_DIV4;
   RCC_OscInitStruct.PLL.PLLQ = 3;
   RCC_OscInitStruct.PLL.PLLR = 2;
@@ -260,28 +344,29 @@ void SystemClock_Config(void)
   }
 
   /** Initializes the CPU, AHB and APB buses clocks
-   */
-  RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK | RCC_CLOCKTYPE_SYSCLK | RCC_CLOCKTYPE_PCLK1 | RCC_CLOCKTYPE_PCLK2;
+  */
+  RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
+                              |RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2;
   RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_PLLCLK;
   RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
-  RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV1;
+  RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV2;
   RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV1;
 
-  if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_0) != HAL_OK)
+  if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_3) != HAL_OK)
   {
     Error_Handler();
   }
 
   /** Enables the Clock Security System
-   */
+  */
   HAL_RCC_EnableCSS();
 }
 
 /**
- * @brief TIM10 Initialization Function
- * @param None
- * @retval None
- */
+  * @brief TIM10 Initialization Function
+  * @param None
+  * @retval None
+  */
 static void MX_TIM10_Init(void)
 {
 
@@ -305,13 +390,14 @@ static void MX_TIM10_Init(void)
   /* USER CODE BEGIN TIM10_Init 2 */
 
   /* USER CODE END TIM10_Init 2 */
+
 }
 
 /**
- * @brief UART4 Initialization Function
- * @param None
- * @retval None
- */
+  * @brief UART4 Initialization Function
+  * @param None
+  * @retval None
+  */
 static void MX_UART4_Init(void)
 {
 
@@ -337,13 +423,14 @@ static void MX_UART4_Init(void)
   /* USER CODE BEGIN UART4_Init 2 */
 
   /* USER CODE END UART4_Init 2 */
+
 }
 
 /**
- * @brief UART5 Initialization Function
- * @param None
- * @retval None
- */
+  * @brief UART5 Initialization Function
+  * @param None
+  * @retval None
+  */
 static void MX_UART5_Init(void)
 {
 
@@ -369,13 +456,14 @@ static void MX_UART5_Init(void)
   /* USER CODE BEGIN UART5_Init 2 */
 
   /* USER CODE END UART5_Init 2 */
+
 }
 
 /**
- * @brief UART7 Initialization Function
- * @param None
- * @retval None
- */
+  * @brief UART7 Initialization Function
+  * @param None
+  * @retval None
+  */
 static void MX_UART7_Init(void)
 {
 
@@ -401,13 +489,14 @@ static void MX_UART7_Init(void)
   /* USER CODE BEGIN UART7_Init 2 */
 
   /* USER CODE END UART7_Init 2 */
+
 }
 
 /**
- * @brief USART1 Initialization Function
- * @param None
- * @retval None
- */
+  * @brief USART1 Initialization Function
+  * @param None
+  * @retval None
+  */
 static void MX_USART1_UART_Init(void)
 {
 
@@ -433,13 +522,14 @@ static void MX_USART1_UART_Init(void)
   /* USER CODE BEGIN USART1_Init 2 */
 
   /* USER CODE END USART1_Init 2 */
+
 }
 
 /**
- * @brief USART2 Initialization Function
- * @param None
- * @retval None
- */
+  * @brief USART2 Initialization Function
+  * @param None
+  * @retval None
+  */
 static void MX_USART2_UART_Init(void)
 {
 
@@ -465,13 +555,14 @@ static void MX_USART2_UART_Init(void)
   /* USER CODE BEGIN USART2_Init 2 */
 
   /* USER CODE END USART2_Init 2 */
+
 }
 
 /**
- * @brief USART3 Initialization Function
- * @param None
- * @retval None
- */
+  * @brief USART3 Initialization Function
+  * @param None
+  * @retval None
+  */
 static void MX_USART3_UART_Init(void)
 {
 
@@ -497,18 +588,19 @@ static void MX_USART3_UART_Init(void)
   /* USER CODE BEGIN USART3_Init 2 */
 
   /* USER CODE END USART3_Init 2 */
+
 }
 
 /**
- * @brief GPIO Initialization Function
- * @param None
- * @retval None
- */
+  * @brief GPIO Initialization Function
+  * @param None
+  * @retval None
+  */
 static void MX_GPIO_Init(void)
 {
   GPIO_InitTypeDef GPIO_InitStruct = {0};
-  /* USER CODE BEGIN MX_GPIO_Init_1 */
-  /* USER CODE END MX_GPIO_Init_1 */
+/* USER CODE BEGIN MX_GPIO_Init_1 */
+/* USER CODE END MX_GPIO_Init_1 */
 
   /* GPIO Ports Clock Enable */
   __HAL_RCC_GPIOH_CLK_ENABLE();
@@ -517,21 +609,22 @@ static void MX_GPIO_Init(void)
   __HAL_RCC_GPIOC_CLK_ENABLE();
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOB, GPIO_PIN_12 | GPIO_PIN_13 | GPIO_PIN_14 | GPIO_PIN_15, GPIO_PIN_SET);
+  HAL_GPIO_WritePin(GPIOB, GPIO_PIN_12|GPIO_PIN_13|GPIO_PIN_14|GPIO_PIN_15, GPIO_PIN_SET);
 
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOB, GPIO_PIN_5, GPIO_PIN_RESET);
 
   /*Configure GPIO pins : PB12 PB13 PB14 PB15
                            PB5 */
-  GPIO_InitStruct.Pin = GPIO_PIN_12 | GPIO_PIN_13 | GPIO_PIN_14 | GPIO_PIN_15 | GPIO_PIN_5;
+  GPIO_InitStruct.Pin = GPIO_PIN_12|GPIO_PIN_13|GPIO_PIN_14|GPIO_PIN_15
+                          |GPIO_PIN_5;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
 
-  /* USER CODE BEGIN MX_GPIO_Init_2 */
-  /* USER CODE END MX_GPIO_Init_2 */
+/* USER CODE BEGIN MX_GPIO_Init_2 */
+/* USER CODE END MX_GPIO_Init_2 */
 }
 
 /* USER CODE BEGIN 4 */
@@ -563,9 +656,9 @@ static void MX_GPIO_Init(void)
 /* USER CODE END 4 */
 
 /**
- * @brief  This function is executed in case of error occurrence.
- * @retval None
- */
+  * @brief  This function is executed in case of error occurrence.
+  * @retval None
+  */
 void Error_Handler(void)
 {
   /* USER CODE BEGIN Error_Handler_Debug */
@@ -577,14 +670,14 @@ void Error_Handler(void)
   /* USER CODE END Error_Handler_Debug */
 }
 
-#ifdef USE_FULL_ASSERT
+#ifdef  USE_FULL_ASSERT
 /**
- * @brief  Reports the name of the source file and the source line number
- *         where the assert_param error has occurred.
- * @param  file: pointer to the source file name
- * @param  line: assert_param error line source number
- * @retval None
- */
+  * @brief  Reports the name of the source file and the source line number
+  *         where the assert_param error has occurred.
+  * @param  file: pointer to the source file name
+  * @param  line: assert_param error line source number
+  * @retval None
+  */
 void assert_failed(uint8_t *file, uint32_t line)
 {
   /* USER CODE BEGIN 6 */
