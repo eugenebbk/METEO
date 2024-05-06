@@ -314,7 +314,7 @@
           </ArmAdsMisc>
           <Cads>
             <interw>1</interw>
-            <Optim>1</Optim>
+            <Optim>3</Optim>
             <oTime>0</oTime>
             <SplitLS>0</SplitLS>
             <OneElfS>1</OneElfS>
@@ -2232,6 +2232,16 @@
           </Files>
         </Group>
         <Group>
+          <GroupName>SST26VF0xxB_SPI</GroupName>
+          <Files>
+            <File>
+              <FileName>SST26.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\SST26VF0xxB_SPI\SST26VF0xxB_SPI\SST26.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
           <GroupName>::CMSIS</GroupName>
         </Group>
       </Groups>
@@ -2265,5 +2275,14 @@
     </components>
     <files/>
   </RTE>
+
+  <LayerInfo>
+    <Layers>
+      <Layer>
+        <LayName>METMAT</LayName>
+        <LayPrjMark>1</LayPrjMark>
+      </Layer>
+    </Layers>
+  </LayerInfo>
 
 </Project>

@@ -58,10 +58,16 @@ uint8_t exitTemperature8[12] = {0};
 
 // uart
 
-uint8_t RxData[16] = {0};
+uint8_t RxData[12] = {0};
 uint8_t RxData6[60] = {0};
 int indx = 0;
 uint8_t fullPacket[12] = {0xFD, 0x55, 0};
+
+//---------Debug
+
+uint32_t defaultTime = 0x937;
+uint32_t defaultDate = 0x0134D879;
+uint16_t countLogID = 0;
 
 /* USER CODE END PV */
 
@@ -106,18 +112,18 @@ int main(void)
   MX_GPIO_Init();
   MX_USB_DEVICE_Init();
   MX_SPI1_Init();
-  MX_USART3_UART_Init();
   MX_UART4_Init();
-//  MX_USART6_UART_Init();
+  //  MX_USART6_UART_Init();
+
   /* USER CODE BEGIN 2 */
-  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_4, GPIO_PIN_RESET);
+  //  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_4, GPIO_PIN_RESET);
 
   // __HAL_UART_ENABLE_IT(&huart4, UART_IT_IDLE);
 
   // HAL_UART_Receive_IT(&huart4, &receiveRingBuf[0], 12);
 
   HAL_UARTEx_ReceiveToIdle_IT(&huart4, RxData, sizeof(RxData));
-  HAL_UARTEx_ReceiveToIdle_IT(&huart6, RxData6, sizeof(RxData6));
+  //  HAL_UARTEx_ReceiveToIdle_IT(&huart6, RxData6, sizeof(RxData6));
 
   /* USER CODE END 2 */
 
@@ -189,6 +195,9 @@ void SystemClock_Config(void)
   {
     Error_Handler();
   }
+  /** Enables the Clock Security System
+   */
+  HAL_RCC_EnableCSS();
 }
 
 /* USER CODE BEGIN 4 */
@@ -281,71 +290,45 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart) {
 
 void HAL_UARTEx_RxEventCallback(UART_HandleTypeDef *huart, uint16_t Size)
 {
-
-  // const float DS18B20_T_STEP_float = 0.0625;
   const uint8_t startWord8[2] = {0xFD, 0x55};
   indx = Size;
 
   if (huart->Instance == UART4) // check if the interrupt comes from
   {
-    // const uint8_t startPacket = 0x5D;
-    // const uint8_t startBites = 7;
-    // startByte.startBite = startBites;
-
-    // for (size_t i = 0; i < 5; i++)
-    // {
-    //   startByte.tempSensor[i] = (uint8_t)errorDS18B20[i];
-    // }
-
-    // if (memcmp(RxData, &fullPacket[0], Size))
-    // {
-
-    // }
-
-    if (memcmp(RxData, &requestTemperature, 1))
+    if (memcmp(RxData, &requestTemperature, 1) !=0 )
     {
       // for (size_t i = 0; i < 5; i++)
       // {
       //   memcpy(&fullPacket[i * 2 + 1], &temperatureSensor[i].sourceTemperature, 2);
       // }
 
-      // HAL_GPIO_WritePin(GPIOB, GPIO_PIN_5, GPIO_PIN_SET);
-      // HAL_UART_Transmit_IT(&huart4, &fullPacket[0], sizeof(fullPacket));
-      // HAL_Delay(5);
-      // HAL_GPIO_WritePin(GPIOB, GPIO_PIN_5, GPIO_PIN_RESET);
-
-      // HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_11);
       memcpy(&exitTemperature8[0], &startWord8[0], 2);
       memcpy(&exitTemperature8[2], &RxData[2], 10);
       CDC_Transmit_FS(&exitTemperature8[0], sizeof(exitTemperature8));
-      // CDC_Transmit_FS(&RxData[0], 12);
     }
 
     HAL_UARTEx_ReceiveToIdle_IT(&huart4, RxData, sizeof(RxData));
-  }
-  
-  if (huart->Instance == USART6) // check if the interrupt comes from
-  {
 
-    CDC_Transmit_FS(&RxData6[0], sizeof(RxData6));
-    HAL_UARTEx_ReceiveToIdle_IT(&huart6, RxData6, sizeof(RxData6));
   }
+
+  // if (memcmp(RxData, &requestTemperature, 1))
+  // {
+  //   HAL_UARTEx_ReceiveToIdle_IT(&huart4, RxData, sizeof(RxData));
+  //   return;
+  // }
+  // memcpy(&exitTemperature8[0], &startWord8[0], 2);
+  // memcpy(&exitTemperature8[2], &RxData[2], 10);
+  // CDC_Transmit_FS(&exitTemperature8[0], sizeof(exitTemperature8));
+  // HAL_UARTEx_ReceiveToIdle_IT(&huart4, RxData, sizeof(RxData));
+
+
+  //  if (huart->Instance == USART6) // check if the interrupt comes from
+  //  {
+
+  //    CDC_Transmit_FS(&RxData6[0], sizeof(RxData6));
+  //    HAL_UARTEx_ReceiveToIdle_IT(&huart6, RxData6, sizeof(RxData6));
+  //  }
 }
-
-//  uint16_t sign = tRegValue & DS18B20_SIGN_MASK;
-
-//  if (sign != 0)
-//  {
-//    tRegValue = (0xFFFF - tRegValue + 1);
-//  }
-
-//  tRegValue &= DS18B20_12_BITS_DATA_MASK;
-
-//  sensor->temperature = (float)tRegValue * DS18B20_T_STEP;
-//  if (sign != 0)
-//  {
-//    sensor->temperature *= (-1);
-//  }
 
 /* USER CODE END 4 */
 

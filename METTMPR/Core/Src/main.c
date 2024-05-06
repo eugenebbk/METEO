@@ -288,15 +288,16 @@ int main(void)
     if (flagsInterrupts.UART1_int)
     {
 
-      uint8_t holeOp = 0;
-      size_t counterTemp = 25000 * 1; // 30ms
+      volatile uint8_t holeOp = 0;
+      size_t counterTemp = 10000 * 15; // 15ms
       HAL_GPIO_WritePin(GPIOB, GPIO_PIN_5, GPIO_PIN_SET);
-      HAL_UART_Transmit_IT(&huart1, &fullPacket[0], sizeof(fullPacket));
-      while (--counterTemp)
+			      while (--counterTemp)
       {
         //        asm("NOP");
         holeOp << 1; // nop operation
       }
+      HAL_UART_Transmit_IT(&huart1, &fullPacket[0], sizeof(fullPacket));
+			HAL_Delay(10);
       HAL_GPIO_WritePin(GPIOB, GPIO_PIN_5, GPIO_PIN_RESET);
       flagsInterrupts.UART1_int = 0;
       __HAL_UART_CLEAR_IDLEFLAG(&huart1);
