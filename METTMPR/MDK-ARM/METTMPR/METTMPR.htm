@@ -3,7 +3,7 @@
 <title>Static Call Graph - [METTMPR\METTMPR.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image METTMPR\METTMPR.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 6180002: Last Updated: Mon May  6 10:04:29 2024
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 6180002: Last Updated: Thu May  9 22:33:42 2024
 <BR><P>
 <H3>Maximum Stack Usage =        288 bytes + Unknown(Functions without stacksize, Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -644,7 +644,7 @@ Global Symbols
 <LI><a href="#[82]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;WaitForConversionFinished
 <LI><a href="#[81]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ExecuteCommand
 </UL>
-<BR>[Called By]<UL><LI><a href="#[da]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;requestToCalculationTemperature
+<BR>[Called By]<UL><LI><a href="#[db]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;requestToCalculationTemperature
 </UL>
 
 <P><STRONG><a name="[d9]"></a>DS18B20_Init</STRONG> (Thumb, 28 bytes, Stack size 8 bytes, ds18b20.o(.text.DS18B20_Init))
@@ -659,7 +659,7 @@ Global Symbols
 <BR>[Calls]<UL><LI><a href="#[85]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OneWire_Reset
 </UL>
 <BR>[Called By]<UL><LI><a href="#[dc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;receiveTemperature
-<LI><a href="#[da]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;requestToCalculationTemperature
+<LI><a href="#[db]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;requestToCalculationTemperature
 <LI><a href="#[d8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;initDS18B20
 </UL>
 
@@ -689,7 +689,7 @@ Global Symbols
 <BR>[Calls]<UL><LI><a href="#[81]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ExecuteCommand
 </UL>
 <BR>[Called By]<UL><LI><a href="#[dc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;receiveTemperature
-<LI><a href="#[da]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;requestToCalculationTemperature
+<LI><a href="#[db]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;requestToCalculationTemperature
 <LI><a href="#[d8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;initDS18B20
 </UL>
 
@@ -937,7 +937,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[aa]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIM_Base_Init
 </UL>
 
-<P><STRONG><a name="[db]"></a>HAL_TIM_Base_Start_IT</STRONG> (Thumb, 246 bytes, Stack size 12 bytes, stm32f4xx_hal_tim.o(.text.HAL_TIM_Base_Start_IT))
+<P><STRONG><a name="[da]"></a>HAL_TIM_Base_Start_IT</STRONG> (Thumb, 246 bytes, Stack size 12 bytes, stm32f4xx_hal_tim.o(.text.HAL_TIM_Base_Start_IT))
 <BR><BR>[Stack]<UL><LI>Max Depth = 12<LI>Call Chain = HAL_TIM_Base_Start_IT
 </UL>
 <BR>[Called By]<UL><LI><a href="#[77]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
@@ -1204,13 +1204,13 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[77]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[77]"></a>main</STRONG> (Thumb, 514 bytes, Stack size 48 bytes, main.o(.text.main))
+<P><STRONG><a name="[77]"></a>main</STRONG> (Thumb, 512 bytes, Stack size 48 bytes, main.o(.text.main))
 <BR><BR>[Stack]<UL><LI>Max Depth = 288 + Unknown Stack Size
 <LI>Call Chain = main &rArr; initDS18B20 &rArr; DS18B20_ReadRom &rArr; ExecuteCommand &rArr; OneWire_ProcessByte &rArr; OneWire_ProcessBit &rArr; HAL_UART_Receive &rArr; UART_WaitOnFlagUntilTimeout
 </UL>
 <BR>[Calls]<UL><LI><a href="#[dd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_UART_Transmit_IT
 <LI><a href="#[c7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GPIO_WritePin
-<LI><a href="#[db]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIM_Base_Start_IT
+<LI><a href="#[da]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIM_Base_Start_IT
 <LI><a href="#[b6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_UARTEx_ReceiveToIdle_IT
 <LI><a href="#[d3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SystemClock_Config
 <LI><a href="#[94]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_Init
@@ -1223,7 +1223,7 @@ Global Symbols
 <LI><a href="#[cd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MX_USART1_UART_Init
 <LI><a href="#[c6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MX_GPIO_Init
 <LI><a href="#[dc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;receiveTemperature
-<LI><a href="#[da]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;requestToCalculationTemperature
+<LI><a href="#[db]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;requestToCalculationTemperature
 <LI><a href="#[d8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;initDS18B20
 <LI><a href="#[83]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_Delay
 </UL>
@@ -1240,7 +1240,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[77]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[da]"></a>requestToCalculationTemperature</STRONG> (Thumb, 130 bytes, Stack size 24 bytes, ds18b20_init.o(.text.requestToCalculationTemperature))
+<P><STRONG><a name="[db]"></a>requestToCalculationTemperature</STRONG> (Thumb, 130 bytes, Stack size 24 bytes, ds18b20_init.o(.text.requestToCalculationTemperature))
 <BR><BR>[Stack]<UL><LI>Max Depth = 224<LI>Call Chain = requestToCalculationTemperature &rArr; DS18B20_ConvertT &rArr; ExecuteCommand &rArr; OneWire_ProcessByte &rArr; OneWire_ProcessBit &rArr; HAL_UART_Receive &rArr; UART_WaitOnFlagUntilTimeout
 </UL>
 <BR>[Calls]<UL><LI><a href="#[8b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DS18B20_SkipRom

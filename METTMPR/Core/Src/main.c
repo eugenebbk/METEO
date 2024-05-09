@@ -167,17 +167,21 @@ int main(void)
   __HAL_UART_CLEAR_IDLEFLAG(&huart1);
   HAL_UARTEx_ReceiveToIdle_IT(&huart1, RxData, sizeof(RxData));
 
-   initDS18B20(&temperatureSensor[0], &errorDS18B20[0], numbSensorsDS18B20);
-  // // send request to onewire sensor for measuring temperature
-   requestToCalculationTemperature(&temperatureSensor[0], &errorDS18B20[0], numbSensorsDS18B20);
 
   __HAL_TIM_CLEAR_FLAG(&htim10, TIM_SR_UIF);
   HAL_TIM_Base_Start_IT(&htim10);
 
         int8_t settings[3];
-      settings[0] = (uint8_t)125;
-      settings[1] = (uint8_t)-55;
+//      settings[0] = (uint8_t)125;
+//      settings[1] = (uint8_t)-55;
+      settings[0] = (uint8_t)0;
+      settings[1] = (uint8_t)0;
       settings[2] = DS18B20_12_BITS_CONFIG;
+			
+			
+   initDS18B20(&temperatureSensor[0], &errorDS18B20[0], numbSensorsDS18B20);
+  // // send request to onewire sensor for measuring temperature
+   requestToCalculationTemperature(&temperatureSensor[0], &errorDS18B20[0], numbSensorsDS18B20);
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -193,6 +197,7 @@ int main(void)
     if (flagsInterrupts.TIM10_int)
     {
       flagsInterrupts.TIM10_int = 0;
+//			initDS18B20(&temperatureSensor[0], &errorDS18B20[0], numbSensorsDS18B20);
        receiveTemperature(&temperatureSensor[0], &errorDS18B20[0], numbSensorsDS18B20);
        // writing temperature to exit packet
        for (size_t i = 0; i < numbSensorsDS18B20; i++)
@@ -203,84 +208,6 @@ int main(void)
        requestToCalculationTemperature(&temperatureSensor[0], &errorDS18B20[0], numbSensorsDS18B20);
 
       //--debug
-
-
-      // HAL_Delay(750);
-      // HAL_GPIO_WritePin(GPIOB,GPIO_PIN_5,GPIO_PIN_SET );
-      // HAL_UART_Transmit(&huart1,Start,2,HAL_MAX_DELAY);
-      // HAL_GPIO_WritePin(GPIOB,GPIO_PIN_5,GPIO_PIN_RESET );
-
-//      //  nomer=2;
-//      DS18B20_Init(&temperatureSensor[0], &huart5);
-
-//      DS18B20_InitializationCommand(&temperatureSensor[0]);
-//      DS18B20_ReadRom(&temperatureSensor[0]);
-//      DS18B20_ReadScratchpad(&temperatureSensor[0]);
-
-//      DS18B20_InitializationCommand(&temperatureSensor[0]);
-//      DS18B20_SkipRom(&temperatureSensor[0]);
-//      DS18B20_WriteScratchpad(&temperatureSensor[0], settings);
-//      DS18B20_InitializationCommand(&temperatureSensor[0]);
-//      DS18B20_SkipRom(&temperatureSensor[0]);
-//      DS18B20_ConvertT(&temperatureSensor[0], DS18B20_DELAY);
-
-//      // nomer=4;
-
-//      DS18B20_Init(&temperatureSensor[1], &huart3);
-
-//      DS18B20_InitializationCommand(&temperatureSensor[1]);
-//      DS18B20_ReadRom(&temperatureSensor[1]);
-//      DS18B20_ReadScratchpad(&temperatureSensor[1]);
-
-//      DS18B20_InitializationCommand(&temperatureSensor[1]);
-//      DS18B20_SkipRom(&temperatureSensor[1]);
-//      DS18B20_WriteScratchpad(&temperatureSensor[1], settings);
-//      DS18B20_InitializationCommand(&temperatureSensor[1]);
-//      DS18B20_SkipRom(&temperatureSensor[1]);
-//      DS18B20_ConvertT(&temperatureSensor[1], DS18B20_DELAY);
-
-//      // nomer=6;
-
-//      DS18B20_Init(&temperatureSensor[2], &huart2);
-
-//      DS18B20_InitializationCommand(&temperatureSensor[2]);
-//      DS18B20_ReadRom(&temperatureSensor[2]);
-//      DS18B20_ReadScratchpad(&temperatureSensor[2]);
-
-//      DS18B20_InitializationCommand(&temperatureSensor[2]);
-//      DS18B20_SkipRom(&temperatureSensor[2]);
-//      DS18B20_WriteScratchpad(&temperatureSensor[2], settings);
-//      DS18B20_InitializationCommand(&temperatureSensor[2]);
-//      DS18B20_SkipRom(&temperatureSensor[2]);
-//      DS18B20_ConvertT(&temperatureSensor[2], DS18B20_DELAY);
-
-//      // nomer=8;
-//      DS18B20_Init(&temperatureSensor[3], &huart4);
-
-//      DS18B20_InitializationCommand(&temperatureSensor[3]);
-//      DS18B20_ReadRom(&temperatureSensor[3]);
-//      DS18B20_ReadScratchpad(&temperatureSensor[3]);
-
-//      DS18B20_InitializationCommand(&temperatureSensor[3]);
-//      DS18B20_SkipRom(&temperatureSensor[3]);
-//      DS18B20_WriteScratchpad(&temperatureSensor[3], settings);
-//      DS18B20_InitializationCommand(&temperatureSensor[3]);
-//      DS18B20_SkipRom(&temperatureSensor[3]);
-//      DS18B20_ConvertT(&temperatureSensor[3], DS18B20_DELAY);
-
-//      // nomer=10;
-//      DS18B20_Init(&temperatureSensor[4], &huart7);
-
-//      DS18B20_InitializationCommand(&temperatureSensor[4]);
-//      DS18B20_ReadRom(&temperatureSensor[4]);
-//      DS18B20_ReadScratchpad(&temperatureSensor[4]);
-
-//      DS18B20_InitializationCommand(&temperatureSensor[4]);
-//      DS18B20_SkipRom(&temperatureSensor[4]);
-//      DS18B20_WriteScratchpad(&temperatureSensor[4], settings);
-//      DS18B20_InitializationCommand(&temperatureSensor[4]);
-//      DS18B20_SkipRom(&temperatureSensor[4]);
-//      DS18B20_ConvertT(&temperatureSensor[4], DS18B20_DELAY);
 
       HAL_TIM_Base_Start_IT(&htim10);
     }
@@ -379,9 +306,9 @@ static void MX_TIM10_Init(void)
 
   /* USER CODE END TIM10_Init 1 */
   htim10.Instance = TIM10;
-  htim10.Init.Prescaler = 24999;
+  htim10.Init.Prescaler = 49999;
   htim10.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim10.Init.Period = 749;
+  htim10.Init.Period = 1499;
   htim10.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
   htim10.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
   if (HAL_TIM_Base_Init(&htim10) != HAL_OK)
