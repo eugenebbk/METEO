@@ -3,7 +3,7 @@
 <title>Static Call Graph - [METTMPR\METTMPR.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image METTMPR\METTMPR.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 6180002: Last Updated: Thu May  9 22:33:42 2024
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 6180002: Last Updated: Thu May  9 23:20:54 2024
 <BR><P>
 <H3>Maximum Stack Usage =        288 bytes + Unknown(Functions without stacksize, Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -1230,7 +1230,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[76]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__rt_entry_main
 </UL>
 
-<P><STRONG><a name="[dc]"></a>receiveTemperature</STRONG> (Thumb, 128 bytes, Stack size 24 bytes, ds18b20_init.o(.text.receiveTemperature))
+<P><STRONG><a name="[dc]"></a>receiveTemperature</STRONG> (Thumb, 178 bytes, Stack size 24 bytes, ds18b20_init.o(.text.receiveTemperature))
 <BR><BR>[Stack]<UL><LI>Max Depth = 232<LI>Call Chain = receiveTemperature &rArr; DS18B20_ReadScratchpad &rArr; ExecuteCommand &rArr; OneWire_ProcessByte &rArr; OneWire_ProcessBit &rArr; HAL_UART_Receive &rArr; UART_WaitOnFlagUntilTimeout
 </UL>
 <BR>[Calls]<UL><LI><a href="#[8b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DS18B20_SkipRom

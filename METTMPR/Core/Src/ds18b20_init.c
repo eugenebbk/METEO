@@ -89,9 +89,11 @@ void receiveTemperature(DS18B20 *temperatureSensor, DS18B20_Status *errorDS18B20
         *(errorDS18B20 + i) += DS18B20_SkipRom(temperatureSensor + i);
         *(errorDS18B20 + i) += DS18B20_ReadScratchpad(temperatureSensor + i);
 
-        // if((temperatureSensor + i)->isConnected==0){
-        //     temperatureSensor->sourceTemperature = 0;
-        //     temperatureSensor->temperature = 0;
-        // }
+			
+			
+         if((temperatureSensor + i)->isConnected==0){
+             (temperatureSensor + i)->sourceTemperature = 0;
+             (temperatureSensor + i)->temperature = 0;
+         }
     }
 }

@@ -50,8 +50,7 @@ uint8_t dataReceived = 0;    // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï
 uint8_t dataTransmitted = 1; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 uint8_t *Buf;
 
-uint8_t flagBoard = 0;            // ??????? ?????? ????????
-
+uint8_t flagBoard = 0; // ??????? ?????? ????????
 
 // uart
 
@@ -101,14 +100,15 @@ int main(void)
   MX_GPIO_Init();
   MX_USB_DEVICE_Init();
   // MX_SPI1_Init();
-  // MX_USART3_UART_Init();
+//  MX_USART3_UART_Init();
   // MX_UART4_Init();
-  MX_USART6_UART_Init();
+    MX_USART6_UART_Init();
   /* USER CODE BEGIN 2 */
   HAL_GPIO_WritePin(GPIOC, GPIO_PIN_4, GPIO_PIN_RESET);
 
   // HAL_UARTEx_ReceiveToIdle_IT(&huart4, RxData, sizeof(RxData));
-  HAL_UARTEx_ReceiveToIdle_IT(&huart6, RxData6, sizeof(RxData6));
+  // HAL_UARTEx_ReceiveToIdle_IT(&huart6, RxData6, sizeof(RxData6));
+  HAL_UARTEx_ReceiveToIdle_IT(&huart3, RxData6, sizeof(RxData6));
 
   /* USER CODE END 2 */
 
@@ -124,13 +124,13 @@ int main(void)
       //          flagBoard &= 0xFE;
       flagBoard = 0;
       HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_11);
-    //   PIN_EN_TRANSMIT_UART4(1);
-    //   // HAL_UART_Transmit(&huart4, &requestTemperature, 1, 100);
-    //   HAL_UART_Transmit_IT(&huart4, &requestTemperature, 1);
-    //   HAL_Delay(10);
-    //   PIN_EN_TRANSMIT_UART4(0);
-    //   // CDC_Transmit_FS(str, 1);
-     }
+      //   PIN_EN_TRANSMIT_UART4(1);
+      //   // HAL_UART_Transmit(&huart4, &requestTemperature, 1, 100);
+      //   HAL_UART_Transmit_IT(&huart4, &requestTemperature, 1);
+      //   HAL_Delay(10);
+      //   PIN_EN_TRANSMIT_UART4(0);
+      //   // CDC_Transmit_FS(str, 1);
+    }
 
     /* USER CODE END WHILE */
 
@@ -184,8 +184,6 @@ void SystemClock_Config(void)
 
 /* USER CODE BEGIN 4 */
 
-
-
 // void HAL_UART_RxIdleCallback(UART_HandleTypeDef *huart)
 // {
 //   // __HAL_UART_DISABLE_IT(huart, UART_IT_IDLE);
@@ -211,11 +209,10 @@ void HAL_UARTEx_RxEventCallback(UART_HandleTypeDef *huart, uint16_t Size)
 
     HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_11);
     CDC_Transmit_FS(&RxData6[0], sizeof(RxData6));
-//    __HAL_UART_CLEAR_IDLEFLAG(&huart6);
+    //    __HAL_UART_CLEAR_IDLEFLAG(&huart6);
     HAL_UARTEx_ReceiveToIdle_IT(&huart6, RxData6, sizeof(RxData6));
   }
 }
-
 
 /* USER CODE END 4 */
 

@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="utf-8"?>
+<locale xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <main_form_caption>Настройка навигационных модулей МТК от Навиа</main_form_caption>
+  <main_form_menu_file>Файл</main_form_menu_file>
+  <main_form_menu_exit>Выход</main_form_menu_exit>
+  <main_form_menu_service>Сервис</main_form_menu_service>
+  <main_form_menu_settings>Настройки...</main_form_menu_settings>
+  <main_form_menu_firmware_manager>Настройка ПО...</main_form_menu_firmware_manager>
+  <main_form_menu_firmware_updater>Обновление ПО...</main_form_menu_firmware_updater>
+  <main_form_menu_ttff_measurement>Изменерие TTFF...</main_form_menu_ttff_measurement>
+  <main_form_menu_epo_manager>Загрузка EPO...</main_form_menu_epo_manager>
+  <main_form_menu_information>Справка</main_form_menu_information>
+  <main_form_menu_help>Помошь...</main_form_menu_help>
+  <glonass>ГЛОНАСС</glonass>
+  <gps>GPS</gps>
+  <beidou>Бейдоу</beidou>
+  <galileo>Галилео</galileo>
+  <main_form_hdop>HDOP:</main_form_hdop>
+  <main_form_pdop>PDOP:</main_form_pdop>
+  <main_form_vdop>VDOP:</main_form_vdop>
+  <main_form_latitude>Широта:</main_form_latitude>
+  <main_form_longitude>Долгота</main_form_longitude>
+  <main_form_altitude>Высота</main_form_altitude>
+  <main_form_course>Курс</main_form_course>
+  <main_form_speed>Скорость</main_form_speed>
+  <main_form_time>Время</main_form_time>
+  <main_form_status>Статус</main_form_status>
+  <start_button>Пуск</start_button>
+  <stop_button>Стоп</stop_button>
+  <set_button>Установить</set_button>
+  <get_button>Запросить</get_button>
+  <save_button>Сохранить</save_button>
+  <cancel_button>Отмена</cancel_button>
+  <milliseconds>мс.</milliseconds>
+  <enable>Включить</enable>
+  <disable>Выключить</disable>
+  <meters>м.</meters>
+  <meters_per_second>м./с.</meters_per_second>
+  <name>Имя</name>
+  <baudrate>Скорость</baudrate>
+  <select_button>Выбрать</select_button>
+  <nmea_port_is_not_specified>Порт NMEA не задан!</nmea_port_is_not_specified>
+  <error>Ошибка!</error>
+  <main_form_general_tab>Общее</main_form_general_tab>
+  <main_form_restart_tab>Перезапуск</main_form_restart_tab>
+  <main_form_restart_tab_start_group>Старт</main_form_restart_tab_start_group>
+  <main_form_restart_tab_start_group_hot_start_button>Горячий</main_form_restart_tab_start_group_hot_start_button>
+  <main_form_restart_tab_start_group_warm_start_button>Теплый</main_form_restart_tab_start_group_warm_start_button>
+  <main_form_restart_tab_start_group_cold_start_button>Холодный</main_form_restart_tab_start_group_cold_start_button>
+  <main_form_restart_tab_start_group_full_cold_start_button>Сброс настроек</main_form_restart_tab_start_group_full_cold_start_button>
+  <main_form_restart_tab_ttff>TTFF:</main_form_restart_tab_ttff>
+  <main_form_nmea_tab>NMEA</main_form_nmea_tab>
+  <main_form_nmea_tab_messages_group>Период вывода сообщений</main_form_nmea_tab_messages_group>
+  <main_form_nmea_tab_messages_group_gll>GLL:</main_form_nmea_tab_messages_group_gll>
+  <main_form_nmea_tab_messages_group_rmc>RMC:</main_form_nmea_tab_messages_group_rmc>
+  <main_form_nmea_tab_messages_group_vtg>VTG:</main_form_nmea_tab_messages_group_vtg>
+  <main_form_nmea_tab_messages_group_gga>GGA:</main_form_nmea_tab_messages_group_gga>
+  <main_form_nmea_tab_messages_group_gsa>GSA:</main_form_nmea_tab_messages_group_gsa>
+  <main_form_nmea_tab_messages_group_gsv>GSV:</main_form_nmea_tab_messages_group_gsv>
+  <main_form_nmea_tab_messages_group_grs>GRS:</main_form_nmea_tab_messages_group_grs>
+  <main_form_nmea_tab_messages_group_gst>GST:</main_form_nmea_tab_messages_group_gst>
+  <main_form_nmea_tab_messages_group_zda>ZDA:</main_form_nmea_tab_messages_group_zda>
+  <main_form_nmea_tab_messages_group_mchn>MCHN:</main_form_nmea_tab_messages_group_mchn>
+  <main_form_nmea_tab_baudrate_group>Скорость:</main_form_nmea_tab_baudrate_group>
+  <main_form_nmea_tab_baudrate_group_channel_load>Загрузка канала:</main_form_nmea_tab_baudrate_group_channel_load>
+  <main_form_power_tab>Потребление</main_form_power_tab>
+  <main_form_power_tab_periodic_mode_group>Режим периодической активности</main_form_power_tab_periodic_mode_group>
+  <main_form_power_tab_periodic_mode_group_mode>Режим:</main_form_power_tab_periodic_mode_group_mode>
+  <main_form_power_tab_periodic_mode_group_run_time>Работа:</main_form_power_tab_periodic_mode_group_run_time>
+  <main_form_power_tab_periodic_mode_group_sleep_time>Сон:</main_form_power_tab_periodic_mode_group_sleep_time>
+  <main_form_power_tab_periodic_mode_group_second_run_time>Работа (доп.):</main_form_power_tab_periodic_mode_group_second_run_time>
+  <main_form_power_tab_periodic_mode_group_second_sleep_time>Сон (доп.):</main_form_power_tab_periodic_mode_group_second_sleep_time>
+  <main_form_power_tab_dee_group>DEE (увеличение времени работы для приема эфемерид):</main_form_power_tab_dee_group>
+  <main_form_power_tab_dee_group_sv>SV:</main_form_power_tab_dee_group_sv>
+  <main_form_power_tab_dee_group_snr>SNR:</main_form_power_tab_dee_group_snr>
+  <main_form_power_tab_dee_group_extension_threshold>Доп. время:</main_form_power_tab_dee_group_extension_threshold>
+  <main_form_power_tab_dee_group_extension_gap>Период:</main_form_power_tab_dee_group_extension_gap>
+  <main_form_power_tab_standby_group>Режим энергосбережения:</main_form_power_tab_standby_group>
+  <main_form_power_tab_standby_group_stop_checkbox>Останов</main_form_power_tab_standby_group_stop_checkbox>
+  <main_form_power_tab_standby_group_sleep_checkbox>Сон</main_form_power_tab_standby_group_sleep_checkbox>
+  <main_form_datum_tab>Датум</main_form_datum_tab>
+  <main_form_datum_tab_datum_group>Датум:</main_form_datum_tab_datum_group>
+  <main_form_datum_tab_datum_advance_group>Корректировака датума (пользовательские настройки):</main_form_datum_tab_datum_advance_group>
+  <main_form_datum_tab_datum_advance_group_semi_major_axis>Главная полуось:</main_form_datum_tab_datum_advance_group_semi_major_axis>
+  <main_form_datum_tab_datum_advance_group_eccentric>Эксцентрик:</main_form_datum_tab_datum_advance_group_eccentric>
+  <main_form_datum_tab_datum_advance_group_x_axis_offset>Смещение от WGS84 от оси X:</main_form_datum_tab_datum_advance_group_x_axis_offset>
+  <main_form_datum_tab_datum_advance_group_y_axis_offset>Смещение от WGS84 от оси Y:</main_form_datum_tab_datum_advance_group_y_axis_offset>
+  <main_form_datum_tab_datum_advance_group_z_axis_offset>Смещение от WGS84 от оси Z:</main_form_datum_tab_datum_advance_group_z_axis_offset>
+  <main_form_pps_tab>PPS</main_form_pps_tab>
+  <main_form_pps_tab_sync_nmea_with_pps_group>Синхронизация NMEA с сигналом PPS:</main_form_pps_tab_sync_nmea_with_pps_group>
+  <main_form_pps_tab_timing_product_group>Повышенная точность PPS:</main_form_pps_tab_timing_product_group>
+  <main_form_pps_tab_pps_config_group>Настройка режима и длительности PPS:</main_form_pps_tab_pps_config_group>
+  <main_form_pps_tab_pps_config_mode>Режим:</main_form_pps_tab_pps_config_mode>
+  <main_form_pps_tab_pps_config_pulse_width>Длительность импульса:</main_form_pps_tab_pps_config_pulse_width>
+  <main_form_pps_tab_pps_set_pps_group>Настройка типа PPS:</main_form_pps_tab_pps_set_pps_group>
+  <main_form_pps_tab_pps_set_pps_type>Тип:</main_form_pps_tab_pps_set_pps_type>
+  <main_form_pps_tab_pps_set_pps_tick>Tick:</main_form_pps_tab_pps_set_pps_tick>
+  <main_form_pps_tab_pps_set_pps_phase>Фаза:</main_form_pps_tab_pps_set_pps_phase>
+  <main_form_accuracy_tab>Точность</main_form_accuracy_tab>
+  <main_form_accuracy_tab_dgps_mode_group>Режим DGPS:</main_form_accuracy_tab_dgps_mode_group>
+  <main_form_accuracy_tab_sbas_mode_group>Режим DGPS:</main_form_accuracy_tab_sbas_mode_group>
+  <main_form_accuracy_tab_qzss_mode_group>QZSS:</main_form_accuracy_tab_qzss_mode_group>
+  <main_form_accuracy_tab_qzss_nmea_support>Поддержка NMEA в QZSS</main_form_accuracy_tab_qzss_nmea_support>
+  <main_form_accuracy_tab_qzss_disable_qzss>Выключить QZSS</main_form_accuracy_tab_qzss_disable_qzss>
+  <main_form_accuracy_tab_fr_mode_group>Режим навигации (FR):</main_form_accuracy_tab_fr_mode_group>
+  <main_form_accuracy_tab_aic_group>Подавление помех (AIC):</main_form_accuracy_tab_aic_group>
+  <main_form_accuracy_tab_tunnel_scenario_group>Режим работы на открытой местности:</main_form_accuracy_tab_tunnel_scenario_group>
+  <main_form_accuracy_tab_tunnel_scenario_fast_ttff>Быстрое решение (fast TTFF)</main_form_accuracy_tab_tunnel_scenario_fast_ttff>
+  <main_form_accuracy_tab_tunnel_scenario_high_accuracy>Повышенная точность</main_form_accuracy_tab_tunnel_scenario_high_accuracy>
+  <main_form_other1_tab>Прочее 1</main_form_other1_tab>
+  <main_form_other1_tab_position_fix_interval_group>Период расчета решения:</main_form_other1_tab_position_fix_interval_group>
+  <main_form_other1_tab_elevation_mask_group>Минимальный угол возвышения спутников:</main_form_other1_tab_elevation_mask_group>
+  <main_form_other1_tab_static_navigation_speed_threshold_group>Порог скорости:</main_form_other1_tab_static_navigation_speed_threshold_group>
+  <main_form_other1_tab_hdop_threshold_group>Порог HDOP:</main_form_other1_tab_hdop_threshold_group>
+  <main_form_other1_tab_easy_group>Расчет эфемерид (EASY):</main_form_other1_tab_easy_group>
+  <main_form_other1_tab_easy_extension_day>Количество дней:</main_form_other1_tab_easy_extension_day>
+  <main_form_other1_tab_debug_output_group>Вывод отладочной информации:</main_form_other1_tab_debug_output_group>
+  <main_form_other1_tab_release_group>Версия ПО:</main_form_other1_tab_release_group>
+  <main_form_other2_tab>Прочее 2</main_form_other2_tab>
+  <main_form_other2_tab_gnss_search_mode_group>Использование спутниковых группировок:</main_form_other2_tab_gnss_search_mode_group>
+  <main_form_other2_tab_gnss_search_mode_select_glonass_or_beidou_group>Выбрать ГЛОНАСС или Бейдоу:</main_form_other2_tab_gnss_search_mode_select_glonass_or_beidou_group>
+  <main_form_other2_tab_rtc_time_group>Время (RTC):</main_form_other2_tab_rtc_time_group>
+  <main_form_other2_tab_rtc_time_group_current_button>Текущее</main_form_other2_tab_rtc_time_group_current_button>
+  <main_form_other2_tab_clear_flash_button>Очистить память</main_form_other2_tab_clear_flash_button>
+  <main_form_other2_tab_clear_epo_button>Очистить EPO</main_form_other2_tab_clear_epo_button>
+  <main_form_other2_tab_data_port_group>Порт данных:</main_form_other2_tab_data_port_group>
+  <main_form_other2_tab_data_port_in_type>Тип входных данных:</main_form_other2_tab_data_port_in_type>
+  <main_form_other2_tab_data_port_out_type>Тип выходных данных:</main_form_other2_tab_data_port_out_type>
+  <main_form_path_tab>Путь</main_form_path_tab>
+  <main_form_path_tab_distance>Расстояние:</main_form_path_tab_distance>
+  <main_form_path_tab_points_number>Количество точек:</main_form_path_tab_points_number>
+  <main_form_path_tab_scale>Масштаб:</main_form_path_tab_scale>
+  <nmea_port_group>Порт NMEA:</nmea_port_group>
+  <settings_dialog_caption>Настройки</settings_dialog_caption>
+  <firmware_updater_dialog_caption>Обновление ПО модуля</firmware_updater_dialog_caption>
+  <firmware_updater_dialog_firmware_file_name_group>Имя файла с ПО модуля:</firmware_updater_dialog_firmware_file_name_group>
+  <firmware_manager_dialog_caption>Настройка ПО модуля</firmware_manager_dialog_caption>
+  <firmware_manager_dialog_nmea_tab>NMEA</firmware_manager_dialog_nmea_tab>
+  <firmware_manager_dialog_nmea_tab_fix_update_rate>Период выдачи решения:</firmware_manager_dialog_nmea_tab_fix_update_rate>
+  <firmware_manager_dialog_nmea_tab_nmea_messages_group>Сообщения NMEA:</firmware_manager_dialog_nmea_tab_nmea_messages_group>
+  <firmware_manager_dialog_nmea_tab_nmea_messages_group_message>Сообщение</firmware_manager_dialog_nmea_tab_nmea_messages_group_message>
+  <firmware_manager_dialog_nmea_tab_nmea_messages_group_period>Период</firmware_manager_dialog_nmea_tab_nmea_messages_group_period>
+  <firmware_manager_dialog_nmea_tab_nmea_messages_group_order>Очередность</firmware_manager_dialog_nmea_tab_nmea_messages_group_order>
+  <firmware_manager_dialog_nmea_tab_nmea_messages_group_gll>GLL</firmware_manager_dialog_nmea_tab_nmea_messages_group_gll>
+  <firmware_manager_dialog_nmea_tab_nmea_messages_group_rmc>RMC</firmware_manager_dialog_nmea_tab_nmea_messages_group_rmc>
+  <firmware_manager_dialog_nmea_tab_nmea_messages_group_vtg>VTG</firmware_manager_dialog_nmea_tab_nmea_messages_group_vtg>
+  <firmware_manager_dialog_nmea_tab_nmea_messages_group_gga>GGA</firmware_manager_dialog_nmea_tab_nmea_messages_group_gga>
+  <firmware_manager_dialog_nmea_tab_nmea_messages_group_gsa>GSA</firmware_manager_dialog_nmea_tab_nmea_messages_group_gsa>
+  <firmware_manager_dialog_nmea_tab_nmea_messages_group_gsv>GSV</firmware_manager_dialog_nmea_tab_nmea_messages_group_gsv>
+  <firmware_manager_dialog_nmea_tab_nmea_messages_group_zda>ZDA</firmware_manager_dialog_nmea_tab_nmea_messages_group_zda>
+  <firmware_manager_dialog_fix_led_tab>Индикатор решения (Fix-LED)</firmware_manager_dialog_fix_led_tab>
+  <firmware_manager_dialog_fix_led_tab_fix_led_blinking_group>Режимы мигания:</firmware_manager_dialog_fix_led_tab_fix_led_blinking_group>
+  <firmware_manager_dialog_fix_led_tab_fix_led_blinking_group_mode>Режим</firmware_manager_dialog_fix_led_tab_fix_led_blinking_group_mode>
+  <firmware_manager_dialog_fix_led_tab_fix_led_blinking_group_mode_fix>Есть решение</firmware_manager_dialog_fix_led_tab_fix_led_blinking_group_mode_fix>
+  <firmware_manager_dialog_fix_led_tab_fix_led_blinking_group_mode_no_fix>Нет решения</firmware_manager_dialog_fix_led_tab_fix_led_blinking_group_mode_no_fix>
+  <firmware_manager_dialog_fix_led_tab_fix_led_blinking_group_period>Период (с.)</firmware_manager_dialog_fix_led_tab_fix_led_blinking_group_period>
+  <firmware_manager_dialog_fix_led_tab_fix_led_blinking_group_duty_cycle>Цикл</firmware_manager_dialog_fix_led_tab_fix_led_blinking_group_duty_cycle>
+  <firmware_manager_dialog_other_tab>Прочее</firmware_manager_dialog_other_tab>
+  <firmware_manager_dialog_other_tab_gain_group>Усиление:</firmware_manager_dialog_other_tab_gain_group>
+  <firmware_manager_dialog_other_tab_gain_group_low_gain>Низкое</firmware_manager_dialog_other_tab_gain_group_low_gain>
+  <firmware_manager_dialog_other_tab_gain_group_high_gain>Высокое</firmware_manager_dialog_other_tab_gain_group_high_gain>
+  <epo_manager_dialog_caption>Загрузка данных EPO</epo_manager_dialog_caption>
+  <epo_manager_dialog_epo_source_group>Источник данных EPO:</epo_manager_dialog_epo_source_group>
+  <epo_manager_dialog_epo_source_group_server>Сервер</epo_manager_dialog_epo_source_group_server>
+  <epo_manager_dialog_epo_source_group_file>Файл</epo_manager_dialog_epo_source_group_file>
+  <epo_manager_dialog_epo_server_group>Настройки EPO сервера:</epo_manager_dialog_epo_server_group>
+  <epo_manager_dialog_epo_server_ip_address>IP адрес:</epo_manager_dialog_epo_server_ip_address>
+  <epo_manager_dialog_epo_server_tcp_port>TCP порт:</epo_manager_dialog_epo_server_tcp_port>
+  <epo_manager_dialog_epo_server_user_name>Имя пользователя:</epo_manager_dialog_epo_server_user_name>
+  <epo_manager_dialog_epo_server_user_password>Пароль:</epo_manager_dialog_epo_server_user_password>
+  <epo_manager_dialog_epo_file_group>Имя файла с данными EPO:</epo_manager_dialog_epo_file_group>
+  <firmware_updater_no_serial_port_file_name>Не указано имя последовательного порта!</firmware_updater_no_serial_port_file_name>
+  <firmware_updater_no_serial_port_baudrate>Не указана скорость последовательного порта!</firmware_updater_no_serial_port_baudrate>
+  <firmware_updater_no_download_agent_file_name>Не указан первичный загрузчик!</firmware_updater_no_download_agent_file_name>
+  <firmware_updater_no_firmware_file_name>Не указано имя файла с ПО модуля!</firmware_updater_no_firmware_file_name>
+  <firmware_updater_no_response>Нет ответа!</firmware_updater_no_response>
+  <firmware_updater_invalid_response>Неверный ответ!</firmware_updater_invalid_response>
+  <firmware_updater_wait_response>ожидали: </firmware_updater_wait_response>
+  <firmware_updater_got_response>получили: </firmware_updater_got_response>
+  <firmware_updater_unchanged_block_invalid_number>Неверное количество забытых блоков!</firmware_updater_unchanged_block_invalid_number>
+  <firmware_updater_ask_primary_loader_checksum_no_response>Ошибка контрольной суммы первичного загрузчика!</firmware_updater_ask_primary_loader_checksum_no_response>
+  <firmware_updater_checksum_validation_error>Ошибка контрольной суммы!</firmware_updater_checksum_validation_error>
+  <epo_worker_no_epo_file_name>Не указан файл с данными EPO!</epo_worker_no_epo_file_name>
+  <epo_worker_no_nmea_port_name>Не указан порт NMEA!</epo_worker_no_nmea_port_name>
+  <epo_worker_no_nmea_port_baudrate>Не указана скорость порта NMEA!</epo_worker_no_nmea_port_baudrate>
+  <epo_worker_no_epo_ip_address>Не указан IP адрес сервера EPO!</epo_worker_no_epo_ip_address>
+  <epo_worker_no_response>Нет ответа!</epo_worker_no_response>
+  <epo_worker_response_error>Неверный ответ на команду!</epo_worker_response_error>
+  <epo_worker_no_server_connection_method>Подключение к серверу не реализовано!</epo_worker_no_server_connection_method>
+  <epo_worker_invalid_response>Неверный ответ на команду!</epo_worker_invalid_response>
+  <epo_worker_set_nmea_protocol_error>Ошибка переключения на протокол NMEA!</epo_worker_set_nmea_protocol_error>
+  <epo_worker_invalid_epo_duration_value>Неверный размер данных EPO!</epo_worker_invalid_epo_duration_value>
+  <ttff_measurement_dialog_caption>Измерение TTFF</ttff_measurement_dialog_caption>
+  <ttff_measurement_parameters_group>Параметры:</ttff_measurement_parameters_group>
+  <ttff_measurement_repeats_number>Количество повторов:</ttff_measurement_repeats_number>
+  <ttff_measurement_start_type_group>Тип команды перезапуска:</ttff_measurement_start_type_group>
+  <ttff_measurement_start_type_cold>Холодный</ttff_measurement_start_type_cold>
+  <ttff_measurement_start_type_warm>Теплый</ttff_measurement_start_type_warm>
+  <ttff_measurement_start_type_hot>Горячий</ttff_measurement_start_type_hot>
+  <ttff_measurement_wait_fix_max_time>Время ожидания решения:</ttff_measurement_wait_fix_max_time>
+  <ttff_measurement_result>Результат:</ttff_measurement_result>
+  <ttff_measurement_parameter>Параметр</ttff_measurement_parameter>
+  <ttff_measurement_value>Значение</ttff_measurement_value>
+  <ttff_measurement_measurement>Измерение</ttff_measurement_measurement>
+  <ttff_measurement_min_time>Минимальное время</ttff_measurement_min_time>
+  <ttff_measurement_max_time>Максимальное время</ttff_measurement_max_time>
+  <ttff_measurement_avg_time>Среднее время</ttff_measurement_avg_time>
+  <ttff_measurement_no_data>Нет данных</ttff_measurement_no_data>
+  <ttff_measurement_wait_fix_timeout>Превышено время ожидания решения!</ttff_measurement_wait_fix_timeout>
+</locale>

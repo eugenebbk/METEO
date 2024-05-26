@@ -27,6 +27,7 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "usbd_cdc_if.h"
+#include "SST26.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -63,12 +64,18 @@ uint8_t RxData6[60] = {0};
 int indx = 0;
 uint8_t fullPacket[12] = {0xFD, 0x55, 0};
 
+//----------Log
+log1_t log1 = {0};
+uint32_t currentID_log = 1;
+
 //---------Debug
 
 uint32_t defaultTime = 0x937;
 uint32_t defaultDate = 0x0134D879;
 uint16_t countLogID = 0;
 
+uint32_t testValue = 0xAAAAAAAA; 
+uint32_t freeAdressExtFlash = 0;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -79,6 +86,26 @@ void SystemClock_Config(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
+
+
+
+// void writeLog(uint32_t *temperature_ptr)
+// {
+//   log1.ID = currentID_log++;
+//   log1.Date = defaultDate;
+//   log1.Time = defaultTime;
+//   for (size_t i = 0; i < 5; i++)
+//   {
+//     log1.Temperature[i] = *(temperature_ptr + i);
+//   }
+//   log1.EndOfLog = 0xFFFFFFFF;
+
+//   // void sFLASH_WriteBuffer(uint8_t* pBuffer, uint32_t WriteAddr, uint32_t NumByteToWrite, uint8_t numbFlashMemory);
+
+//   static uint32_t numbID = 0;
+//   sFLASH_WriteBuffer((uint8_t *)&log1, sFLASH_SPI_PAGE_SIZE * numbID, sizeof(log1_t), 1);
+//   numbID++;
+// }
 
 /* USER CODE END 0 */
 
@@ -116,6 +143,12 @@ int main(void)
   //  MX_USART6_UART_Init();
 
   /* USER CODE BEGIN 2 */
+freeAdressExtFlash = sFLASH_SearchLastFreePageAdress (1);
+sFLASH_WritePage((uint8_t*)&testValue, freeAdressExtFlash, 4, 1);
+freeAdressExtFlash = sFLASH_SearchLastFreePageAdress (1);
+sFLASH_WritePage((uint8_t*)&testValue, freeAdressExtFlash, 4, 1);
+freeAdressExtFlash = sFLASH_SearchLastFreePageAdress (1);
+
   //  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_4, GPIO_PIN_RESET);
 
   // __HAL_UART_ENABLE_IT(&huart4, UART_IT_IDLE);
@@ -295,7 +328,7 @@ void HAL_UARTEx_RxEventCallback(UART_HandleTypeDef *huart, uint16_t Size)
 
   if (huart->Instance == UART4) // check if the interrupt comes from
   {
-    if (memcmp(RxData, &requestTemperature, 1) !=0 )
+    if (memcmp(RxData, &requestTemperature, 1) != 0)
     {
       // for (size_t i = 0; i < 5; i++)
       // {
@@ -305,10 +338,11 @@ void HAL_UARTEx_RxEventCallback(UART_HandleTypeDef *huart, uint16_t Size)
       memcpy(&exitTemperature8[0], &startWord8[0], 2);
       memcpy(&exitTemperature8[2], &RxData[2], 10);
       CDC_Transmit_FS(&exitTemperature8[0], sizeof(exitTemperature8));
+
+      // writeLog(uint32_t * temperature_ptr);
     }
 
     HAL_UARTEx_ReceiveToIdle_IT(&huart4, RxData, sizeof(RxData));
-
   }
 
   // if (memcmp(RxData, &requestTemperature, 1))
@@ -320,7 +354,6 @@ void HAL_UARTEx_RxEventCallback(UART_HandleTypeDef *huart, uint16_t Size)
   // memcpy(&exitTemperature8[2], &RxData[2], 10);
   // CDC_Transmit_FS(&exitTemperature8[0], sizeof(exitTemperature8));
   // HAL_UARTEx_ReceiveToIdle_IT(&huart4, RxData, sizeof(RxData));
-
 
   //  if (huart->Instance == USART6) // check if the interrupt comes from
   //  {

@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="utf-8"?>
+<locale xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <main_form_caption>Navia viewer MTK</main_form_caption>
+  <main_form_menu_file>File</main_form_menu_file>
+  <main_form_menu_exit>Exit</main_form_menu_exit>
+  <main_form_menu_service>Service</main_form_menu_service>
+  <main_form_menu_settings>Settings...</main_form_menu_settings>
+  <main_form_menu_firmware_manager>Firmware manager...</main_form_menu_firmware_manager>
+  <main_form_menu_firmware_updater>Firmware updater...</main_form_menu_firmware_updater>
+  <main_form_menu_ttff_measurement>Изменерие TTFF...</main_form_menu_ttff_measurement>
+  <main_form_menu_epo_manager>EPO manager...</main_form_menu_epo_manager>
+  <main_form_menu_information>Information</main_form_menu_information>
+  <main_form_menu_help>Help...</main_form_menu_help>
+  <glonass>GLONASS</glonass>
+  <gps>GPS</gps>
+  <beidou>BeiDou</beidou>
+  <galileo>Galileo</galileo>
+  <main_form_hdop>HDOP:</main_form_hdop>
+  <main_form_pdop>PDOP:</main_form_pdop>
+  <main_form_vdop>VDOP:</main_form_vdop>
+  <main_form_latitude>Lat:</main_form_latitude>
+  <main_form_longitude>Lon:</main_form_longitude>
+  <main_form_altitude>Alt:</main_form_altitude>
+  <main_form_course>Course:</main_form_course>
+  <main_form_speed>Speed:</main_form_speed>
+  <main_form_time>Time:</main_form_time>
+  <main_form_status>Status:</main_form_status>
+  <start_button>Start</start_button>
+  <stop_button>Stop</stop_button>
+  <set_button>Set</set_button>
+  <get_button>Get</get_button>
+  <save_button>Save</save_button>
+  <cancel_button>Cancel</cancel_button>
+  <milliseconds>ms.</milliseconds>
+  <enable>Enable</enable>
+  <disable>Disable</disable>
+  <meters>m.</meters>
+  <meters_per_second>m./s.</meters_per_second>
+  <name>Name:</name>
+  <baudrate>Baudrate:</baudrate>
+  <select_button>Select</select_button>
+  <nmea_port_is_not_specified>The NMEA port is not specified!</nmea_port_is_not_specified>
+  <error>Ошибка!</error>
+  <main_form_general_tab>General</main_form_general_tab>
+  <main_form_restart_tab>Restart</main_form_restart_tab>
+  <main_form_restart_tab_start_group>Start:</main_form_restart_tab_start_group>
+  <main_form_restart_tab_start_group_hot_start_button>Hot</main_form_restart_tab_start_group_hot_start_button>
+  <main_form_restart_tab_start_group_warm_start_button>Warm</main_form_restart_tab_start_group_warm_start_button>
+  <main_form_restart_tab_start_group_cold_start_button>Cold</main_form_restart_tab_start_group_cold_start_button>
+  <main_form_restart_tab_start_group_full_cold_start_button>Full Cold</main_form_restart_tab_start_group_full_cold_start_button>
+  <main_form_restart_tab_ttff>TTFF:</main_form_restart_tab_ttff>
+  <main_form_nmea_tab>NMEA</main_form_nmea_tab>
+  <main_form_nmea_tab_messages_group>Messages (period):</main_form_nmea_tab_messages_group>
+  <main_form_nmea_tab_messages_group_gll>GLL:</main_form_nmea_tab_messages_group_gll>
+  <main_form_nmea_tab_messages_group_rmc>RMC:</main_form_nmea_tab_messages_group_rmc>
+  <main_form_nmea_tab_messages_group_vtg>VTG:</main_form_nmea_tab_messages_group_vtg>
+  <main_form_nmea_tab_messages_group_gga>GGA:</main_form_nmea_tab_messages_group_gga>
+  <main_form_nmea_tab_messages_group_gsa>GSA:</main_form_nmea_tab_messages_group_gsa>
+  <main_form_nmea_tab_messages_group_gsv>GSV:</main_form_nmea_tab_messages_group_gsv>
+  <main_form_nmea_tab_messages_group_grs>GRS:</main_form_nmea_tab_messages_group_grs>
+  <main_form_nmea_tab_messages_group_gst>GST:</main_form_nmea_tab_messages_group_gst>
+  <main_form_nmea_tab_messages_group_zda>ZDA:</main_form_nmea_tab_messages_group_zda>
+  <main_form_nmea_tab_messages_group_mchn>MCHN:</main_form_nmea_tab_messages_group_mchn>
+  <main_form_nmea_tab_baudrate_group>Baudrate:</main_form_nmea_tab_baudrate_group>
+  <main_form_nmea_tab_baudrate_group_channel_load>Channel load:</main_form_nmea_tab_baudrate_group_channel_load>
+  <main_form_power_tab>Power</main_form_power_tab>
+  <main_form_power_tab_periodic_mode_group>Periodic mode:</main_form_power_tab_periodic_mode_group>
+  <main_form_power_tab_periodic_mode_group_mode>Mode:</main_form_power_tab_periodic_mode_group_mode>
+  <main_form_power_tab_periodic_mode_group_run_time>Run time:</main_form_power_tab_periodic_mode_group_run_time>
+  <main_form_power_tab_periodic_mode_group_sleep_time>Sleep time:</main_form_power_tab_periodic_mode_group_sleep_time>
+  <main_form_power_tab_periodic_mode_group_second_run_time>Second run time:</main_form_power_tab_periodic_mode_group_second_run_time>
+  <main_form_power_tab_periodic_mode_group_second_sleep_time>Second sleep time:</main_form_power_tab_periodic_mode_group_second_sleep_time>
+  <main_form_power_tab_dee_group>DEE (extend the time for ephemeris data receiving):</main_form_power_tab_dee_group>
+  <main_form_power_tab_dee_group_sv>SV:</main_form_power_tab_dee_group_sv>
+  <main_form_power_tab_dee_group_snr>SNR:</main_form_power_tab_dee_group_snr>
+  <main_form_power_tab_dee_group_extension_threshold>Extension threshold:</main_form_power_tab_dee_group_extension_threshold>
+  <main_form_power_tab_dee_group_extension_gap>Extension gap:</main_form_power_tab_dee_group_extension_gap>
+  <main_form_power_tab_standby_group>Standby mode:</main_form_power_tab_standby_group>
+  <main_form_power_tab_standby_group_stop_checkbox>Stop</main_form_power_tab_standby_group_stop_checkbox>
+  <main_form_power_tab_standby_group_sleep_checkbox>Sleep</main_form_power_tab_standby_group_sleep_checkbox>
+  <main_form_datum_tab>Datum</main_form_datum_tab>
+  <main_form_datum_tab_datum_group>Datum:</main_form_datum_tab_datum_group>
+  <main_form_datum_tab_datum_advance_group>Datum advance (user defined):</main_form_datum_tab_datum_advance_group>
+  <main_form_datum_tab_datum_advance_group_semi_major_axis>Semi-major axis:</main_form_datum_tab_datum_advance_group_semi_major_axis>
+  <main_form_datum_tab_datum_advance_group_eccentric>Eccentric:</main_form_datum_tab_datum_advance_group_eccentric>
+  <main_form_datum_tab_datum_advance_group_x_axis_offset>To WGS84 X axis offset:</main_form_datum_tab_datum_advance_group_x_axis_offset>
+  <main_form_datum_tab_datum_advance_group_y_axis_offset>To WGS84 Y axis offset:</main_form_datum_tab_datum_advance_group_y_axis_offset>
+  <main_form_datum_tab_datum_advance_group_z_axis_offset>To WGS84 Z axis offset:</main_form_datum_tab_datum_advance_group_z_axis_offset>
+  <main_form_pps_tab>PPS</main_form_pps_tab>
+  <main_form_pps_tab_sync_nmea_with_pps_group>Sync NMEA with PPS:</main_form_pps_tab_sync_nmea_with_pps_group>
+  <main_form_pps_tab_timing_product_group>Enhance the PPS output timing:</main_form_pps_tab_timing_product_group>
+  <main_form_pps_tab_pps_config_group>PPS config:</main_form_pps_tab_pps_config_group>
+  <main_form_pps_tab_pps_config_mode>Mode:</main_form_pps_tab_pps_config_mode>
+  <main_form_pps_tab_pps_config_pulse_width>Pulse width:</main_form_pps_tab_pps_config_pulse_width>
+  <main_form_pps_tab_pps_set_pps_group>Set PPS:</main_form_pps_tab_pps_set_pps_group>
+  <main_form_pps_tab_pps_set_pps_type>Type:</main_form_pps_tab_pps_set_pps_type>
+  <main_form_pps_tab_pps_set_pps_tick>Tick:</main_form_pps_tab_pps_set_pps_tick>
+  <main_form_pps_tab_pps_set_pps_phase>Phase:</main_form_pps_tab_pps_set_pps_phase>
+  <main_form_accuracy_tab>Accuracy</main_form_accuracy_tab>
+  <main_form_accuracy_tab_dgps_mode_group>DGPS mode:</main_form_accuracy_tab_dgps_mode_group>
+  <main_form_accuracy_tab_sbas_mode_group>SBAS:</main_form_accuracy_tab_sbas_mode_group>
+  <main_form_accuracy_tab_qzss_mode_group>QZSS:</main_form_accuracy_tab_qzss_mode_group>
+  <main_form_accuracy_tab_qzss_nmea_support>NMEA support</main_form_accuracy_tab_qzss_nmea_support>
+  <main_form_accuracy_tab_qzss_disable_qzss>Disable QZSS</main_form_accuracy_tab_qzss_disable_qzss>
+  <main_form_accuracy_tab_fr_mode_group>Navigation mode (FR):</main_form_accuracy_tab_fr_mode_group>
+  <main_form_accuracy_tab_aic_group>Active interference cancellation (AIC):</main_form_accuracy_tab_aic_group>
+  <main_form_accuracy_tab_tunnel_scenario_group>Tunnel scenario:</main_form_accuracy_tab_tunnel_scenario_group>
+  <main_form_accuracy_tab_tunnel_scenario_fast_ttff>Fast TTFF</main_form_accuracy_tab_tunnel_scenario_fast_ttff>
+  <main_form_accuracy_tab_tunnel_scenario_high_accuracy>High accuracy</main_form_accuracy_tab_tunnel_scenario_high_accuracy>
+  <main_form_other1_tab>Other 1</main_form_other1_tab>
+  <main_form_other1_tab_position_fix_interval_group>Position fix interval:</main_form_other1_tab_position_fix_interval_group>
+  <main_form_other1_tab_elevation_mask_group>Elevation mask:</main_form_other1_tab_elevation_mask_group>
+  <main_form_other1_tab_static_navigation_speed_threshold_group>Static navigation speed threshold:</main_form_other1_tab_static_navigation_speed_threshold_group>
+  <main_form_other1_tab_hdop_threshold_group>HDOP threshold:</main_form_other1_tab_hdop_threshold_group>
+  <main_form_other1_tab_easy_group>EASY:</main_form_other1_tab_easy_group>
+  <main_form_other1_tab_easy_extension_day>Days:</main_form_other1_tab_easy_extension_day>
+  <main_form_other1_tab_debug_output_group>Debug output:</main_form_other1_tab_debug_output_group>
+  <main_form_other1_tab_release_group>Release:</main_form_other1_tab_release_group>
+  <main_form_other2_tab>Other 2</main_form_other2_tab>
+  <main_form_other2_tab_gnss_search_mode_group>GNSS search mode:</main_form_other2_tab_gnss_search_mode_group>
+  <main_form_other2_tab_gnss_search_mode_select_glonass_or_beidou_group>Select GLONASS or BeiDou:</main_form_other2_tab_gnss_search_mode_select_glonass_or_beidou_group>
+  <main_form_other2_tab_rtc_time_group>RTC time:</main_form_other2_tab_rtc_time_group>
+  <main_form_other2_tab_rtc_time_group_current_button>Current</main_form_other2_tab_rtc_time_group_current_button>
+  <main_form_other2_tab_clear_flash_button>Clear flash</main_form_other2_tab_clear_flash_button>
+  <main_form_other2_tab_clear_epo_button>Clear EPO</main_form_other2_tab_clear_epo_button>
+  <main_form_other2_tab_data_port_group>Data port:</main_form_other2_tab_data_port_group>
+  <main_form_other2_tab_data_port_in_type>IN data:</main_form_other2_tab_data_port_in_type>
+  <main_form_other2_tab_data_port_out_type>OUT data:</main_form_other2_tab_data_port_out_type>
+  <main_form_path_tab>Path</main_form_path_tab>
+  <main_form_path_tab_distance>Distance</main_form_path_tab_distance>
+  <main_form_path_tab_points_number>Points number:</main_form_path_tab_points_number>
+  <main_form_path_tab_scale>Scale:</main_form_path_tab_scale>
+  <nmea_port_group>NMEA port:</nmea_port_group>
+  <settings_dialog_caption>Settings</settings_dialog_caption>
+  <firmware_updater_dialog_caption>Firmware updater</firmware_updater_dialog_caption>
+  <firmware_updater_dialog_firmware_file_name_group>Firmware file name:</firmware_updater_dialog_firmware_file_name_group>
+  <firmware_manager_dialog_caption>Firmware manager</firmware_manager_dialog_caption>
+  <firmware_manager_dialog_nmea_tab>NMEA</firmware_manager_dialog_nmea_tab>
+  <firmware_manager_dialog_nmea_tab_fix_update_rate>Fix update rate:</firmware_manager_dialog_nmea_tab_fix_update_rate>
+  <firmware_manager_dialog_nmea_tab_nmea_messages_group>NMEA messages:</firmware_manager_dialog_nmea_tab_nmea_messages_group>
+  <firmware_manager_dialog_nmea_tab_nmea_messages_group_message>Message</firmware_manager_dialog_nmea_tab_nmea_messages_group_message>
+  <firmware_manager_dialog_nmea_tab_nmea_messages_group_period>Period</firmware_manager_dialog_nmea_tab_nmea_messages_group_period>
+  <firmware_manager_dialog_nmea_tab_nmea_messages_group_order>Order</firmware_manager_dialog_nmea_tab_nmea_messages_group_order>
+  <firmware_manager_dialog_nmea_tab_nmea_messages_group_gll>GLL</firmware_manager_dialog_nmea_tab_nmea_messages_group_gll>
+  <firmware_manager_dialog_nmea_tab_nmea_messages_group_rmc>RMC</firmware_manager_dialog_nmea_tab_nmea_messages_group_rmc>
+  <firmware_manager_dialog_nmea_tab_nmea_messages_group_vtg>VTG</firmware_manager_dialog_nmea_tab_nmea_messages_group_vtg>
+  <firmware_manager_dialog_nmea_tab_nmea_messages_group_gga>GGA</firmware_manager_dialog_nmea_tab_nmea_messages_group_gga>
+  <firmware_manager_dialog_nmea_tab_nmea_messages_group_gsa>GSA</firmware_manager_dialog_nmea_tab_nmea_messages_group_gsa>
+  <firmware_manager_dialog_nmea_tab_nmea_messages_group_gsv>GSV</firmware_manager_dialog_nmea_tab_nmea_messages_group_gsv>
+  <firmware_manager_dialog_nmea_tab_nmea_messages_group_zda>ZDA</firmware_manager_dialog_nmea_tab_nmea_messages_group_zda>
+  <firmware_manager_dialog_fix_led_tab>Fix LED</firmware_manager_dialog_fix_led_tab>
+  <firmware_manager_dialog_fix_led_tab_fix_led_blinking_group>Fix LED blinking:</firmware_manager_dialog_fix_led_tab_fix_led_blinking_group>
+  <firmware_manager_dialog_fix_led_tab_fix_led_blinking_group_mode>Mode</firmware_manager_dialog_fix_led_tab_fix_led_blinking_group_mode>
+  <firmware_manager_dialog_fix_led_tab_fix_led_blinking_group_mode_fix>Fix</firmware_manager_dialog_fix_led_tab_fix_led_blinking_group_mode_fix>
+  <firmware_manager_dialog_fix_led_tab_fix_led_blinking_group_mode_no_fix>No fix</firmware_manager_dialog_fix_led_tab_fix_led_blinking_group_mode_no_fix>
+  <firmware_manager_dialog_fix_led_tab_fix_led_blinking_group_period>Period (sec.)</firmware_manager_dialog_fix_led_tab_fix_led_blinking_group_period>
+  <firmware_manager_dialog_fix_led_tab_fix_led_blinking_group_duty_cycle>Duty cycle</firmware_manager_dialog_fix_led_tab_fix_led_blinking_group_duty_cycle>
+  <firmware_manager_dialog_other_tab>Other</firmware_manager_dialog_other_tab>
+  <firmware_manager_dialog_other_tab_gain_group>Gain:</firmware_manager_dialog_other_tab_gain_group>
+  <firmware_manager_dialog_other_tab_gain_group_low_gain>Low-Gain</firmware_manager_dialog_other_tab_gain_group_low_gain>
+  <firmware_manager_dialog_other_tab_gain_group_high_gain>High-Gain</firmware_manager_dialog_other_tab_gain_group_high_gain>
+  <epo_manager_dialog_caption>EPO manager</epo_manager_dialog_caption>
+  <epo_manager_dialog_epo_source_group>EPO source:</epo_manager_dialog_epo_source_group>
+  <epo_manager_dialog_epo_source_group_server>Server</epo_manager_dialog_epo_source_group_server>
+  <epo_manager_dialog_epo_source_group_file>File</epo_manager_dialog_epo_source_group_file>
+  <epo_manager_dialog_epo_server_group>EPO server settings:</epo_manager_dialog_epo_server_group>
+  <epo_manager_dialog_epo_server_ip_address>IP address:</epo_manager_dialog_epo_server_ip_address>
+  <epo_manager_dialog_epo_server_tcp_port>TCP port:</epo_manager_dialog_epo_server_tcp_port>
+  <epo_manager_dialog_epo_server_user_name>User name:</epo_manager_dialog_epo_server_user_name>
+  <epo_manager_dialog_epo_server_user_password>Password:</epo_manager_dialog_epo_server_user_password>
+  <epo_manager_dialog_epo_file_group>EPO file settings:</epo_manager_dialog_epo_file_group>
+  <worker_no_serial_port_file_name>No serial port file name!</worker_no_serial_port_file_name>
+  <worker_no_serial_port_baudrate>No serial port baudrate!</worker_no_serial_port_baudrate>
+  <worker_no_download_agent_file_name>No download agent file name!</worker_no_download_agent_file_name>
+  <worker_no_firmware_file_name>No firmware file name!</worker_no_firmware_file_name>
+  <worker_no_response>No response!</worker_no_response>
+  <worker_invalid_response>Invalid response!</worker_invalid_response>
+  <worker_wait_response>wait: </worker_wait_response>
+  <worker_got_response>got: </worker_got_response>
+  <worker_unchanged_block_invalid_number>Unchanged block invalid number!</worker_unchanged_block_invalid_number>
+  <worker_ask_primary_loader_checksum_no_response>Ask primary loader checksum no response!</worker_ask_primary_loader_checksum_no_response>
+  <worker_checksum_validation_error>Checksum validation error!</worker_checksum_validation_error>
+  <epo_worker_no_epo_file_name>No EPO file name select!</epo_worker_no_epo_file_name>
+  <epo_worker_no_nmea_port_name>No NMEA port name!</epo_worker_no_nmea_port_name>
+  <epo_worker_no_nmea_port_baudrate>No NMEA port baudrate!</epo_worker_no_nmea_port_baudrate>
+  <epo_worker_no_epo_ip_address>No EPO server IP adress set!</epo_worker_no_epo_ip_address>
+  <epo_worker_no_response>No response!</epo_worker_no_response>
+  <epo_worker_response_error>Command response error!</epo_worker_response_error>
+  <epo_worker_no_server_connection_method>No server connection method at now!</epo_worker_no_server_connection_method>
+  <epo_worker_invalid_response>Invalid Set EPO response!</epo_worker_invalid_response>
+  <epo_worker_set_nmea_protocol_error>Set NMEA protocol error!</epo_worker_set_nmea_protocol_error>
+  <epo_worker_invalid_epo_duration_value>Invalid EPO duration value!</epo_worker_invalid_epo_duration_value>
+  <ttff_measurement_dialog_caption>TTFF measurement</ttff_measurement_dialog_caption>
+  <ttff_measurement_parameters_group>Parameters:</ttff_measurement_parameters_group>
+  <ttff_measurement_repeats_number>Repeats number:</ttff_measurement_repeats_number>
+  <ttff_measurement_start_type_group>Start command type:</ttff_measurement_start_type_group>
+  <ttff_measurement_start_type_cold>Cold</ttff_measurement_start_type_cold>
+  <ttff_measurement_start_type_warm>Warm</ttff_measurement_start_type_warm>
+  <ttff_measurement_start_type_hot>Hot</ttff_measurement_start_type_hot>
+  <ttff_measurement_wait_fix_max_time>Wait fix max time:</ttff_measurement_wait_fix_max_time>
+  <ttff_measurement_result>Result:</ttff_measurement_result>
+  <ttff_measurement_parameter>Parameter</ttff_measurement_parameter>
+  <ttff_measurement_value>Value</ttff_measurement_value>
+  <ttff_measurement_measurement>Cycle</ttff_measurement_measurement>
+  <ttff_measurement_min_time>Min</ttff_measurement_min_time>
+  <ttff_measurement_max_time>Max</ttff_measurement_max_time>
+  <ttff_measurement_avg_time>Average</ttff_measurement_avg_time>
+  <ttff_measurement_no_data>No data</ttff_measurement_no_data>
+  <ttff_measurement_wait_fix_timeout>Wit fix timeout!</ttff_measurement_wait_fix_timeout>
+</locale>
