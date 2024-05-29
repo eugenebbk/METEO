@@ -77,8 +77,14 @@ void Error_Handler(void);
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
+#define PPS_ML_GNSS_Pin GPIO_PIN_13
+#define PPS_ML_GNSS_GPIO_Port GPIOC
+#define U2_EN_PWR_Pin GPIO_PIN_3
+#define U2_EN_PWR_GPIO_Port GPIOC
 #define SPI1_SS1_Pin GPIO_PIN_4
 #define SPI1_SS1_GPIO_Port GPIOA
+#define U3_EN_PWR_METBLCK_Pin GPIO_PIN_4
+#define U3_EN_PWR_METBLCK_GPIO_Port GPIOC
 #define RST_GNSS_Pin GPIO_PIN_8
 #define RST_GNSS_GPIO_Port GPIOC
 #define SPI1_SS2_Pin GPIO_PIN_9
@@ -89,6 +95,8 @@ void Error_Handler(void);
 #define POWER_ON_12V_XP9_GPIO_Port GPIOA
 #define UART_EN_METTMPR_Pin GPIO_PIN_10
 #define UART_EN_METTMPR_GPIO_Port GPIOC
+#define U1_EN_PWR_AKKUM_Pin GPIO_PIN_5
+#define U1_EN_PWR_AKKUM_GPIO_Port GPIOB
 /* USER CODE BEGIN Private defines */
 
 /* USER CODE END Private defines */

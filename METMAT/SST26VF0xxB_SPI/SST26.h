@@ -112,7 +112,9 @@
 #define sFLASH_SPI_SECTOR_SIZE	0x1000      /* 4K Sector size */
 #define sFLASH_SPI_PAGE_SIZE	0x100		/* 256 Byte Page size */
 
-#define sFLASH_NUMBER_LOGS	sFLASH_SPI_FLASH_SIZE/sFLASH_SPI_PAGE_SIZE		
+#define sFLASH_NUMBER_LOGS	sFLASH_SPI_FLASH_SIZE/sFLASH_SPI_PAGE_SIZE
+		
+const size_t numbOfLogs = sFLASH_SPI_FLASH_SIZE/sFLASH_SPI_PAGE_SIZE;
 
 /* High layer functions */
 //void sFLASH_DeInit(void);

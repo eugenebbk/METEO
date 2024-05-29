@@ -50,7 +50,7 @@ void MX_GPIO_Init(void)
   __HAL_RCC_GPIOB_CLK_ENABLE();
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_3|GPIO_PIN_4|RST_GNSS_Pin|UART_EN_METTMPR_Pin
+  HAL_GPIO_WritePin(GPIOC, U2_EN_PWR_Pin|U3_EN_PWR_METBLCK_Pin|RST_GNSS_Pin|UART_EN_METTMPR_Pin
                           |GPIO_PIN_11, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
@@ -63,16 +63,16 @@ void MX_GPIO_Init(void)
   HAL_GPIO_WritePin(POWER_ON_TEMPBOARD_GPIO_Port, POWER_ON_TEMPBOARD_Pin, GPIO_PIN_SET);
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOB, GPIO_PIN_5, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(U1_EN_PWR_AKKUM_GPIO_Port, U1_EN_PWR_AKKUM_Pin, GPIO_PIN_RESET);
 
-  /*Configure GPIO pin : PC13 */
-  GPIO_InitStruct.Pin = GPIO_PIN_13;
+  /*Configure GPIO pin : PtPin */
+  GPIO_InitStruct.Pin = PPS_ML_GNSS_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
-  HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
+  HAL_GPIO_Init(PPS_ML_GNSS_GPIO_Port, &GPIO_InitStruct);
 
-  /*Configure GPIO pins : PC3 PC4 PCPin PCPin */
-  GPIO_InitStruct.Pin = GPIO_PIN_3|GPIO_PIN_4|RST_GNSS_Pin|SPI1_SS2_Pin;
+  /*Configure GPIO pins : PCPin PCPin PCPin PCPin */
+  GPIO_InitStruct.Pin = U2_EN_PWR_Pin|U3_EN_PWR_METBLCK_Pin|RST_GNSS_Pin|SPI1_SS2_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
@@ -92,12 +92,12 @@ void MX_GPIO_Init(void)
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
   HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
 
-  /*Configure GPIO pin : PB5 */
-  GPIO_InitStruct.Pin = GPIO_PIN_5;
+  /*Configure GPIO pin : PtPin */
+  GPIO_InitStruct.Pin = U1_EN_PWR_AKKUM_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-  HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
+  HAL_GPIO_Init(U1_EN_PWR_AKKUM_GPIO_Port, &GPIO_InitStruct);
 
 }
 
