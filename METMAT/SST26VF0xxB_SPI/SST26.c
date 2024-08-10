@@ -477,7 +477,7 @@ void sFLASH_WaitForWriteEnd(uint8_t numbFlashMemory)
  * @param  numbFlashMemory
  * @retval free adress
  */
-uint32_t sFLASH_SearchLastFreePageAdress (uint8_t numbFlashMemory)
+uint32_t sFLASH_SearchLastFreePageAdress(uint8_t numbFlashMemory)
 {
 	uint8_t txData[1];
 	uint8_t rxData[1];
@@ -525,10 +525,136 @@ uint32_t sFLASH_SearchLastFreePageAdress (uint8_t numbFlashMemory)
 		sFLASH1_CS_HIGH();
 	}
 
-	if (idSearch != 0xFFFFFFFF) //have not free memory
+	if (idSearch != 0xFFFFFFFF) // have not free memory
 	{
 		return 0xFFFFFFFF;
 	}
-	else //adress free memory
+	else // adress free memory
 		return sFLASH_SPI_PAGE_SIZE * i;
+}
+
+/**
+ * @brief  Reset InitSST26 FLASH.
+ * @param  None
+ * @retval None
+ */
+void sFLASH_InitSST26(uint8_t numbFlashMemory)
+{
+	uint8_t txData[1];
+
+	txData[0] = FLASH_CMD_RSTEN;
+
+	/* Select the FLASH: Chip Select low */
+
+	if (numbFlashMemory == 1)
+	{
+		sFLASH1_CS_LOW();
+	}
+	else if (numbFlashMemory == 2)
+	{
+		sFLASH2_CS_LOW();
+	}
+	else
+	{
+		sFLASH1_CS_LOW();
+	}
+
+	HAL_SPI_Transmit(&hspi1, txData, sizeof(txData), HAL_MAX_DELAY);
+
+	/* Deselect the FLASH: Chip Select high */
+	if (numbFlashMemory == 1)
+	{
+		sFLASH1_CS_HIGH();
+	}
+	else if (numbFlashMemory == 2)
+	{
+		sFLASH2_CS_HIGH();
+	}
+	else
+	{
+		sFLASH1_CS_HIGH();
+	}
+
+	HAL_Delay(1);
+	txData[0] = FLASH_CMD_RST;
+
+	if (numbFlashMemory == 1)
+	{
+		sFLASH1_CS_LOW();
+	}
+	else if (numbFlashMemory == 2)
+	{
+		sFLASH2_CS_LOW();
+	}
+	else
+	{
+		sFLASH1_CS_LOW();
+	}
+
+	HAL_SPI_Transmit(&hspi1, txData, sizeof(txData), HAL_MAX_DELAY);
+
+	/* Deselect the FLASH: Chip Select high */
+	if (numbFlashMemory == 1)
+	{
+		sFLASH1_CS_HIGH();
+	}
+	else if (numbFlashMemory == 2)
+	{
+		sFLASH2_CS_HIGH();
+	}
+	else
+	{
+		sFLASH1_CS_HIGH();
+	}
+}
+
+
+
+
+/**
+ * @brief  Reads FLASH command.
+ * @param  None
+ * @retval 
+ */
+uint8_t sFLASH_ReadSimpleCommand(uint8_t command, uint8_t numbFlashMemory)
+{
+	uint8_t txData[1];
+	uint8_t rxData[1];
+
+	txData[0] = command;
+
+	/* Select the FLASH: Chip Select low */
+	if (numbFlashMemory == 1)
+	{
+		sFLASH1_CS_LOW();
+	}
+	else if (numbFlashMemory == 2)
+	{
+		sFLASH2_CS_LOW();
+	}
+	else
+	{
+		sFLASH1_CS_LOW();
+	}
+
+	/* Send instruction */
+	HAL_SPI_Transmit(&hspi1, txData, sizeof(txData), HAL_MAX_DELAY);
+	/* Receive ID value */
+	HAL_SPI_Receive(&hspi1, rxData, sizeof(rxData), HAL_MAX_DELAY);
+
+	/* Deselect the FLASH: Chip Select high */
+	// sFLASH_CS_HIGH();
+	if (numbFlashMemory == 1)
+	{
+		sFLASH1_CS_HIGH();
+	}
+	else if (numbFlashMemory == 2)
+	{
+		sFLASH2_CS_HIGH();
+	}
+	else
+	{
+		sFLASH1_CS_HIGH();
+	}
+	return (rxData[0]);
 }

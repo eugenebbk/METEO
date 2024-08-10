@@ -3,6 +3,8 @@
         "usbd_cdc_if.h": "c",
         "sst26.h": "c",
         "main.h": "c",
-        "spi.h": "c"
+        "spi.h": "c",
+        "logssst26.h": "c",
+        "usbd_cdc.h": "c"
     }
 }

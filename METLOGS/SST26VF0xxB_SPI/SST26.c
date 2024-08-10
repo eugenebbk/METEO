@@ -1,15 +1,11 @@
 #include "spi.h"
 #include "SST26.h"
 
-// pa4 pb12
+// pa4 pc9
 
 extern SPI_HandleTypeDef hspi1;
 
-#define sFLASH1_CS_LOW() HAL_GPIO_WritePin(FLASH1_CS_GPIO_Port, FLASH1_CS_Pin, GPIO_PIN_RESET)
-#define sFLASH1_CS_HIGH() HAL_GPIO_WritePin(FLASH1_CS_GPIO_Port, FLASH1_CS_Pin, GPIO_PIN_SET)
 
-#define sFLASH2_CS_LOW() HAL_GPIO_WritePin(FLASH2_CS_GPIO_Port, FLASH2_CS_Pin, GPIO_PIN_RESET)
-#define sFLASH2_CS_HIGH() HAL_GPIO_WritePin(FLASH2_CS_GPIO_Port, FLASH2_CS_Pin, GPIO_PIN_SET)
 
 uint8_t sFLASH_ReadByte(void);
 uint8_t sFLASH_SendByte(uint8_t byte);
@@ -17,9 +13,60 @@ uint16_t sFLASH_SendHalfWord(uint16_t HalfWord);
 void sFLASH_WaitForWriteEnd(uint8_t numbFlashMemory);
 void sFLASH_WriteEnable(uint8_t numbFlashMemory);
 
+/**
+ * @brief  Polls the status of the Write In Progress (WIP) flag in the FLASH's
+ *         status register and loop until write operation has completed.
+ * @param  None
+ * @retval None
+ */
+void sFLASH_WaitForWriteEnd(uint8_t numbFlashMemory)
+{
+	uint8_t txData[1];
+	uint8_t rxData[1];
 
-const size_t numbOfLogs = sFLASH_SPI_FLASH_SIZE/sFLASH_SPI_PAGE_SIZE;
-// sdelat dlya neskolkih flash
+	txData[0] = FLASH_CMD_RDSR;
+
+	/* Select the FLASH: Chip Select low */
+	// sFLASH_CS_LOW();
+	if (numbFlashMemory == 1)
+	{
+		sFLASH1_CS_LOW();
+	}
+	else if (numbFlashMemory == 2)
+	{
+		sFLASH2_CS_LOW();
+	}
+	else
+	{
+		sFLASH1_CS_LOW();
+	}
+
+	/* Send "Read Status Register" instruction */
+	HAL_SPI_Transmit(&hspi1, txData, sizeof(txData), HAL_MAX_DELAY);
+
+	/* Loop as long as the memory is busy with a write cycle */
+	do
+	{
+		/* Receive "Read Status Register" value */
+		HAL_SPI_Receive(&hspi1, rxData, sizeof(rxData), HAL_MAX_DELAY);
+	} while ((rxData[0] & FLASH_BUSY_MASK) == FLASH_BUSY_MASK); /* Write in progress */
+
+	/* Deselect the FLASH: Chip Select high */
+	// sFLASH_CS_HIGH();
+	if (numbFlashMemory == 1)
+	{
+		sFLASH1_CS_HIGH();
+	}
+	else if (numbFlashMemory == 2)
+	{
+		sFLASH2_CS_HIGH();
+	}
+	else
+	{
+		sFLASH1_CS_HIGH();
+	}
+}
+
 
 /**
  * @brief  Erases the specified FLASH sector.
@@ -136,6 +183,7 @@ void sFLASH_EraseChip(uint8_t numbFlashMemory)
  */
 void sFLASH_WritePage(uint8_t *pBuffer, uint32_t WriteAddr, uint32_t NumByteToWrite, uint8_t numbFlashMemory)
 {
+	
 	uint8_t txData[4];
 
 	txData[0] = FLASH_CMD_PP;
@@ -322,6 +370,8 @@ void sFLASH_WriteBuffer(uint8_t *pBuffer, uint32_t WriteAddr, uint32_t NumByteTo
 			}
 		}
 	}
+	
+	sFLASH_WaitForWriteEnd(numbFlashMemory);
 }
 
 /**
@@ -418,23 +468,85 @@ void sFLASH_WriteEnable(uint8_t numbFlashMemory)
 	{
 		sFLASH1_CS_HIGH();
 	}
+	
+	sFLASH_WaitForWriteEnd(numbFlashMemory);
 }
 
+
+///**
+// * @brief
+// * @param  numbFlashMemory
+// * @retval free adress
+// */
+//uint32_t sFLASH_SearchLastFreePageAdress(uint8_t numbFlashMemory)
+//{
+//	uint8_t txData[1];
+//	uint8_t rxData[1];
+
+//	txData[0] = FLASH_CMD_RDSR;
+
+//	/* Select the FLASH: Chip Select low */
+//	// sFLASH_CS_LOW();
+//	if (numbFlashMemory == 1)
+//	{
+//		sFLASH1_CS_LOW();
+//	}
+//	else if (numbFlashMemory == 2)
+//	{
+//		sFLASH2_CS_LOW();
+//	}
+//	else
+//	{
+//		sFLASH1_CS_LOW();
+//	}
+
+//	uint32_t idSearch = 0;
+//	size_t i = 0;
+//	for (i = 0; i < sFLASH_NUMBER_LOGS; i++)
+//	{
+//		sFLASH_ReadBuffer((uint8_t *)&idSearch, sFLASH_SPI_PAGE_SIZE * i, 4, numbFlashMemory);
+//		if (idSearch == 0xFFFFFFFF)
+//		{
+//			break;
+//		}
+//	}
+
+//	/* Deselect the FLASH: Chip Select high */
+//	// sFLASH_CS_HIGH();
+//	if (numbFlashMemory == 1)
+//	{
+//		sFLASH1_CS_HIGH();
+//	}
+//	else if (numbFlashMemory == 2)
+//	{
+//		sFLASH2_CS_HIGH();
+//	}
+//	else
+//	{
+//		sFLASH1_CS_HIGH();
+//	}
+
+//	if (idSearch != 0xFFFFFFFF) // have not free memory
+//	{
+//		return 0xFFFFFFFF;
+//	}
+//	else // adress free memory
+//		return sFLASH_SPI_PAGE_SIZE * i;
+//}
+
 /**
- * @brief  Polls the status of the Write In Progress (WIP) flag in the FLASH's
- *         status register and loop until write operation has completed.
+ * @brief  Reset InitSST26 FLASH.
  * @param  None
  * @retval None
  */
-void sFLASH_WaitForWriteEnd(uint8_t numbFlashMemory)
+void sFLASH_InitSST26(uint8_t numbFlashMemory)
 {
 	uint8_t txData[1];
-	uint8_t rxData[1];
 
-	txData[0] = FLASH_CMD_RDSR;
+	txData[0] = FLASH_CMD_RSTEN;
 
 	/* Select the FLASH: Chip Select low */
-	// sFLASH_CS_LOW();
+
 	if (numbFlashMemory == 1)
 	{
 		sFLASH1_CS_LOW();
@@ -448,15 +560,138 @@ void sFLASH_WaitForWriteEnd(uint8_t numbFlashMemory)
 		sFLASH1_CS_LOW();
 	}
 
-	/* Send "Read Status Register" instruction */
 	HAL_SPI_Transmit(&hspi1, txData, sizeof(txData), HAL_MAX_DELAY);
 
-	/* Loop as long as the memory is busy with a write cycle */
-	do
+	/* Deselect the FLASH: Chip Select high */
+	if (numbFlashMemory == 1)
 	{
-		/* Receive "Read Status Register" value */
-		HAL_SPI_Receive(&hspi1, rxData, sizeof(rxData), HAL_MAX_DELAY);
-	} while ((rxData[0] & FLASH_WIP_MASK) == FLASH_WIP_MASK); /* Write in progress */
+		sFLASH1_CS_HIGH();
+	}
+	else if (numbFlashMemory == 2)
+	{
+		sFLASH2_CS_HIGH();
+	}
+	else
+	{
+		sFLASH1_CS_HIGH();
+	}
+
+	HAL_Delay(1);
+	txData[0] = FLASH_CMD_RST;
+
+	if (numbFlashMemory == 1)
+	{
+		sFLASH1_CS_LOW();
+	}
+	else if (numbFlashMemory == 2)
+	{
+		sFLASH2_CS_LOW();
+	}
+	else
+	{
+		sFLASH1_CS_LOW();
+	}
+
+	HAL_SPI_Transmit(&hspi1, txData, sizeof(txData), HAL_MAX_DELAY);
+
+	/* Deselect the FLASH: Chip Select high */
+	if (numbFlashMemory == 1)
+	{
+		sFLASH1_CS_HIGH();
+	}
+	else if (numbFlashMemory == 2)
+	{
+		sFLASH2_CS_HIGH();
+	}
+	else
+	{
+		sFLASH1_CS_HIGH();
+	}
+	sFLASH_WaitForWriteEnd(numbFlashMemory);
+}
+
+
+
+
+/**
+ * @brief  Reads FLASH command.
+ * @param  None
+ * @retval 
+ */
+uint8_t sFLASH_ReadSimpleCommand(uint8_t command, uint8_t numbFlashMemory)
+{
+	uint8_t txData[1];
+	uint8_t rxData[1];
+
+	txData[0] = command;
+
+	/* Select the FLASH: Chip Select low */
+	if (numbFlashMemory == 1)
+	{
+		sFLASH1_CS_LOW();
+	}
+	else if (numbFlashMemory == 2)
+	{
+		sFLASH2_CS_LOW();
+	}
+	else
+	{
+		sFLASH1_CS_LOW();
+	}
+
+	/* Send instruction */
+	HAL_SPI_Transmit(&hspi1, txData, sizeof(txData), HAL_MAX_DELAY);
+	/* Receive ID value */
+	HAL_SPI_Receive(&hspi1, rxData, sizeof(rxData), HAL_MAX_DELAY);
+
+	/* Deselect the FLASH: Chip Select high */
+	// sFLASH_CS_HIGH();
+	if (numbFlashMemory == 1)
+	{
+		sFLASH1_CS_HIGH();
+	}
+	else if (numbFlashMemory == 2)
+	{
+		sFLASH2_CS_HIGH();
+	}
+	else
+	{
+		sFLASH1_CS_HIGH();
+	}
+	return (rxData[0]);
+}
+
+
+/**
+ * @brief  Reads FLASH command.
+ * @param  None
+ * @retval 
+ */
+void sFLASH_ReadCommand(uint8_t command, uint8_t* massiveAnswer, uint8_t sizeAnswer, uint8_t numbFlashMemory)
+{
+	uint8_t txData[1];
+	// uint8_t rxData[sizeAnswer];
+
+	txData[0] = command;
+
+	/* Select the FLASH: Chip Select low */
+	if (numbFlashMemory == 1)
+	{
+		sFLASH1_CS_LOW();
+	}
+	else if (numbFlashMemory == 2)
+	{
+		sFLASH2_CS_LOW();
+	}
+	else
+	{
+		sFLASH1_CS_LOW();
+	}
+
+	/* Send instruction */
+	HAL_SPI_Transmit(&hspi1, txData, sizeof(txData), HAL_MAX_DELAY);
+	/* Receive ID value */
+	HAL_SPI_Receive(&hspi1, massiveAnswer, sizeAnswer, HAL_MAX_DELAY);
 
 	/* Deselect the FLASH: Chip Select high */
 	// sFLASH_CS_HIGH();
@@ -474,17 +709,20 @@ void sFLASH_WaitForWriteEnd(uint8_t numbFlashMemory)
 	}
 }
 
+
 /**
- * @brief
- * @param  numbFlashMemory
- * @retval free adress
+ * @brief  Erases the entire FLASH.
+ * @param  None
+ * @retval None
  */
-uint32_t sFLASH_SearchLastFreePageAdress (uint8_t numbFlashMemory)
+void sFLASH_TxSimpleCmd(uint8_t numbFlashMemory, uint8_t cmd)
 {
 	uint8_t txData[1];
-	uint8_t rxData[1];
 
-	txData[0] = FLASH_CMD_RDSR;
+	txData[0] = cmd;
+
+	/* Send write enable instruction */
+	sFLASH_WriteEnable(numbFlashMemory);
 
 	/* Select the FLASH: Chip Select low */
 	// sFLASH_CS_LOW();
@@ -500,21 +738,10 @@ uint32_t sFLASH_SearchLastFreePageAdress (uint8_t numbFlashMemory)
 	{
 		sFLASH1_CS_LOW();
 	}
-
-	uint32_t idSearch = 0;
-	size_t i = 0;
-//	for (i = 0; i < sFLASH_NUMBER_LOGS; i++)
-	for (i = 0; i < numbOfLogs; i++)
-	{
-		sFLASH_ReadBuffer((uint8_t *)&idSearch, sFLASH_SPI_PAGE_SIZE * i, 4, numbFlashMemory);
-		if (idSearch == 0xFFFFFFFF)
-		{
-			break;
-		}
-	}
+	/* Send Bulk Erase instruction  */
+	HAL_SPI_Transmit(&hspi1, txData, sizeof(txData), HAL_MAX_DELAY);
 
 	/* Deselect the FLASH: Chip Select high */
-	// sFLASH_CS_HIGH();
 	if (numbFlashMemory == 1)
 	{
 		sFLASH1_CS_HIGH();
@@ -527,11 +754,146 @@ uint32_t sFLASH_SearchLastFreePageAdress (uint8_t numbFlashMemory)
 	{
 		sFLASH1_CS_HIGH();
 	}
-
-	if (idSearch != 0xFFFFFFFF) //have not free memory
-	{
-		return 0xFFFFFFFF;
-	}
-	else //adress free memory
-		return sFLASH_SPI_PAGE_SIZE * i;
+	/* Wait the end of Flash writing */
+	sFLASH_WaitForWriteEnd(numbFlashMemory);
 }
+
+
+
+
+///**
+//  * @brief  Reads Block protection.
+//  * @param  BlockRegData array
+//  * @retval None
+//  */
+//void sFLASH_ReadBlockProtection(uint8_t* BlockRegData)
+//{
+//	uint8_t txData[1];
+//	uint8_t rxData[6] = { 0 };
+
+//	txData[0] = FLASH_CMD_RBPR;
+
+//	/* Select the FLASH: Chip Select low */
+//	sFLASH_CS_LOW();
+
+//	/* Send "RDID " instruction */
+//	HAL_SPI_Transmit(&hspi1, txData, sizeof(txData), HAL_MAX_DELAY);
+//	/* Receive ID value */
+//	HAL_SPI_Receive(&hspi1, rxData, sizeof(rxData), HAL_MAX_DELAY);
+
+//	/* Deselect the FLASH: Chip Select high */
+//	sFLASH_CS_HIGH();
+
+//	memcpy(BlockRegData, rxData, sizeof(rxData));
+
+//}
+
+/**
+  * @brief  Send Global Block Register Unlock command
+  * @param  None
+  * @retval None
+  */
+void sFLASH_GlobalBlockProtectionUnlock(uint8_t numbFlashMemory)
+{
+	uint8_t txData[1];
+
+	txData[0] = FLASH_CMD_ULBPR;
+
+	/* Send write enable instruction */
+	sFLASH_WriteEnable(numbFlashMemory);
+
+	/* Select the FLASH: Chip Select low */
+	if (numbFlashMemory == 1)
+	{
+		sFLASH1_CS_LOW();
+	}
+	else if (numbFlashMemory == 2)
+	{
+		sFLASH2_CS_LOW();
+	}
+	else
+	{
+		sFLASH1_CS_LOW();
+	}
+
+	/* Send Bulk Erase instruction  */
+	HAL_SPI_Transmit(&hspi1, txData, sizeof(txData), HAL_MAX_DELAY);
+
+	/* Deselect the FLASH: Chip Select high */
+	if (numbFlashMemory == 1)
+	{
+		sFLASH1_CS_HIGH();
+	}
+	else if (numbFlashMemory == 2)
+	{
+		sFLASH2_CS_HIGH();
+	}
+	else
+	{
+		sFLASH1_CS_HIGH();
+	}
+}
+
+
+
+///**
+// * @brief
+// * @param  numbFlashMemory
+// * @retval free adress
+// */
+//uint32_t sFLASH_SearchLastFreePageAdress (uint8_t numbFlashMemory)
+//{
+//	uint8_t txData[1];
+//	uint8_t rxData[1];
+
+//	txData[0] = FLASH_CMD_RDSR;
+
+//	/* Select the FLASH: Chip Select low */
+//	// sFLASH_CS_LOW();
+//	if (numbFlashMemory == 1)
+//	{
+//		sFLASH1_CS_LOW();
+//	}
+//	else if (numbFlashMemory == 2)
+//	{
+//		sFLASH2_CS_LOW();
+//	}
+//	else
+//	{
+//		sFLASH1_CS_LOW();
+//	}
+
+//	uint32_t idSearch = 0;
+//	size_t i = 0;
+////	for (i = 0; i < sFLASH_NUMBER_LOGS; i++)
+//	for (i = 0; i < numbOfLogs; i++)
+//	{
+//		sFLASH_ReadBuffer((uint8_t *)&idSearch, sFLASH_SPI_PAGE_SIZE * i, 4, numbFlashMemory);
+//		if (idSearch == 0xFFFFFFFF)
+//		{
+//			break;
+//		}
+//	}
+
+//	/* Deselect the FLASH: Chip Select high */
+//	// sFLASH_CS_HIGH();
+//	if (numbFlashMemory == 1)
+//	{
+//		sFLASH1_CS_HIGH();
+//	}
+//	else if (numbFlashMemory == 2)
+//	{
+//		sFLASH2_CS_HIGH();
+//	}
+//	else
+//	{
+//		sFLASH1_CS_HIGH();
+//	}
+
+//	if (idSearch != 0xFFFFFFFF) //have not free memory
+//	{
+//		return 0xFFFFFFFF;
+//	}
+//	else //adress free memory
+//		return sFLASH_SPI_PAGE_SIZE * i;
+//}

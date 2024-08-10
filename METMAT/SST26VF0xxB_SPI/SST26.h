@@ -72,6 +72,8 @@
 #define    FLASH_CMD_NOP          0x00    //NOP (No Operation)
 
 
+#define    FLASH_CMD_RBPR          0x72    // Read Block Protection Register
+
 
 /*
  *  Flash control register mask define
@@ -111,10 +113,10 @@
 #define sFLASH_SPI_FLASH_SIZE	0x400000    /* 4 Mbytes */
 #define sFLASH_SPI_SECTOR_SIZE	0x1000      /* 4K Sector size */
 #define sFLASH_SPI_PAGE_SIZE	0x100		/* 256 Byte Page size */
-
 #define sFLASH_NUMBER_LOGS	sFLASH_SPI_FLASH_SIZE/sFLASH_SPI_PAGE_SIZE
+#define sFLASH_NUMBER_SECTORS	sFLASH_SPI_FLASH_SIZE/sFLASH_SPI_SECTOR_SIZE
 		
-const size_t numbOfLogs = sFLASH_SPI_FLASH_SIZE/sFLASH_SPI_PAGE_SIZE;
+// const size_t numbOfLogs = sFLASH_SPI_FLASH_SIZE/sFLASH_SPI_PAGE_SIZE;
 
 /* High layer functions */
 //void sFLASH_DeInit(void);
@@ -125,8 +127,28 @@ void sFLASH_WritePage(uint8_t* pBuffer, uint32_t WriteAddr, uint32_t NumByteToWr
 void sFLASH_WriteBuffer(uint8_t* pBuffer, uint32_t WriteAddr, uint32_t NumByteToWrite, uint8_t numbFlashMemor);
 void sFLASH_ReadBuffer(uint8_t* pBuffer, uint32_t ReadAddr, uint32_t NumByteToRead, uint8_t numbFlashMemor);
 uint32_t sFLASH_ReadID(uint8_t numbFlashMemor);
+void sFLASH_InitSST26(uint8_t numbFlashMemory);
 
 //void sFLASH_StartReadSequence(uint32_t ReadAddr);
 
 uint32_t sFLASH_SearchLastFreePageAdress (uint8_t numbFlashMemory);
+uint8_t sFLASH_ReadSimpleCommand(uint8_t command, uint8_t numbFlashMemory);
+
+
+// /* USER CODE BEGIN PV */
+// typedef struct
+// {
+//   uint16_t  PageSize;
+//   uint32_t  PageCount;
+//   uint32_t  SectorSize;
+//   uint32_t  SectorCount;
+//   uint32_t  BlockSize;
+//   uint32_t  BlockCount;
+//   uint32_t  NumKB;
+//   uint8_t   SR1;
+//   uint8_t   SR2;
+//   uint8_t   SR3;
+// }w25_info_t;
+// w25_info_t  w25_info;
+
 #endif /* _STM32_SPI_FLASH_H_ */

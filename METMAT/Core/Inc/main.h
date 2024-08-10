@@ -43,9 +43,23 @@ extern "C" {
 
 //48byte - before reserve
 //64byte - after reserve
+  // typedef struct
+  // {
+  //   uint32_t ID;
+  //   uint32_t Date;
+  //   uint32_t Time;
+  //   uint32_t Coordinate_oXoY;
+  //   // int32_t Temperature[5];
+  //   uint32_t Temperature[5];
+  //   uint32_t VoltageBattery;
+  //   uint32_t OnPowerMETTMP_Board;
+  //   uint32_t Reserved[4];
+  //   uint32_t EndOfLog;
+  // } log1_t;
+
+
   typedef struct
   {
-    uint32_t ID;
     uint32_t Date;
     uint32_t Time;
     uint32_t Coordinate_oXoY;
@@ -53,7 +67,7 @@ extern "C" {
     uint32_t Temperature[5];
     uint32_t VoltageBattery;
     uint32_t OnPowerMETTMP_Board;
-    uint32_t Reserved[4];
+    uint32_t Reserved[5];
     uint32_t EndOfLog;
   } log1_t;
 

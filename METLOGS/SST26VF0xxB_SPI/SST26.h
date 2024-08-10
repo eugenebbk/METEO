@@ -3,12 +3,20 @@
 
 #include "main.h"
 
+
+
 //--config pin extern
 #define FLASH1_CS_Pin GPIO_PIN_4
 #define FLASH1_CS_GPIO_Port GPIOA
 
 #define FLASH2_CS_Pin GPIO_PIN_9
 #define FLASH2_CS_GPIO_Port GPIOC
+
+#define sFLASH1_CS_LOW() HAL_GPIO_WritePin(FLASH1_CS_GPIO_Port, FLASH1_CS_Pin, GPIO_PIN_RESET)
+#define sFLASH1_CS_HIGH() HAL_GPIO_WritePin(FLASH1_CS_GPIO_Port, FLASH1_CS_Pin, GPIO_PIN_SET)
+
+#define sFLASH2_CS_LOW() HAL_GPIO_WritePin(FLASH2_CS_GPIO_Port, FLASH2_CS_Pin, GPIO_PIN_RESET)
+#define sFLASH2_CS_HIGH() HAL_GPIO_WritePin(FLASH2_CS_GPIO_Port, FLASH2_CS_Pin, GPIO_PIN_SET)
 
 /*
  *  MX25 series command hex code definition
@@ -72,6 +80,9 @@
 #define    FLASH_CMD_NOP          0x00    //NOP (No Operation)
 
 
+#define    FLASH_CMD_RBPR          0x72    // Read Block Protection Register
+
+#define    FLASH_CMD_ULBPR      0x98    //
 
 /*
  *  Flash control register mask define
@@ -80,6 +91,7 @@
 #define    FLASH_WIP_MASK         0x01
 #define    FLASH_LDSO_MASK        0x02
 #define    FLASH_QE_MASK          0x40
+#define    FLASH_BUSY_MASK        0x80
 /* security register */
 #define    FLASH_OTPLOCK_MASK     0x03
 #define    FLASH_4BYTE_MASK       0x04
@@ -111,8 +123,11 @@
 #define sFLASH_SPI_FLASH_SIZE	0x400000    /* 4 Mbytes */
 #define sFLASH_SPI_SECTOR_SIZE	0x1000      /* 4K Sector size */
 #define sFLASH_SPI_PAGE_SIZE	0x100		/* 256 Byte Page size */
-
-#define sFLASH_NUMBER_LOGS	sFLASH_SPI_FLASH_SIZE/sFLASH_SPI_PAGE_SIZE		
+#define sFLASH_NUMBER_LOGS_IN_FLASH	(sFLASH_SPI_FLASH_SIZE/sFLASH_SPI_PAGE_SIZE)
+#define sFLASH_NUMBER_LOGS_IN_SECTOR	(sFLASH_SPI_SECTOR_SIZE/sFLASH_SPI_PAGE_SIZE)
+#define sFLASH_NUMBER_SECTORS	(sFLASH_SPI_FLASH_SIZE/sFLASH_SPI_SECTOR_SIZE)
+		
+// const size_t numbOfLogs = sFLASH_SPI_FLASH_SIZE/sFLASH_SPI_PAGE_SIZE;
 
 /* High layer functions */
 //void sFLASH_DeInit(void);
@@ -123,8 +138,20 @@ void sFLASH_WritePage(uint8_t* pBuffer, uint32_t WriteAddr, uint32_t NumByteToWr
 void sFLASH_WriteBuffer(uint8_t* pBuffer, uint32_t WriteAddr, uint32_t NumByteToWrite, uint8_t numbFlashMemor);
 void sFLASH_ReadBuffer(uint8_t* pBuffer, uint32_t ReadAddr, uint32_t NumByteToRead, uint8_t numbFlashMemor);
 uint32_t sFLASH_ReadID(uint8_t numbFlashMemor);
+void sFLASH_InitSST26(uint8_t numbFlashMemory);
+void sFLASH_WaitForWriteEnd(uint8_t numbFlashMemory);
+void sFLASH_TxSimpleCmd(uint8_t numbFlashMemory, uint8_t cmd);
 
-//void sFLASH_StartReadSequence(uint32_t ReadAddr);
+void sFLASH_ReadBlockProtection(uint8_t* BlockRegData);
+void sFLASH_GlobalBlockProtectionUnlock(uint8_t numbFlashMemory);
 
-uint32_t sFLASH_SearchLastFreePageAdress (uint8_t numbFlashMemory);
+uint8_t sFLASH_ReadSimpleCommand(uint8_t command, uint8_t numbFlashMemory);
+void sFLASH_ReadCommand(uint8_t command, uint8_t* massiveAnswer, uint8_t sizeAnswer, uint8_t numbFlashMemory);
+
+
+//----------
+
+uint32_t sFLASH_SearchLastFreePageAdress(uint16_t *ID_log, uint8_t numbFlashMemory);
+// uint32_t sFLASH_SearchLastFreePageAdress (uint8_t numbFlashMemory);
+
 #endif /* _STM32_SPI_FLASH_H_ */
