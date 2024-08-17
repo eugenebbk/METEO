@@ -106,8 +106,6 @@ int main(void)
   /* USER CODE BEGIN 2 */
   HAL_GPIO_WritePin(GPIOC, GPIO_PIN_4, GPIO_PIN_RESET);
 
-  // HAL_UARTEx_ReceiveToIdle_IT(&huart4, RxData, sizeof(RxData));
-  // HAL_UARTEx_ReceiveToIdle_IT(&huart6, RxData6, sizeof(RxData6));
   HAL_UARTEx_ReceiveToIdle_IT(&huart3, RxData6, sizeof(RxData6));
 
   /* USER CODE END 2 */
