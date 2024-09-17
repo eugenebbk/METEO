@@ -1,0 +1,8 @@
+{
+    "files.associations": {
+        "usbd_cdc_if.h": "c",
+        "sst26.h": "c",
+        "main.h": "c",
+        "spi.h": "c"
+    }
+}
