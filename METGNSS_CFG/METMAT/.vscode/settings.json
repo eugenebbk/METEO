@@ -1,5 +1,13 @@
 {
     "files.associations": {
-        "usbd_cdc_if.h": "c"
+        "usbd_cdc_if.h": "c",
+        "math.h": "c",
+        "minmea_compat_windows.h": "c",
+        "minmea.h": "c",
+        "usart.h": "c",
+        "stm32f4xx_hal_uart.h": "c",
+        "time.h": "c",
+        "parsernmea.h": "c",
+        "main.h": "c"
     }
 }

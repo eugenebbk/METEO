@@ -27,6 +27,9 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "usbd_cdc_if.h"
+#include "parserMETEO.h"
+#include "meteostation.h"
+
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -63,13 +66,15 @@ uint8_t RxData6[60] = {0};
 int indx = 0;
 uint8_t fullPacket[12] = {0xFD, 0x55, 0};
 
-
-uint8_t RxDataUSART3[16] = {0};
+uint8_t RxDataUSART3[32] = {0};
 //-------------USB
 
 uint8_t RxDataUSB[255] = {0};
 uint32_t RxDataUSB_len = 0;
 
+//--------meteo parser
+errorMeteostation_t errorMeteostation = {0};
+dataMeteostation_t dataMeteostation = {0};
 
 /* USER CODE END PV */
 
@@ -85,9 +90,9 @@ void SystemClock_Config(void);
 /* USER CODE END 0 */
 
 /**
-  * @brief  The application entry point.
-  * @retval int
-  */
+ * @brief  The application entry point.
+ * @retval int
+ */
 int main(void)
 {
   /* USER CODE BEGIN 1 */
@@ -118,15 +123,9 @@ int main(void)
   MX_UART4_Init();
   MX_USART6_UART_Init();
   /* USER CODE BEGIN 2 */
-//  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_4, GPIO_PIN_RESET);
+  // __HAL_UART_ENABLE_IT(&huart4, UART_IT_IDLE);
 
-// __HAL_UART_ENABLE_IT(&huart4, UART_IT_IDLE);
-
-// HAL_UART_Receive_IT(&huart4, &receiveRingBuf[0], 12);
-
-//  HAL_UARTEx_ReceiveToIdle_IT(&huart4, RxData, sizeof(RxData));
-//  HAL_UARTEx_ReceiveToIdle_IT(&huart6, RxData6, sizeof(RxData6));
-
+  // HAL_UART_Receive_IT(&huart4, &receiveRingBuf[0], 12);
   HAL_UARTEx_ReceiveToIdle_IT(&huart3, RxDataUSART3, sizeof(RxDataUSART3));
 
   /* USER CODE END 2 */
@@ -136,24 +135,17 @@ int main(void)
   while (1)
   {
 
-//    HAL_Delay(1);
+    //    HAL_Delay(1);
     // if (flagBoard & INTERRUPT_USB_MASK)
     if (flagBoard == 1)
     {
-      //          flagBoard &= 0xFE;
-			
       flagBoard = 0;
-			
       HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_11);
-//			
+
       PIN_EN_TRANSMIT_USART3(1);
-      // HAL_UART_Transmit(&huart4, &requestTemperature, 1, 100);
       HAL_UART_Transmit_IT(&huart3, RxDataUSB, RxDataUSB_len);
-			
       HAL_Delay(3);
       PIN_EN_TRANSMIT_USART3(0);
-			
-			
     }
 
     /* USER CODE END WHILE */
@@ -164,21 +156,21 @@ int main(void)
 }
 
 /**
-  * @brief System Clock Configuration
-  * @retval None
-  */
+ * @brief System Clock Configuration
+ * @retval None
+ */
 void SystemClock_Config(void)
 {
   RCC_OscInitTypeDef RCC_OscInitStruct = {0};
   RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
 
   /** Configure the main internal regulator output voltage
-  */
+   */
   __HAL_RCC_PWR_CLK_ENABLE();
   __HAL_PWR_VOLTAGESCALING_CONFIG(PWR_REGULATOR_VOLTAGE_SCALE1);
   /** Initializes the RCC Oscillators according to the specified parameters
-  * in the RCC_OscInitTypeDef structure.
-  */
+   * in the RCC_OscInitTypeDef structure.
+   */
   RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSE;
   RCC_OscInitStruct.HSEState = RCC_HSE_ON;
   RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
@@ -193,9 +185,8 @@ void SystemClock_Config(void)
     Error_Handler();
   }
   /** Initializes the CPU, AHB and APB buses clocks
-  */
-  RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
-                              |RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2;
+   */
+  RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK | RCC_CLOCKTYPE_SYSCLK | RCC_CLOCKTYPE_PCLK1 | RCC_CLOCKTYPE_PCLK2;
   RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_PLLCLK;
   RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
   RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV2;
@@ -206,7 +197,7 @@ void SystemClock_Config(void)
     Error_Handler();
   }
   /** Enables the Clock Security System
-  */
+   */
   HAL_RCC_EnableCSS();
 }
 
@@ -305,25 +296,15 @@ void HAL_UARTEx_RxEventCallback(UART_HandleTypeDef *huart, uint16_t Size)
   const uint8_t startWord8[2] = {0xFD, 0x55};
   indx = Size;
 
-	if (huart->Instance == USART3) // check if the interrupt comes from
+  if (huart->Instance == USART3) // check if the interrupt comes from //rs485
   {
-
-		
-		if (memcmp(RxDataUSART3, RxDataUSB, Size))
+    if (memcmp(RxDataUSART3, RxDataUSB, Size)) // echo data
     {
-			CDC_Transmit_FS(&RxDataUSART3[0], Size);
+      CDC_Transmit_FS(&RxDataUSART3[0], Size);
+      parserMeteoStation_simple(&RxDataUSART3[0]);
     }
-		
-//		if (strncmp(RxDataUSART3, RxDataUSB, Size))
-//    {
-//			CDC_Transmit_FS(&RxDataUSART3[0], Size);
-//    }
-		
-		
-		
     HAL_UARTEx_ReceiveToIdle_IT(&huart3, RxDataUSART3, sizeof(RxDataUSART3));
   }
-	
   if (huart->Instance == UART4) // check if the interrupt comes from
   {
     // const uint8_t startPacket = 0x5D;
@@ -361,7 +342,7 @@ void HAL_UARTEx_RxEventCallback(UART_HandleTypeDef *huart, uint16_t Size)
 
     HAL_UARTEx_ReceiveToIdle_IT(&huart4, RxData, sizeof(RxData));
   }
-  
+
   if (huart->Instance == USART6) // check if the interrupt comes from
   {
 
@@ -388,9 +369,9 @@ void HAL_UARTEx_RxEventCallback(UART_HandleTypeDef *huart, uint16_t Size)
 /* USER CODE END 4 */
 
 /**
-  * @brief  This function is executed in case of error occurrence.
-  * @retval None
-  */
+ * @brief  This function is executed in case of error occurrence.
+ * @retval None
+ */
 void Error_Handler(void)
 {
   /* USER CODE BEGIN Error_Handler_Debug */
@@ -402,14 +383,14 @@ void Error_Handler(void)
   /* USER CODE END Error_Handler_Debug */
 }
 
-#ifdef  USE_FULL_ASSERT
+#ifdef USE_FULL_ASSERT
 /**
-  * @brief  Reports the name of the source file and the source line number
-  *         where the assert_param error has occurred.
-  * @param  file: pointer to the source file name
-  * @param  line: assert_param error line source number
-  * @retval None
-  */
+ * @brief  Reports the name of the source file and the source line number
+ *         where the assert_param error has occurred.
+ * @param  file: pointer to the source file name
+ * @param  line: assert_param error line source number
+ * @retval None
+ */
 void assert_failed(uint8_t *file, uint32_t line)
 {
   /* USER CODE BEGIN 6 */

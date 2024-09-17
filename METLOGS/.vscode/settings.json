@@ -5,6 +5,8 @@
         "main.h": "c",
         "spi.h": "c",
         "logssst26.h": "c",
-        "usbd_cdc.h": "c"
+        "usbd_cdc.h": "c",
+        "meteo_parser.h": "c",
+        "crc16.h": "c"
     }
 }

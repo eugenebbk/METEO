@@ -1,5 +1,10 @@
 {
     "files.associations": {
-        "usbd_cdc_if.h": "c"
+        "usbd_cdc_if.h": "c",
+        "string.h": "c",
+        "stdio.h": "c",
+        "crcansi.h": "c",
+        "parsermeteo.h": "c",
+        "meteostation.h": "c"
     }
 }

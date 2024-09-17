@@ -50,10 +50,12 @@ void SST26clearSectorLogs(uint8_t numbSector, uint8_t numbFlashMemory)
 extern uint16_t currentID_log_buf;
 extern uint8_t blockInterruptUSB;
 
+//void collectDataForLogs(log3_t *log, uint16_t currentFreeID_func, uint8_t numbFlashMemory)
 void collectDataForLogs(log3_t *log)
 {
 
     blockInterruptUSB = 1;
+	
     log3_t log31 = {0};
 
     // log3_func->
@@ -86,4 +88,5 @@ void collectDataForLogs(log3_t *log)
 
     blockInterruptUSB = 0;
     // currentID_log_buf++;
+  SST26writeLog1(log31, currentID_log_buf, 1);
 }

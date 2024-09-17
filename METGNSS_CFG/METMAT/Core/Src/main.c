@@ -27,6 +27,8 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "usbd_cdc_if.h"
+#include "parserNMEA.h"
+#include "minmea.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -53,9 +55,17 @@ uint8_t *Buf;
 uint8_t flagBoard = 0; // ??????? ?????? ????????
 
 // uart
-
-uint8_t RxData6[128] = {0};
+#define SIZE_MASSIVE_FOR_NMEA 128
+uint8_t RxData6[SIZE_MASSIVE_FOR_NMEA] = {0};
 int indx = 0;
+
+inter_t inter = {
+    0,
+};
+
+struct minmea_sentence_zda frame_zda = {0};
+struct minmea_sentence_gll frame_gll = {0};
+uint8_t *massiveParser_ptr = NULL;
 
 /* USER CODE END PV */
 
@@ -100,13 +110,15 @@ int main(void)
   MX_GPIO_Init();
   MX_USB_DEVICE_Init();
   // MX_SPI1_Init();
-//  MX_USART3_UART_Init();
+  //  MX_USART3_UART_Init();
   // MX_UART4_Init();
-    MX_USART6_UART_Init();
+  MX_USART6_UART_Init();
   /* USER CODE BEGIN 2 */
-  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_4, GPIO_PIN_RESET);
-
-  HAL_UARTEx_ReceiveToIdle_IT(&huart3, RxData6, sizeof(RxData6));
+  //  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_4, GPIO_PIN_RESET);
+  memset(&RxData6, '$', SIZE_MASSIVE_FOR_NMEA);
+  //	clearMassiveForNMEA(&huart6, &RxData6[0], SIZE_MASSIVE_FOR_NMEA);
+  // HAL_UARTEx_ReceiveToIdle_IT(&huart3, RxData6, sizeof(RxData6));
+  HAL_UARTEx_ReceiveToIdle_IT(&huart6, RxData6, sizeof(RxData6));
 
   /* USER CODE END 2 */
 
@@ -121,7 +133,7 @@ int main(void)
     {
       //          flagBoard &= 0xFE;
       flagBoard = 0;
-      HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_11);
+      //      HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_11);
       //   PIN_EN_TRANSMIT_UART4(1);
       //   // HAL_UART_Transmit(&huart4, &requestTemperature, 1, 100);
       //   HAL_UART_Transmit_IT(&huart4, &requestTemperature, 1);
@@ -129,6 +141,19 @@ int main(void)
       //   PIN_EN_TRANSMIT_UART4(0);
       //   // CDC_Transmit_FS(str, 1);
     }
+    if (inter.GNSS_Inter)
+    {
+      inter.GNSS_Inter = 0;
+
+      //    HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_11);
+			
+//            uint8_t successData = readData((const uint8_t *)&RxData6);
+//      	memset(&RxData6, '$', SIZE_MASSIVE_FOR_NMEA);
+			
+//      			HAL_UARTEx_ReceiveToIdle_IT(&huart6, RxData6, sizeof(RxData6));
+    }
+    //    HAL_Delay(500);
+    //		HAL_UARTEx_ReceiveToIdle_IT(&huart6, RxData6, sizeof(RxData6));
 
     /* USER CODE END WHILE */
 
@@ -205,9 +230,18 @@ void HAL_UARTEx_RxEventCallback(UART_HandleTypeDef *huart, uint16_t Size)
   if (huart->Instance == USART6) // check if the interrupt comes from
   {
 
-    HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_11);
-    CDC_Transmit_FS(&RxData6[0], sizeof(RxData6));
+    //    CDC_Transmit_FS(&RxData6[0], sizeof(RxData6));
+//        inter.GNSS_Inter = 1;
     //    __HAL_UART_CLEAR_IDLEFLAG(&huart6);
+    //    HAL_UARTEx_ReceiveToIdle_IT(&huart6, RxData6, sizeof(RxData6));
+    //			HAL_UARTEx_ReceiveToIdle_IT(&huart6, RxData6, sizeof(RxData6));
+
+    HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_11);
+//    __HAL_UART_CLEAR_IDLEFLAG(&huart6);
+
+    uint8_t successData = readData((const uint8_t *)&RxData6);
+//    memset(&RxData6, '$', SIZE_MASSIVE_FOR_NMEA);
+
     HAL_UARTEx_ReceiveToIdle_IT(&huart6, RxData6, sizeof(RxData6));
   }
 }
