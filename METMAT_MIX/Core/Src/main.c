@@ -200,7 +200,7 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-    stateMachineCollectData();
+//    stateMachineCollectData();
 
     if (flagsInterrupts.USB_VCP_int == 1)
     {
@@ -336,17 +336,17 @@ uint8_t parserRequestPC(uint8_t *messageRequestPC)
   static uint8_t stateMachineParserPC = 0;
   uint8_t errorParserPC = 0;
 
-  uint8_t payloadParserPC = messageRequestPC[2];
-  uint16_t resultCompareCRC_temp = func_compare_crc16(messageRequestPC, REQUEST_PC_HEADER_SIZE + payloadParserPC + REQUEST_PC_CRC_SIZE); //
+  uint8_t payloadLenghtParserPC = messageRequestPC[2];
+  uint16_t resultCompareCRC_temp = func_compare_crc16(messageRequestPC, REQUEST_PC_HEADER_SIZE + payloadLenghtParserPC + REQUEST_PC_CRC_SIZE); //
 
   uint8_t *payload_ptr = messageRequestPC + REQUEST_PC_HEADER_SIZE - 1;
-  if (messageRequestPC[0] == REQUEST_PC_HEADER && resultCompareCRC_temp == 0) // если принятый байт совпадает с шапкой
+  if (messageRequestPC[0] == REQUEST_PC_HEADER && resultCompareCRC_temp == 0 && payloadLenghtParserPC < 2) // если принятый байт совпадает с шапкой
   {
     switch (messageRequestPC[1]) // начало перечисления байтов функций
     {
-      if (stateMachineParserPC == 0)
+      if (stateMachineParserPC == 0) //
       {
-      case WriteTimePeriodEventLog: // команде старта измерения
+      case WriteTimePeriodEventLog: //
         configureModeMK.periodWritingDataToLog = (messageRequestPC[3] << 8) && (messageRequestPC[4]);
 
         // занос настроек
@@ -359,8 +359,8 @@ uint8_t parserRequestPC(uint8_t *messageRequestPC)
 
         // добавить вывод в юсб для отладки
         //  выполнение
-        //  memcpy(&usb_protocol.payloadAndCRC[0], ,SIZE_LOG); //копирование лога
-        break; // выход из байта функции
+        memcpy(&usb_protocol.payloadAndCRC[0], (uint8_t *)&log3.ID, SIZE_LOG); // копирование лога
+        break;                                                                 // выход из байта функции
 
       case ClearEventLog:
 
