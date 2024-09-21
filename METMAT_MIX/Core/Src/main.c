@@ -200,7 +200,7 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-//    stateMachineCollectData();
+    stateMachineCollectData();
 
     if (flagsInterrupts.USB_VCP_int == 1)
     {
@@ -236,6 +236,9 @@ int main(void)
           stateCollectData = 2;
         }
       }
+			else{
+				stateCollectData = 1;
+			}
     }
 
     /* USER CODE END WHILE */
@@ -325,7 +328,7 @@ void HAL_UARTEx_RxEventCallback(UART_HandleTypeDef *huart, uint16_t Size)
 
 uint8_t parserRequestPC(uint8_t *messageRequestPC)
 {
-  uint8_t messageAnswerPC[261] = {0};
+  // uint8_t messageAnswerPC[261] = {0};
 
   usb_protocol_t usb_protocol = {0};
 
@@ -344,8 +347,8 @@ uint8_t parserRequestPC(uint8_t *messageRequestPC)
   {
     switch (messageRequestPC[1]) // начало перечисления байтов функций
     {
-      if (stateMachineParserPC == 0) //
-      {
+//      if (stateMachineParserPC == 0) //
+//      {
       case WriteTimePeriodEventLog: //
         configureModeMK.periodWritingDataToLog = (messageRequestPC[3] << 8) && (messageRequestPC[4]);
 
@@ -355,7 +358,7 @@ uint8_t parserRequestPC(uint8_t *messageRequestPC)
         break; // выход из байта функции
 
       case ReadEventLog: //-
-        usb_protocol.lenghtPayload = (uint8_t)SIZE_LOG;
+        usb_protocol.lenghtPayload = (uint16_t)SIZE_LOG;
 
         // добавить вывод в юсб для отладки
         //  выполнение
@@ -387,7 +390,7 @@ uint8_t parserRequestPC(uint8_t *messageRequestPC)
         // выполнение
         usb_protocol.payloadAndCRC[0] = 0;
         break; // выход из байта функции
-      }
+//      }
 
     case StopWriteDataToLog:
       configureModeMK.currentModeMK = StopWriteDataToLog;
@@ -425,23 +428,23 @@ uint8_t parserRequestPC(uint8_t *messageRequestPC)
       usb_protocol.payloadAndCRC[0] = 2; // data
 
       uint16_t calcCRC16 = func_calc_crc16((uint8_t *)&usb_protocol.headerConst, REQUEST_PC_HEADER_SIZE + usb_protocol.lenghtPayload);
-      usb_protocol.payloadAndCRC[usb_protocol.lenghtPayload + REQUEST_PC_HEADER_SIZE - 1] = (uint8_t)(calcCRC16 >> 8);
-      usb_protocol.payloadAndCRC[usb_protocol.lenghtPayload + REQUEST_PC_HEADER_SIZE] = (uint8_t)(calcCRC16 & 0xFF);
+      usb_protocol.payloadAndCRC[usb_protocol.lenghtPayload] = (uint8_t)(calcCRC16 >> 8);
+      usb_protocol.payloadAndCRC[usb_protocol.lenghtPayload+1] = (uint8_t)(calcCRC16 & 0xFF);
       errorParserPC = 2; // error cmd
       break;             // выход
 
     } // конец перечисления байтов функций
     uint16_t calcCRC16 = func_calc_crc16((uint8_t *)&usb_protocol.headerConst, REQUEST_PC_HEADER_SIZE + usb_protocol.lenghtPayload);
-    usb_protocol.payloadAndCRC[usb_protocol.lenghtPayload + REQUEST_PC_HEADER_SIZE - 1] = (uint8_t)(calcCRC16 >> 8);
-    usb_protocol.payloadAndCRC[usb_protocol.lenghtPayload + REQUEST_PC_HEADER_SIZE] = (uint8_t)(calcCRC16 & 0xFF);
+    usb_protocol.payloadAndCRC[usb_protocol.lenghtPayload] = (uint8_t)(calcCRC16 >> 8);
+    usb_protocol.payloadAndCRC[usb_protocol.lenghtPayload+1] = (uint8_t)(calcCRC16 & 0xFF);
   }
   else
   {
     usb_protocol.payloadAndCRC[0] = 1;
 
     uint16_t calcCRC16 = func_calc_crc16((uint8_t *)&usb_protocol.headerConst, REQUEST_PC_HEADER_SIZE + usb_protocol.lenghtPayload);
-    usb_protocol.payloadAndCRC[usb_protocol.lenghtPayload + REQUEST_PC_HEADER_SIZE - 1] = (uint8_t)(calcCRC16 >> 8);
-    usb_protocol.payloadAndCRC[usb_protocol.lenghtPayload + REQUEST_PC_HEADER_SIZE] = (uint8_t)(calcCRC16 & 0xFF);
+    usb_protocol.payloadAndCRC[usb_protocol.lenghtPayload] = (uint8_t)(calcCRC16 >> 8);
+    usb_protocol.payloadAndCRC[usb_protocol.lenghtPayload+1] = (uint8_t)(calcCRC16 & 0xFF);
 
     errorParserPC = 1; // error crc and header
   }
@@ -454,9 +457,6 @@ uint8_t stateMachineCollectData(void)
 {
   switch (stateCollectData)
   {
-  default:
-    stateCollectData = 0;
-    break;
 
   // init METEOSTATION
   case 0:
@@ -468,12 +468,13 @@ uint8_t stateMachineCollectData(void)
     formMeteoRequestCMD_simple(CMD_READ_DATA, TxDataUSART3);
     PIN_EN_TRANSMIT_UART3(1);
     HAL_UART_Transmit_IT(&huart3, TxDataUSART3, CMD_READ_DATA_SiZE);
-    HAL_Delay(10);
+    HAL_Delay(3);
     PIN_EN_TRANSMIT_UART3(0);
+		stateCollectData = 0;
     // stateCollectData++;
     break;
 
-  //"Setting CLK output to high"
+  //
   case 2:
     // formMeteoRequestCMD_simple(CMD_READ_DATA, TxDataUSART4);
     TxDataUSART4 = 0x5e;
@@ -484,6 +485,9 @@ uint8_t stateMachineCollectData(void)
     stateCollectData++;
     break;
 
+  default:
+    stateCollectData = 0;
+    break;
     // return 0xFF; // ready
   }
   return 0x00; // busy

@@ -9,9 +9,9 @@
 
 //-----config
 #define REQUEST_PC_HEADER 0x33
-#define REQUEST_PC_HEADER_SIZE 3
+#define REQUEST_PC_HEADER_SIZE 4
 #define REQUEST_PC_CRC_SIZE 2
-#define ANSWER_TO_PC_HEADER_SIZE 3
+#define ANSWER_TO_PC_HEADER_SIZE 4
 #define ANSWER_TO_PC_CRC_SIZE 2
 #define PROTOCOL_USB_FULLSIZE (REQUEST_PC_CRC_SIZE + REQUEST_PC_HEADER_SIZE)
 
@@ -34,7 +34,7 @@ typedef struct
 {
     uint8_t headerConst;
     uint8_t cmd;
-    uint8_t lenghtPayload;
+    uint16_t lenghtPayload;
     uint8_t payloadAndCRC[SIZE_LOG + REQUEST_PC_CRC_SIZE]; //maxPayloadData
 } usb_protocol_t;
 

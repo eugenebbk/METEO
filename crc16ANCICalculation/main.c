@@ -35,12 +35,13 @@ uint16_t func_calc_crc16(const uint8_t *Mas_crc16, uint8_t sizeDataWithoutCRC)
     return crc16; // возврат функцией значения crc16
 }
 
-#define SENTENCE_SIZE 3
+#define SENTENCE_SIZE 4
 
 int main(void)
 {
 
-    uint8_t sentenceForCRC[SENTENCE_SIZE] = {0x33, 0x08, 0x00};
+    uint8_t sentenceForCRC[SENTENCE_SIZE] = {0x33, 0x04, 0x00, 0x00};
+    // uint8_t sentenceForCRC[SENTENCE_SIZE] = {0x33, 0x08, 0x01, 0x00};
     // uint8_t sentenceForCRC[SENTENCE_SIZE] = {0x24, 0x43};
     uint16_t CRC_Answer = 0;
 
