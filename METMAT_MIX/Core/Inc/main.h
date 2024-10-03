@@ -35,7 +35,7 @@ extern "C"{
 
 #define INTERRUPT_USB_MASK 1
 
-#define SIZE_RX_USB_BUFFER 32
+#define SIZE_RX_USB_BUFFER 64
 
   /* USER CODE END Includes */
 
@@ -90,6 +90,15 @@ extern "C"{
     // uint8_t PVD_PWR_int : 1; // 0-1
   } flagsInterrupts_t;
 
+  typedef enum
+  {
+		DEFAULT_MODE=0,
+		COLLECT_DATA_MODE,
+		BRIDGE_METEOBLOCK_MODE,
+		BRIDGE_GNSS_MODE,
+		BRIDGE_ACCUMULATOR_MODE,
+		BRIDGE_TMPRTRBRD_MODE
+  } eModeMK_t;
   /* USER CODE END ET */
 
   /* Exported constants --------------------------------------------------------*/

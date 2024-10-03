@@ -27,8 +27,8 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "usbd_cdc_if.h"
-#include "parserMETEO.h"
-#include "meteostation.h"
+//#include "parserMETEO.h"
+//#include "meteostation.h"
 
 /* USER CODE END Includes */
 
@@ -73,8 +73,8 @@ uint8_t RxDataUSB[255] = {0};
 uint32_t RxDataUSB_len = 0;
 
 //--------meteo parser
-errorMeteostation_t errorMeteostation = {0};
-dataMeteostation_t dataMeteostation = {0};
+//errorMeteostation_t errorMeteostation = {0};
+//dataMeteostation_t dataMeteostation = {0};
 
 /* USER CODE END PV */
 
@@ -301,7 +301,7 @@ void HAL_UARTEx_RxEventCallback(UART_HandleTypeDef *huart, uint16_t Size)
     if (memcmp(RxDataUSART3, RxDataUSB, Size)) // echo data
     {
       CDC_Transmit_FS(&RxDataUSART3[0], Size);
-      parserMeteoStation_simple(&RxDataUSART3[0]);
+//      parserMeteoStation_simple(&RxDataUSART3[0]);
     }
     HAL_UARTEx_ReceiveToIdle_IT(&huart3, RxDataUSART3, sizeof(RxDataUSART3));
   }
@@ -321,24 +321,24 @@ void HAL_UARTEx_RxEventCallback(UART_HandleTypeDef *huart, uint16_t Size)
 
     // }
 
-    if (memcmp(RxData, &requestTemperature, 1))
-    {
-      // for (size_t i = 0; i < 5; i++)
-      // {
-      //   memcpy(&fullPacket[i * 2 + 1], &temperatureSensor[i].sourceTemperature, 2);
-      // }
+//    if (memcmp(RxData, &requestTemperature, 1))
+//    {
+//      // for (size_t i = 0; i < 5; i++)
+//      // {
+//      //   memcpy(&fullPacket[i * 2 + 1], &temperatureSensor[i].sourceTemperature, 2);
+//      // }
 
-      // HAL_GPIO_WritePin(GPIOB, GPIO_PIN_5, GPIO_PIN_SET);
-      // HAL_UART_Transmit_IT(&huart4, &fullPacket[0], sizeof(fullPacket));
-      // HAL_Delay(5);
-      // HAL_GPIO_WritePin(GPIOB, GPIO_PIN_5, GPIO_PIN_RESET);
+//      // HAL_GPIO_WritePin(GPIOB, GPIO_PIN_5, GPIO_PIN_SET);
+//      // HAL_UART_Transmit_IT(&huart4, &fullPacket[0], sizeof(fullPacket));
+//      // HAL_Delay(5);
+//      // HAL_GPIO_WritePin(GPIOB, GPIO_PIN_5, GPIO_PIN_RESET);
 
-      // HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_11);
-      memcpy(&exitTemperature8[0], &startWord8[0], 2);
-      memcpy(&exitTemperature8[2], &RxData[2], 10);
-      CDC_Transmit_FS(&exitTemperature8[0], sizeof(exitTemperature8));
-      // CDC_Transmit_FS(&RxData[0], 12);
-    }
+//      // HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_11);
+//      memcpy(&exitTemperature8[0], &startWord8[0], 2);
+//      memcpy(&exitTemperature8[2], &RxData[2], 10);
+//      CDC_Transmit_FS(&exitTemperature8[0], sizeof(exitTemperature8));
+//      // CDC_Transmit_FS(&RxData[0], 12);
+//    }
 
     HAL_UARTEx_ReceiveToIdle_IT(&huart4, RxData, sizeof(RxData));
   }

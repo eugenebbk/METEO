@@ -11,7 +11,6 @@
 
 #include "crcANSI.h"
 
-
 // функция вычисления crc16 (первый аргумент-указатель на элемент массива Mas_crc16, второй - задаёт число элементов массива без CRC)
 uint16_t func_calc_crc16(const uint8_t *Mas_crc16, uint8_t sizeDataWithoutCRC)
 {
@@ -40,12 +39,13 @@ uint16_t func_calc_crc16(const uint8_t *Mas_crc16, uint8_t sizeDataWithoutCRC)
 int main(void)
 {
 
-    uint8_t sentenceForCRC[SENTENCE_SIZE] = {0x33, 0x04, 0x00, 0x00};
+    uint8_t sentenceForCRC[SENTENCE_SIZE] = {0x33, 0x10, 0x00, 0x00};
     // uint8_t sentenceForCRC[SENTENCE_SIZE] = {0x33, 0x08, 0x01, 0x00};
     // uint8_t sentenceForCRC[SENTENCE_SIZE] = {0x24, 0x43};
     uint16_t CRC_Answer = 0;
 
     CRC_Answer = func_calc_crc16(sentenceForCRC, SENTENCE_SIZE);
 
+    printf("%d\n", CRC_Answer);
     return 0;
 }

@@ -31,6 +31,9 @@ extern flagsInterrupts_t flagsInterrupts;
 
 extern uint8_t requestUSB[SIZE_RX_USB_BUFFER];
 
+//extern uint8_t RxDataUSB[255];
+extern uint8_t RxDataUSB[SIZE_RX_USB_BUFFER];
+extern uint32_t RxDataUSB_len;
 /* USER CODE END INCLUDE */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -274,11 +277,18 @@ static int8_t CDC_Receive_FS(uint8_t* Buf, uint32_t *Len)
   // flagBoard |= 1;
   //  flagBoard = 1;
 
+//  flagBoard = 1;
+//	memcpy(RxDataUSB,Buf,*Len);
+//	RxDataUSB_len = *Len;
+	
+	
   USBD_CDC_SetRxBuffer(&hUsbDeviceFS, &Buf[0]);
   USBD_CDC_ReceivePacket(&hUsbDeviceFS);
   //	HAL_UART_Transmit(&huart6, Buf, *Len,10);
   
-  memcpy (requestUSB, Buf, *Len);
+//  memcpy (requestUSB, Buf, *Len);
+	memcpy(RxDataUSB,Buf,*Len);
+	RxDataUSB_len = *Len;
 
   return (USBD_OK);
   /* USER CODE END 6 */

@@ -79,6 +79,7 @@ uint8_t requestTemperature = 0x5e;
 
 // uart
 
+uint8_t RxDataUSART1[32] = {0};
 uint8_t RxDataUSART3[32] = {0};
 uint8_t RxDataUSART4[12] = {0};
 uint8_t RxDataUSART6[128] = {0};
@@ -102,6 +103,16 @@ uint32_t currentID_log = 1;
 
 uint16_t numbSectorCurrent = 0;
 uint32_t flashID = 0;
+//---------mode Work
+uint8_t modeMK = 0;
+eModeMK_t eModeMK = DEFAULT_MODE;
+
+uint8_t en_dis_interruptsBridges = 0;
+
+//------------USB
+
+uint8_t RxDataUSB[255] = {0};
+uint32_t RxDataUSB_len = 0;
 
 //---------Debug
 
@@ -124,6 +135,8 @@ void SystemClock_Config(void);
 
 uint8_t parserRequestPC(uint8_t *messageRequestPC);
 uint8_t stateMachineCollectData(void);
+uint8_t disableInterruptInterfaces(uint8_t modeMK);
+uint8_t enableInterruptInterfaces(void);
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -200,47 +213,108 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-    stateMachineCollectData();
-
-    if (flagsInterrupts.USB_VCP_int == 1)
-    {
-      flagsInterrupts.USB_VCP_int = 0;
-      parserRequestPC(requestUSB);
-      // HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_11);
-      // PIN_EN_TRANSMIT_UART4(1);
-      // HAL_UART_Transmit_IT(&huart4, &requestTemperature, 1);
-      // HAL_Delay(10);
-      // PIN_EN_TRANSMIT_UART4(0);
-    }
-    if (flagsInterrupts.UART_TEMPERATURE_int == 1)
-    {
-      flagsInterrupts.UART_TEMPERATURE_int = 0;
-      if (!parserTemperatureBoard(RxDataUSART4))
-      {
-        for (uint8_t i = 0; i < NUMB_TEMPBOARD_SENSOR; i++)
-        {
-          log3.Temperature[i] = (int32_t)dataTemperatureMETTMPR.temperatureMETTMPR[i];
-        }
-        stateCollectData = 0;
-      }
-    }
-    if (flagsInterrupts.UART_METEOBLOCK_int == 1)
-    {
-      flagsInterrupts.UART_METEOBLOCK_int = 0;
-      uint8_t resultParser = parserMeteoStation_simple(RxDataUSART3);
-      if (resultParser != 1)
-      {
-        if (resultParser == 0x43)
-        {
-          memcpy(&log3.ExtMetTMPRTR_Heater, &dataMeteostation.Tmperature_Heater, 20);
-          stateCollectData = 2;
-        }
-      }
-			else{
-				stateCollectData = 1;
+		if(eModeMK == DEFAULT_MODE){
+			if(en_dis_interruptsBridges){
+				en_dis_interruptsBridges = 0;
+				enableInterruptInterfaces();
 			}
-    }
-
+			
+			if (flagsInterrupts.USB_VCP_int == 1)
+			{
+				flagsInterrupts.USB_VCP_int = 0;
+				parserRequestPC(RxDataUSB);
+			}
+		}
+		else if(eModeMK == COLLECT_DATA_MODE){
+			if(en_dis_interruptsBridges){
+				en_dis_interruptsBridges = 0;
+				enableInterruptInterfaces();
+			}
+			stateMachineCollectData();
+			
+			if (flagsInterrupts.USB_VCP_int == 1)
+			{
+				flagsInterrupts.USB_VCP_int = 0;
+				parserRequestPC(RxDataUSB);
+			}
+			if (flagsInterrupts.UART_TEMPERATURE_int == 1)
+			{
+				flagsInterrupts.UART_TEMPERATURE_int = 0;
+				if (!parserTemperatureBoard(RxDataUSART4))
+				{
+					for (uint8_t i = 0; i < NUMB_TEMPBOARD_SENSOR; i++)
+					{
+						log3.Temperature[i] = (int32_t)dataTemperatureMETTMPR.temperatureMETTMPR[i];
+					}
+					stateCollectData = 0;
+				}
+			}
+			if (flagsInterrupts.UART_METEOBLOCK_int == 1)
+			{
+				flagsInterrupts.UART_METEOBLOCK_int = 0;
+				uint8_t resultParser = parserMeteoStation_simple(RxDataUSART3);
+				if (resultParser != 1)
+				{
+					if (resultParser == 0x43)
+					{
+						memcpy(&log3.ExtMetTMPRTR_Heater, &dataMeteostation.Tmperature_Heater, 20);
+						stateCollectData = 2;
+					}
+				}
+				else{
+					stateCollectData = 1;
+				}
+			}
+		}
+		else if(eModeMK == BRIDGE_METEOBLOCK_MODE){
+			if(en_dis_interruptsBridges){
+				enableInterruptInterfaces();
+				disableInterruptInterfaces(BRIDGE_METEOBLOCK_MODE);
+				en_dis_interruptsBridges = 0;
+			}
+			
+			if (flagsInterrupts.USB_VCP_int == 1)
+			{
+//				parserRequestPC(RxDataUSB);
+				flagsInterrupts.USB_VCP_int = 0;
+				HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_11);
+				PIN_EN_TRANSMIT_USART3(1);
+				HAL_UART_Transmit_IT(&huart3, RxDataUSB, RxDataUSB_len);
+				HAL_Delay(6);
+				PIN_EN_TRANSMIT_USART3(0);
+			}
+		}
+		else if(eModeMK == BRIDGE_GNSS_MODE){
+			if(en_dis_interruptsBridges){
+				en_dis_interruptsBridges = 0;
+				enableInterruptInterfaces();
+				disableInterruptInterfaces(BRIDGE_GNSS_MODE);
+			}
+		}
+		else if(eModeMK == BRIDGE_ACCUMULATOR_MODE){
+			if(en_dis_interruptsBridges){
+				en_dis_interruptsBridges = 0;
+				enableInterruptInterfaces();
+				disableInterruptInterfaces(BRIDGE_ACCUMULATOR_MODE);
+			}
+//			if (flagsInterrupts.USB_VCP_int == 1)
+//			{
+//				flagsInterrupts.USB_VCP_int = 0;
+//				HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_11);
+//				PIN_EN_TRANSMIT_USART3(1);
+//				HAL_UART_Transmit_IT(&huart3, RxDataUSB, RxDataUSB_len);
+//				HAL_Delay(3);
+//				PIN_EN_TRANSMIT_USART3(0);
+//			}
+		}
+		else if(eModeMK == BRIDGE_TMPRTRBRD_MODE){
+			if(en_dis_interruptsBridges){
+				en_dis_interruptsBridges = 0;
+				enableInterruptInterfaces();
+				disableInterruptInterfaces(BRIDGE_TMPRTRBRD_MODE);
+			}
+		}
+			
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
@@ -302,12 +376,34 @@ void HAL_UARTEx_RxEventCallback(UART_HandleTypeDef *huart, uint16_t Size)
 
   if (huart->Instance == USART3) // meteoblock
   {
-    if (memcmp(RxDataUSART3, TxDataUSART3, Size)) // echo data
-    {
-      flagsInterrupts.UART_METEOBLOCK_int = 1;
-      // CDC_Transmit_FS(&RxDataUSART3[0], Size);
-      // parserMeteoStation_simple(&RxDataUSART3[0]);
-    }
+		
+		if(eModeMK == COLLECT_DATA_MODE)
+		{
+			if (memcmp(RxDataUSART3, TxDataUSART3, Size)){
+				flagsInterrupts.UART_METEOBLOCK_int = 1;
+			}
+		}
+		else if(eModeMK == BRIDGE_METEOBLOCK_MODE){
+			if (memcmp(RxDataUSART3, RxDataUSB, Size)){
+				CDC_Transmit_FS(&RxDataUSART3[0], Size);
+			}		
+		}
+    else{
+			
+    }		
+		
+//    if (memcmp(RxDataUSART3, RxDataUSB, Size) || memcmp(RxDataUSART3, TxDataUSART3, Size)) // echo data
+//    {
+//			if(eModeMK == COLLECT_DATA_MODE){
+//      flagsInterrupts.UART_METEOBLOCK_int = 1;
+//			}
+//			else if(eModeMK == BRIDGE_METEOBLOCK_MODE){
+//				CDC_Transmit_FS(&RxDataUSART3[0], Size);
+//			}
+//      // parserMeteoStation_simple(&RxDataUSART3[0]);
+//    }
+		
+		
     HAL_UARTEx_ReceiveToIdle_IT(&huart3, RxDataUSART3, sizeof(RxDataUSART3));
   }
   if (huart->Instance == UART4) // temperature
@@ -343,53 +439,60 @@ uint8_t parserRequestPC(uint8_t *messageRequestPC)
   uint16_t resultCompareCRC_temp = func_compare_crc16(messageRequestPC, REQUEST_PC_HEADER_SIZE + payloadLenghtParserPC + REQUEST_PC_CRC_SIZE); //
 
   uint8_t *payload_ptr = messageRequestPC + REQUEST_PC_HEADER_SIZE - 1;
-  if (messageRequestPC[0] == REQUEST_PC_HEADER && resultCompareCRC_temp == 0 && payloadLenghtParserPC < 2) // если принятый байт совпадает с шапкой
+  if (messageRequestPC[0] == REQUEST_PC_HEADER && resultCompareCRC_temp == 0 && payloadLenghtParserPC < 2) // пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
   {
-    switch (messageRequestPC[1]) // начало перечисления байтов функций
+    switch (messageRequestPC[1]) // пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
     {
 //      if (stateMachineParserPC == 0) //
 //      {
       case WriteTimePeriodEventLog: //
         configureModeMK.periodWritingDataToLog = (messageRequestPC[3] << 8) && (messageRequestPC[4]);
 
-        // занос настроек
+        // пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 
         usb_protocol.payloadAndCRC[0] = 0;
-        break; // выход из байта функции
+        break; // пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 
       case ReadEventLog: //-
         usb_protocol.lenghtPayload = (uint16_t)SIZE_LOG;
 
-        // добавить вывод в юсб для отладки
-        //  выполнение
-        memcpy(&usb_protocol.payloadAndCRC[0], (uint8_t *)&log3.ID, SIZE_LOG); // копирование лога
-        break;                                                                 // выход из байта функции
+        // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+        //  пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+        memcpy(&usb_protocol.payloadAndCRC[0], (uint8_t *)&log3.ID, SIZE_LOG); // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ
+        break;                                                                 // пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 
       case ClearEventLog:
 
-        // выполнение
+        // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
         usb_protocol.payloadAndCRC[0] = 0;
-        break; // выход из байта функции
+        break; // пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 
       case ModeBridgeMeteoblock:
+				en_dis_interruptsBridges =1;
         configureModeMK.currentModeMK = ModeBridgeMeteoblock;
-        // выполнение
+		
+			eModeMK = BRIDGE_METEOBLOCK_MODE;
+        // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
         usb_protocol.payloadAndCRC[0] = 0;
-        break; // выход из байта функции
+        break; // пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 
       case ModeBridgeGNSS:
+				en_dis_interruptsBridges =1;
         configureModeMK.currentModeMK = ModeBridgeGNSS;
+			eModeMK = BRIDGE_GNSS_MODE;
 
-        // выполнение
+        // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
         usb_protocol.payloadAndCRC[0] = 0;
-        break; // выход из байта функции
+        break; // пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 
       case ModeBridgeAccumulator:
+				en_dis_interruptsBridges =1;
         configureModeMK.currentModeMK = ModeBridgeAccumulator;
+			eModeMK = BRIDGE_ACCUMULATOR_MODE;
 
-        // выполнение
+        // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
         usb_protocol.payloadAndCRC[0] = 0;
-        break; // выход из байта функции
+        break; // пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 //      }
 
     case StopWriteDataToLog:
@@ -399,30 +502,34 @@ uint8_t parserRequestPC(uint8_t *messageRequestPC)
       //
       HAL_TIM_Base_Stop_IT(&htim2);
       __HAL_TIM_SET_COUNTER(&htim2, 0);
-      // выполнение
+		
+			eModeMK = DEFAULT_MODE;
+      // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
       usb_protocol.payloadAndCRC[0] = 0;
 
-      break; // выход из байта функции
+      break; // пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 
     case StartWriteDataToLog:
+			en_dis_interruptsBridges =1;
       configureModeMK.currentModeMK = StartWriteDataToLog;
       usb_protocol.lenghtPayload = 1;
       stateMachineParserPC = 1;
 
-      // выполнение отладка
+			eModeMK = COLLECT_DATA_MODE;
+      // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
       HAL_TIM_Base_Start_IT(&htim2);
-      // выполнение
+      // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 
       usb_protocol.payloadAndCRC[0] = 0;
-      break; // выход из байта функции
+      break; // пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 
       // case AnswerData:
       //     configureModeMK.currentModeMK = StartWriteDataToLog;
       //     stateMachineParserPC = 1;
 
-      //     // выполнение
+      //     // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
       //     usb_protocol.payloadAndCRC[0] = 0;
-      //     break; // выход из байта функции
+      //     break; // пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 
     default:
       usb_protocol.payloadAndCRC[0] = 2; // data
@@ -431,9 +538,9 @@ uint8_t parserRequestPC(uint8_t *messageRequestPC)
       usb_protocol.payloadAndCRC[usb_protocol.lenghtPayload] = (uint8_t)(calcCRC16 >> 8);
       usb_protocol.payloadAndCRC[usb_protocol.lenghtPayload+1] = (uint8_t)(calcCRC16 & 0xFF);
       errorParserPC = 2; // error cmd
-      break;             // выход
+      break;             // пїЅпїЅпїЅпїЅпїЅ
 
-    } // конец перечисления байтов функций
+    } // пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
     uint16_t calcCRC16 = func_calc_crc16((uint8_t *)&usb_protocol.headerConst, REQUEST_PC_HEADER_SIZE + usb_protocol.lenghtPayload);
     usb_protocol.payloadAndCRC[usb_protocol.lenghtPayload] = (uint8_t)(calcCRC16 >> 8);
     usb_protocol.payloadAndCRC[usb_protocol.lenghtPayload+1] = (uint8_t)(calcCRC16 & 0xFF);
@@ -492,6 +599,106 @@ uint8_t stateMachineCollectData(void)
   }
   return 0x00; // busy
 }
+
+
+uint8_t disableInterruptInterfaces(uint8_t modeMK){
+
+	HAL_StatusTypeDef resultOperation = 0;
+	//disable uart
+	switch (modeMK) {
+		case BRIDGE_METEOBLOCK_MODE:
+//			resultOperation = HAL_UART_AbortReceive (&huart6);
+			resultOperation = HAL_UART_AbortReceive_IT (&huart6);
+			resultOperation |= HAL_UART_AbortReceive_IT (&huart1);
+			resultOperation |= HAL_UART_AbortReceive_IT (&huart4);
+		break;
+		
+		case BRIDGE_GNSS_MODE:
+			resultOperation = HAL_UART_AbortReceive_IT (&huart3);
+			resultOperation |= HAL_UART_AbortReceive_IT (&huart1);
+			resultOperation |= HAL_UART_AbortReceive_IT (&huart4);
+		break;
+		
+		case BRIDGE_ACCUMULATOR_MODE:
+			resultOperation = HAL_UART_AbortReceive_IT (&huart3);
+			resultOperation |= HAL_UART_AbortReceive_IT (&huart6);
+			resultOperation |= HAL_UART_AbortReceive_IT (&huart4);
+		break;
+		
+		case BRIDGE_TMPRTRBRD_MODE:
+			resultOperation = HAL_UART_AbortReceive_IT (&huart3);
+			resultOperation |= HAL_UART_AbortReceive_IT (&huart6);
+			resultOperation |= HAL_UART_AbortReceive_IT (&huart1);
+		break;
+		
+		/*...*/
+		default:
+		/*пїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ variable*/
+		return 255;
+		break;
+		}
+	
+	//timer
+		HAL_TIM_Base_Stop_IT(&htim2);
+		__HAL_TIM_SET_COUNTER(&htim2, 0);
+		return resultOperation;
+}
+
+
+
+//void enableInterruptInterfaces(uint8_t modeMK){
+uint8_t enableInterruptInterfaces(void){
+
+	HAL_StatusTypeDef resultOperation = 0;
+//	resultOperation |= HAL_UARTEx_ReceiveToIdle_IT(&huart6, RxDataUSART6, sizeof(RxDataUSART6));
+	resultOperation |= HAL_UARTEx_ReceiveToIdle_IT(&huart3, RxDataUSART3, sizeof(RxDataUSART3));
+//	resultOperation |= HAL_UARTEx_ReceiveToIdle_IT(&huart1, RxDataUSART1, sizeof(RxDataUSART1));
+	resultOperation |= HAL_UARTEx_ReceiveToIdle_IT(&huart4, RxDataUSART4, sizeof(RxDataUSART4));
+//	
+//	//disable uart
+//	switch (modeMK) {
+//		case BRIDGE_METEOBLOCK_MODE:
+//    resultOperation = HAL_UARTEx_ReceiveToIdle_IT(&huart6, RxDataUSART6, sizeof(RxDataUSART6));
+//    resultOperation = HAL_UARTEx_ReceiveToIdle_IT(&huart1, RxDataUSART1, sizeof(RxDataUSART1));
+//    resultOperation = HAL_UARTEx_ReceiveToIdle_IT(&huart4, RxDataUSART4, sizeof(RxDataUSART4));	
+//		break;
+//		
+//		case BRIDGE_GNSS_MODE:
+//    resultOperation = HAL_UARTEx_ReceiveToIdle_IT(&huart3, RxDataUSART3, sizeof(RxDataUSART3));
+//    resultOperation = HAL_UARTEx_ReceiveToIdle_IT(&huart1, RxDataUSART1, sizeof(RxDataUSART1));
+//    resultOperation = HAL_UARTEx_ReceiveToIdle_IT(&huart4, RxDataUSART4, sizeof(RxDataUSART4));
+//		break;
+//		
+//		case BRIDGE_ACCUMULATOR_MODE:
+//    resultOperation = HAL_UARTEx_ReceiveToIdle_IT(&huart6, RxDataUSART6, sizeof(RxDataUSART6));
+//    resultOperation = HAL_UARTEx_ReceiveToIdle_IT(&huart3, RxDataUSART3, sizeof(RxDataUSART3));
+//    resultOperation = HAL_UARTEx_ReceiveToIdle_IT(&huart4, RxDataUSART4, sizeof(RxDataUSART4));
+//		break;
+//		
+//		case BRIDGE_TMPRTRBRD_MODE:
+//    resultOperation = HAL_UARTEx_ReceiveToIdle_IT(&huart6, RxDataUSART6, sizeof(RxDataUSART6));
+//    resultOperation = HAL_UARTEx_ReceiveToIdle_IT(&huart3, RxDataUSART3, sizeof(RxDataUSART3));
+//    resultOperation = HAL_UARTEx_ReceiveToIdle_IT(&huart1, RxDataUSART1, sizeof(RxDataUSART1));
+//		break;
+//		
+//		/*...*/
+//		default:
+//		/*пїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ variable*/
+//		return;
+//		break;
+//		}
+	//timer
+//      __HAL_TIM_SET_COUNTER(&htim2, 0);
+//      HAL_TIM_Base_Start_IT(&htim2);
+	return resultOperation;
+}
+
+
+
+
+
+
+
 
 /* USER CODE END 4 */
 
