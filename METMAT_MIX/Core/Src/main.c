@@ -36,6 +36,8 @@
 #include "formCMD.h"
 #include "meteostation.h"
 
+#include "parserNMEA.h"
+#include "minmea.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -79,15 +81,25 @@ uint8_t requestTemperature = 0x5e;
 
 // uart
 
-uint8_t RxDataUSART1[32] = {0};
+#define SIZE_MASSIVE_FOR_ACCUM 32
+uint8_t RxDataUSART1[SIZE_MASSIVE_FOR_ACCUM] = {0};
 uint8_t RxDataUSART3[32] = {0};
 uint8_t RxDataUSART4[12] = {0};
-uint8_t RxDataUSART6[128] = {0};
+#define SIZE_MASSIVE_FOR_NMEA 128
+uint8_t RxDataUSART6[SIZE_MASSIVE_FOR_NMEA] = {0};
 
 uint8_t TxDataUSART3[8] = {0}; // meteostation
 // uint8_t TxDataUSART4[12] = {0}; // meteostation
 uint8_t TxDataUSART4 = 0; // meteostation
 
+//-------------gnss
+
+//int indxGNSS = 0;
+struct minmea_sentence_zda frame_zda = {0};
+struct minmea_sentence_gll frame_gll = {0};
+uint8_t *massiveParser_ptr = NULL;
+
+//-----------meteo
 dataMeteostation_t dataMeteostation = {0};
 errorMeteostation_t errorMeteostation = {0};
 uint8_t stateCollectData = 0;
@@ -195,24 +207,35 @@ int main(void)
 
   __HAL_TIM_CLEAR_FLAG(&htim2, TIM_SR_UIF);
   // HAL_TIM_Base_Start_IT(&htim2);
+//-------init massive for nmea
 
-  // HAL_UARTEx_ReceiveToIdle_IT(&huart1, RxDataUSART1, sizeof(RxDataUSART1));
+  memset(&RxDataUSART6, '$', SIZE_MASSIVE_FOR_NMEA);
+
+  HAL_UARTEx_ReceiveToIdle_IT(&huart1, RxDataUSART1, sizeof(RxDataUSART1));
   HAL_UARTEx_ReceiveToIdle_IT(&huart3, RxDataUSART3, sizeof(RxDataUSART3));
   HAL_UARTEx_ReceiveToIdle_IT(&huart4, RxDataUSART4, sizeof(RxDataUSART4));
-  //  HAL_UARTEx_ReceiveToIdle_IT(&huart6, RxDataUSART6, sizeof(RxDataUSART6));
+  HAL_UARTEx_ReceiveToIdle_IT(&huart6, RxDataUSART6, sizeof(RxDataUSART6));
 
+
+//---------------
   formMeteoRequestCMD_simple(CMD_METEOSTATION_START, TxDataUSART3);
   PIN_EN_TRANSMIT_UART3(1);
   HAL_UART_Transmit_IT(&huart3, TxDataUSART3, CMD_METEOSTATION_START_SiZE);
   HAL_Delay(10);
   PIN_EN_TRANSMIT_UART3(0);
-
+uint32_t counter_temp = 0;
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
+		counter_temp++;
+		if(counter_temp==3600000){ //debug
+			counter_temp = 0;
+      HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_11);
+		}
+		
 		if(eModeMK == DEFAULT_MODE){
 			if(en_dis_interruptsBridges){
 				en_dis_interruptsBridges = 0;
@@ -235,8 +258,20 @@ int main(void)
 			if (flagsInterrupts.USB_VCP_int == 1)
 			{
 				flagsInterrupts.USB_VCP_int = 0;
+//				if(RxDataUSB[0] == HEADER_TO_DEFAULT_MODE && RxDataUSB[1] == HEADER_TO_DEFAULT_MODE){
+//					memset(&log3.ID, 0, sizeof(log3_t));
+//					enableInterruptInterfaces();
+//					eModeMK = DEFAULT_MODE;
+////					parserRequestPC(RxDataUSB);
+//				}
+//				if(RxDataUSB[1] == ExitFromCmdToDefault){
+////					enableInterruptInterfaces();
+////					eModeMK = DEFAULT_MODE;
+//					parserRequestPC(RxDataUSB);
+//				}
 				parserRequestPC(RxDataUSB);
 			}
+
 			if (flagsInterrupts.UART_TEMPERATURE_int == 1)
 			{
 				flagsInterrupts.UART_TEMPERATURE_int = 0;
@@ -265,6 +300,20 @@ int main(void)
 					stateCollectData = 1;
 				}
 			}
+			if (flagsInterrupts.UART_GNSS_int == 1)
+			{
+				flagsInterrupts.UART_GNSS_int = 0;
+				uint8_t successDataGNSS = readData((const uint8_t *)&RxDataUSART6);
+				if(successDataGNSS){ //write to log
+					//добавить в лог данные с ГНСС //переделать в другие логи???
+					memcpy(&log3.Date[0],&frame_zda.date.day ,(12));
+					memcpy(&log3.Time[0],&frame_zda.time.hours,(16));
+					memcpy(&log3.Coordinate_oX[0],&frame_gll.longitude.value ,(8));
+					memcpy(&log3.Coordinate_oY[0],&frame_gll.latitude.value ,(8));
+				}
+				memset(&RxDataUSART6, '$', SIZE_MASSIVE_FOR_NMEA);
+				HAL_UARTEx_ReceiveToIdle_IT(&huart6, RxDataUSART6, sizeof(RxDataUSART6));
+			}
 		}
 		else if(eModeMK == BRIDGE_METEOBLOCK_MODE){
 			if(en_dis_interruptsBridges){
@@ -277,11 +326,25 @@ int main(void)
 			{
 //				parserRequestPC(RxDataUSB);
 				flagsInterrupts.USB_VCP_int = 0;
-				HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_11);
-				PIN_EN_TRANSMIT_USART3(1);
-				HAL_UART_Transmit_IT(&huart3, RxDataUSB, RxDataUSB_len);
-				HAL_Delay(6);
-				PIN_EN_TRANSMIT_USART3(0);
+				if(RxDataUSB[0] == METEOBLOCK_ADDRESS){
+					HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_11);
+					PIN_EN_TRANSMIT_USART3(1);
+					HAL_UART_Transmit_IT(&huart3, RxDataUSB, RxDataUSB_len);
+					HAL_Delay(6);
+					PIN_EN_TRANSMIT_USART3(0);
+					}
+//				else if(RxDataUSB[0] == HEADER_TO_DEFAULT_MODE && RxDataUSB[1] == HEADER_TO_DEFAULT_MODE){
+//					enableInterruptInterfaces();
+//					eModeMK = DEFAULT_MODE;
+////					parserRequestPC(RxDataUSB);
+//				}
+//				else if(RxDataUSB[0] == REQUEST_PC_HEADER && RxDataUSB[1] == ExitFromCmdToDefault){
+//				else if(RxDataUSB[1] == ExitFromCmdToDefault){
+				else{
+//					enableInterruptInterfaces();
+//					eModeMK = DEFAULT_MODE;
+					parserRequestPC(RxDataUSB);
+				}
 			}
 		}
 		else if(eModeMK == BRIDGE_GNSS_MODE){
@@ -289,6 +352,22 @@ int main(void)
 				en_dis_interruptsBridges = 0;
 				enableInterruptInterfaces();
 				disableInterruptInterfaces(BRIDGE_GNSS_MODE);
+			}	
+			if (flagsInterrupts.USB_VCP_int == 1)
+			{
+				flagsInterrupts.USB_VCP_int = 0;
+//				if(RxDataUSB[1] == ExitFromCmdToDefault){
+////					eModeMK = DEFAULT_MODE;
+////					enableInterruptInterfaces();
+//					parserRequestPC(RxDataUSB);
+//				}
+////				else if(RxDataUSB[0] == HEADER_TO_DEFAULT_MODE && RxDataUSB[1] == HEADER_TO_DEFAULT_MODE){
+////					enableInterruptInterfaces();
+////					eModeMK = DEFAULT_MODE;
+//////					parserRequestPC(RxDataUSB);
+////				}
+				
+				parserRequestPC(RxDataUSB);
 			}
 		}
 		else if(eModeMK == BRIDGE_ACCUMULATOR_MODE){
@@ -297,6 +376,9 @@ int main(void)
 				enableInterruptInterfaces();
 				disableInterruptInterfaces(BRIDGE_ACCUMULATOR_MODE);
 			}
+			
+			
+			
 //			if (flagsInterrupts.USB_VCP_int == 1)
 //			{
 //				flagsInterrupts.USB_VCP_int = 0;
@@ -313,6 +395,21 @@ int main(void)
 				enableInterruptInterfaces();
 				disableInterruptInterfaces(BRIDGE_TMPRTRBRD_MODE);
 			}
+			
+			if (flagsInterrupts.USB_VCP_int == 1)
+			{
+				flagsInterrupts.USB_VCP_int = 0;
+				if(RxDataUSB[0] == HEADER_METTMPR_BOARD1 && RxDataUSB[1] == HEADER_METTMPR_BOARD2){
+//					HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_11);
+					PIN_EN_TRANSMIT_UART4(1);
+					HAL_UART_Transmit_IT(&huart4, RxDataUSB, RxDataUSB_len);
+					HAL_Delay(6);
+					PIN_EN_TRANSMIT_UART4(0);
+					}
+				else{
+					parserRequestPC(RxDataUSB);
+				}
+			}		
 		}
 			
     /* USER CODE END WHILE */
@@ -373,7 +470,25 @@ void SystemClock_Config(void)
 void HAL_UARTEx_RxEventCallback(UART_HandleTypeDef *huart, uint16_t Size)
 {
   indx = Size;
-
+  if (huart->Instance == USART1) // accum
+  {
+		
+////		if(eModeMK == COLLECT_DATA_MODE)
+////		{
+////			if (memcmp(RxDataUSART1, TxDataUSART1, Size)){
+////				flagsInterrupts.UART_ACCUM_int = 1;
+////			}
+////		}
+////		else if(eModeMK == BRIDGE_ACCUMULATOR_MODE){
+//		if(eModeMK == BRIDGE_ACCUMULATOR_MODE){
+//			if (memcmp(RxDataUSART1, RxDataUSB, Size)){
+//				CDC_Transmit_FS(&RxDataUSART1[0], Size);
+//			}		
+//		}
+//    else{
+//    }	
+    HAL_UARTEx_ReceiveToIdle_IT(&huart1, RxDataUSART1, sizeof(RxDataUSART1));
+  }
   if (huart->Instance == USART3) // meteoblock
   {
 		
@@ -390,34 +505,41 @@ void HAL_UARTEx_RxEventCallback(UART_HandleTypeDef *huart, uint16_t Size)
 		}
     else{
 			
-    }		
-		
-//    if (memcmp(RxDataUSART3, RxDataUSB, Size) || memcmp(RxDataUSART3, TxDataUSART3, Size)) // echo data
-//    {
-//			if(eModeMK == COLLECT_DATA_MODE){
-//      flagsInterrupts.UART_METEOBLOCK_int = 1;
-//			}
-//			else if(eModeMK == BRIDGE_METEOBLOCK_MODE){
-//				CDC_Transmit_FS(&RxDataUSART3[0], Size);
-//			}
-//      // parserMeteoStation_simple(&RxDataUSART3[0]);
-//    }
-		
-		
+    }	
     HAL_UARTEx_ReceiveToIdle_IT(&huart3, RxDataUSART3, sizeof(RxDataUSART3));
   }
   if (huart->Instance == UART4) // temperature
   {
-    if (memcmp(RxDataUSART4, &TxDataUSART4, 1) != 0)
-    {
-      flagsInterrupts.UART_TEMPERATURE_int = 1;
-    }
-
+		if(eModeMK == COLLECT_DATA_MODE)
+		{
+			if (memcmp(RxDataUSART4, &TxDataUSART4, Size)){
+				flagsInterrupts.UART_TEMPERATURE_int = 1;
+			}
+		}
+		else if(eModeMK == BRIDGE_TMPRTRBRD_MODE){
+			if (memcmp(RxDataUSART4, RxDataUSB, Size)){
+				CDC_Transmit_FS(&RxDataUSART4[0], Size);
+			}		
+		}
+    else{
+    }	
     HAL_UARTEx_ReceiveToIdle_IT(&huart4, RxDataUSART4, sizeof(RxDataUSART4));
+//    if (memcmp(RxDataUSART4, &TxDataUSART4, 1) != 0)
+//    {
+//      flagsInterrupts.UART_TEMPERATURE_int = 1;
+//    }
+//    HAL_UARTEx_ReceiveToIdle_IT(&huart4, RxDataUSART4, sizeof(RxDataUSART4));
   }
-  if (huart->Instance == USART6) // GNSS
+  
+	if (huart->Instance == USART6) // GNSS
   {
-    flagsInterrupts.UART_GNSS_int = 1;
+		if(eModeMK == BRIDGE_GNSS_MODE){
+			CDC_Transmit_FS(&RxDataUSART6[0], Size);
+		}
+		else if(eModeMK == COLLECT_DATA_MODE){
+			flagsInterrupts.UART_GNSS_int = 1;
+		}
+//    __HAL_UART_CLEAR_IDLEFLAG(&huart6);
     HAL_UARTEx_ReceiveToIdle_IT(&huart6, RxDataUSART6, sizeof(RxDataUSART6));
   }
 }
@@ -446,7 +568,7 @@ uint8_t parserRequestPC(uint8_t *messageRequestPC)
 //      if (stateMachineParserPC == 0) //
 //      {
       case WriteTimePeriodEventLog: //
-        configureModeMK.periodWritingDataToLog = (messageRequestPC[3] << 8) && (messageRequestPC[4]);
+//        configureModeMK.periodWritingDataToLog = (messageRequestPC[3] << 8) && (messageRequestPC[4]);
 
         // ����� ��������
 
@@ -469,7 +591,7 @@ uint8_t parserRequestPC(uint8_t *messageRequestPC)
 
       case ModeBridgeMeteoblock:
 				en_dis_interruptsBridges =1;
-        configureModeMK.currentModeMK = ModeBridgeMeteoblock;
+//        configureModeMK.currentModeMK = ModeBridgeMeteoblock;
 		
 			eModeMK = BRIDGE_METEOBLOCK_MODE;
         // ����������
@@ -478,7 +600,7 @@ uint8_t parserRequestPC(uint8_t *messageRequestPC)
 
       case ModeBridgeGNSS:
 				en_dis_interruptsBridges =1;
-        configureModeMK.currentModeMK = ModeBridgeGNSS;
+//        configureModeMK.currentModeMK = ModeBridgeGNSS;
 			eModeMK = BRIDGE_GNSS_MODE;
 
         // ����������
@@ -487,31 +609,53 @@ uint8_t parserRequestPC(uint8_t *messageRequestPC)
 
       case ModeBridgeAccumulator:
 				en_dis_interruptsBridges =1;
-        configureModeMK.currentModeMK = ModeBridgeAccumulator;
+//        configureModeMK.currentModeMK = ModeBridgeAccumulator;
 			eModeMK = BRIDGE_ACCUMULATOR_MODE;
 
         // ����������
         usb_protocol.payloadAndCRC[0] = 0;
         break; // ����� �� ����� �������
+			
+			
+      case MODE_BRIDGE_TEMPRBOARD:
+				en_dis_interruptsBridges =1;
+				eModeMK = BRIDGE_TMPRTRBRD_MODE;
+        // ����������
+        usb_protocol.payloadAndCRC[0] = 0;
+        break; // ����� �� ����� �������
+			
 //      }
 
     case StopWriteDataToLog:
-      configureModeMK.currentModeMK = StopWriteDataToLog;
+////      configureModeMK.currentModeMK = StopWriteDataToLog;
+//      usb_protocol.lenghtPayload = 1;
+//      stateMachineParserPC = 0;
+//      //
+//      HAL_TIM_Base_Stop_IT(&htim2);
+//      __HAL_TIM_SET_COUNTER(&htim2, 0);
+//		
+//			eModeMK = DEFAULT_MODE;
+      // ����������
+      usb_protocol.payloadAndCRC[0] = 0;
+      break; // ����� �� ����� �������
+
+    case ExitFromCmdToDefault:
       usb_protocol.lenghtPayload = 1;
+		
+		//vse obnulit`
       stateMachineParserPC = 0;
-      //
       HAL_TIM_Base_Stop_IT(&htim2);
       __HAL_TIM_SET_COUNTER(&htim2, 0);
+			enableInterruptInterfaces();
 		
 			eModeMK = DEFAULT_MODE;
       // ����������
       usb_protocol.payloadAndCRC[0] = 0;
-
-      break; // ����� �� ����� �������
+      break;
 
     case StartWriteDataToLog:
 			en_dis_interruptsBridges =1;
-      configureModeMK.currentModeMK = StartWriteDataToLog;
+//      configureModeMK.currentModeMK = StartWriteDataToLog;
       usb_protocol.lenghtPayload = 1;
       stateMachineParserPC = 1;
 
@@ -591,6 +735,16 @@ uint8_t stateMachineCollectData(void)
     PIN_EN_TRANSMIT_UART4(0);
     stateCollectData++;
     break;
+	
+//  case 3:
+//    // formMeteoRequestCMD_simple(CMD_READ_DATA, TxDataUSART4);
+////    TxDataUSART4 = 0x5e;
+////    PIN_EN_TRANSMIT_UART4(1);
+////    HAL_UART_Transmit_IT(&huart4, &TxDataUSART4, CMD_READ_DATA_SiZE);
+////    HAL_Delay(10);
+////    PIN_EN_TRANSMIT_UART4(0);
+//    stateCollectData++;
+//    break;
 
   default:
     stateCollectData = 0;
@@ -607,7 +761,6 @@ uint8_t disableInterruptInterfaces(uint8_t modeMK){
 	//disable uart
 	switch (modeMK) {
 		case BRIDGE_METEOBLOCK_MODE:
-//			resultOperation = HAL_UART_AbortReceive (&huart6);
 			resultOperation = HAL_UART_AbortReceive_IT (&huart6);
 			resultOperation |= HAL_UART_AbortReceive_IT (&huart1);
 			resultOperation |= HAL_UART_AbortReceive_IT (&huart4);
@@ -650,9 +803,9 @@ uint8_t disableInterruptInterfaces(uint8_t modeMK){
 uint8_t enableInterruptInterfaces(void){
 
 	HAL_StatusTypeDef resultOperation = 0;
-//	resultOperation |= HAL_UARTEx_ReceiveToIdle_IT(&huart6, RxDataUSART6, sizeof(RxDataUSART6));
+	resultOperation |= HAL_UARTEx_ReceiveToIdle_IT(&huart6, RxDataUSART6, sizeof(RxDataUSART6));
 	resultOperation |= HAL_UARTEx_ReceiveToIdle_IT(&huart3, RxDataUSART3, sizeof(RxDataUSART3));
-//	resultOperation |= HAL_UARTEx_ReceiveToIdle_IT(&huart1, RxDataUSART1, sizeof(RxDataUSART1));
+	resultOperation |= HAL_UARTEx_ReceiveToIdle_IT(&huart1, RxDataUSART1, sizeof(RxDataUSART1));
 	resultOperation |= HAL_UARTEx_ReceiveToIdle_IT(&huart4, RxDataUSART4, sizeof(RxDataUSART4));
 //	
 //	//disable uart

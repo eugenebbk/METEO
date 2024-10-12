@@ -10,7 +10,7 @@
       <TargetName>METMAT</TargetName>
       <ToolsetNumber>0x4</ToolsetNumber>
       <ToolsetName>ARM-ADS</ToolsetName>
-      <pCCUsed>6190000::V6.19::ARMCLANG</pCCUsed>
+      <pCCUsed>6160000::V6.16::ARMCLANG</pCCUsed>
       <uAC6>1</uAC6>
       <TargetOption>
         <TargetCommonOption>
@@ -138,7 +138,7 @@
           </Flash1>
           <bUseTDR>1</bUseTDR>
           <Flash2>BIN\UL2V8M.DLL</Flash2>
-          <Flash3></Flash3>
+          <Flash3>"" ()</Flash3>
           <Flash4></Flash4>
           <pFcarmOut></pFcarmOut>
           <pFcarmGrp></pFcarmGrp>
@@ -186,7 +186,6 @@
             <RvdsVP>2</RvdsVP>
             <RvdsMve>0</RvdsMve>
             <RvdsCdeCp>0</RvdsCdeCp>
-            <nBranchProt>0</nBranchProt>
             <hadIRAM2>0</hadIRAM2>
             <hadIROM2>0</hadIROM2>
             <StupSel>8</StupSel>
@@ -340,7 +339,7 @@
               <MiscControls></MiscControls>
               <Define>USE_HAL_DRIVER,STM32F413xx</Define>
               <Undefine></Undefine>
-              <IncludePath>../USB_DEVICE/App;../USB_DEVICE/Target;../Core/Inc;../Drivers/STM32F4xx_HAL_Driver/Inc;../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy;../Middlewares/ST/STM32_USB_Device_Library/Core/Inc;../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc;../Drivers/CMSIS/Device/ST/STM32F4xx/Include;../SST26VF0xxB_SPI;../Drivers/CMSIS/Include;..\CRC_ANSI;..\flashPROM;..\LogsSST26;..\METTMPR;..\parserMETEO_mini;..\parserPC</IncludePath>
+              <IncludePath>../USB_DEVICE/App;../USB_DEVICE/Target;../Core/Inc;../Drivers/STM32F4xx_HAL_Driver/Inc;../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy;../Middlewares/ST/STM32_USB_Device_Library/Core/Inc;../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc;../Drivers/CMSIS/Device/ST/STM32F4xx/Include;../SST26VF0xxB_SPI;../Drivers/CMSIS/Include;..\CRC_ANSI;..\flashPROM;..\LogsSST26;..\METTMPR;..\parserMETEO_mini;..\parserPC;..\minmea</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -2344,6 +2343,21 @@
               <FileName>crcANSI.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\CRC_ANSI\crcANSI.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>MINMEA</GroupName>
+          <Files>
+            <File>
+              <FileName>minmea.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\minmea\minmea.c</FilePath>
+            </File>
+            <File>
+              <FileName>parserNMEA.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\minmea\parserNMEA.c</FilePath>
             </File>
           </Files>
         </Group>

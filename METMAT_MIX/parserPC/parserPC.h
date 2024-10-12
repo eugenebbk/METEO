@@ -23,9 +23,11 @@
 #define ClearEventLog 0x05
 #define StartWriteDataToLog 0x08
 #define StopWriteDataToLog 0x09
+#define ExitFromCmdToDefault 0x19
 #define ModeBridgeMeteoblock 0x10
 #define ModeBridgeGNSS 0x11
 #define ModeBridgeAccumulator 0x12
+#define MODE_BRIDGE_TEMPRBOARD 0x13
 
 //--debug cmd
 #define AnswerData 0x40

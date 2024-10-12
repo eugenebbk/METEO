@@ -28,17 +28,34 @@
 //+8 meteoblock
 // 1 akk
 
+//struct minmea_date {
+//    int day;
+//    int month;
+//    int year;
+//};
+//struct minmea_time {
+//    int hours;
+//    int minutes;
+//    int seconds;
+//    int microseconds;
+//};
+//struct minmea_float {
+//    int_least32_t value;
+//    int_least32_t scale;
+//};
+
 // 256b
 typedef struct
 {
   uint32_t ID;
-  uint32_t Date;
-  uint32_t Time;
-  uint32_t Coordinate_oXoY;
+  uint32_t Date[3];
+  uint32_t Time[4];
+  uint32_t Coordinate_oX[2];
+  uint32_t Coordinate_oY[2];
   int32_t Temperature[NUMB_TEMPBOARD_SENSOR];
   uint32_t VoltageBattery;
   uint32_t OnPowerMETTMP_Board;
-
+//76
   int16_t ExtMetTMPRTR_Heater;
   int16_t ExtMetTMPRTR_Air;
   uint16_t ExtMetPressureAtmosphere;
@@ -49,11 +66,12 @@ typedef struct
   int16_t ExtMetDirectAir;
   int16_t ExtMetSpeedUltrasound_oX;
   int16_t ExtMetSpeedUltrasound_oY;
-
-  uint32_t Reserved2[47];
+//96
+  uint16_t Reserved1;
+  uint32_t Reserved2[38];
   uint32_t EndOfLog;
 } log3_t;
-
+//+6b
 
 #define SIZE_LOG (sizeof(log3_t)) 
 

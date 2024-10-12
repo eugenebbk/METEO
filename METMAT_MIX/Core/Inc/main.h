@@ -36,6 +36,10 @@ extern "C"{
 #define INTERRUPT_USB_MASK 1
 
 #define SIZE_RX_USB_BUFFER 64
+//#define HEADER_TO_DEFAULT_MODE 0x99
+#define HEADER_METTMPR_BOARD1 0xFD
+#define HEADER_METTMPR_BOARD2 0x22
+//#define HEADER_METTMPR_BOARD2 0x55
 
   /* USER CODE END Includes */
 
@@ -85,7 +89,7 @@ extern "C"{
     uint8_t UART_TEMPERATURE_int : 1;   // 0-1
     uint8_t UART_GNSS_int : 1;    // 0-1
     uint8_t COLLECT_DATA_int : 1;   // 0-1
-    // uint8_t Reserved3 : 1;   // 0-1
+    uint8_t UART_ACCUM_int : 1;   // 0-1
     // uint8_t Reserved4 : 1;   // 0-1
     // uint8_t PVD_PWR_int : 1; // 0-1
   } flagsInterrupts_t;
