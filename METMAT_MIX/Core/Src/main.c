@@ -81,7 +81,7 @@ uint8_t requestTemperature = 0x5e;
 
 // uart
 
-#define SIZE_MASSIVE_FOR_ACCUM 32
+#define SIZE_MASSIVE_FOR_ACCUM 768
 uint8_t RxDataUSART1[SIZE_MASSIVE_FOR_ACCUM] = {0};
 uint8_t RxDataUSART3[32] = {0};
 uint8_t RxDataUSART4[12] = {0};
@@ -324,7 +324,6 @@ uint32_t counter_temp = 0;
 			
 			if (flagsInterrupts.USB_VCP_int == 1)
 			{
-//				parserRequestPC(RxDataUSB);
 				flagsInterrupts.USB_VCP_int = 0;
 				if(RxDataUSB[0] == METEOBLOCK_ADDRESS){
 					HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_11);
@@ -333,16 +332,8 @@ uint32_t counter_temp = 0;
 					HAL_Delay(6);
 					PIN_EN_TRANSMIT_USART3(0);
 					}
-//				else if(RxDataUSB[0] == HEADER_TO_DEFAULT_MODE && RxDataUSB[1] == HEADER_TO_DEFAULT_MODE){
-//					enableInterruptInterfaces();
-//					eModeMK = DEFAULT_MODE;
-////					parserRequestPC(RxDataUSB);
-//				}
-//				else if(RxDataUSB[0] == REQUEST_PC_HEADER && RxDataUSB[1] == ExitFromCmdToDefault){
-//				else if(RxDataUSB[1] == ExitFromCmdToDefault){
+//				else if(RxDataUSB[0] == REQUEST_PC_HEADER && RxDataUSB[1] == ExitFromCmdToDefault)
 				else{
-//					enableInterruptInterfaces();
-//					eModeMK = DEFAULT_MODE;
 					parserRequestPC(RxDataUSB);
 				}
 			}
@@ -356,17 +347,10 @@ uint32_t counter_temp = 0;
 			if (flagsInterrupts.USB_VCP_int == 1)
 			{
 				flagsInterrupts.USB_VCP_int = 0;
-//				if(RxDataUSB[1] == ExitFromCmdToDefault){
-////					eModeMK = DEFAULT_MODE;
-////					enableInterruptInterfaces();
+				
+//				if(RxDataUSB[0] == REQUEST_PC_HEADER){
 //					parserRequestPC(RxDataUSB);
 //				}
-////				else if(RxDataUSB[0] == HEADER_TO_DEFAULT_MODE && RxDataUSB[1] == HEADER_TO_DEFAULT_MODE){
-////					enableInterruptInterfaces();
-////					eModeMK = DEFAULT_MODE;
-//////					parserRequestPC(RxDataUSB);
-////				}
-				
 				parserRequestPC(RxDataUSB);
 			}
 		}
@@ -377,17 +361,21 @@ uint32_t counter_temp = 0;
 				disableInterruptInterfaces(BRIDGE_ACCUMULATOR_MODE);
 			}
 			
-			
-			
-//			if (flagsInterrupts.USB_VCP_int == 1)
-//			{
-//				flagsInterrupts.USB_VCP_int = 0;
+			if (flagsInterrupts.USB_VCP_int == 1)
+			{
+				flagsInterrupts.USB_VCP_int = 0;
+				
+//				if(RxDataUSB[0] == REQUEST_PC_HEADER && RxDataUSB[1] == HEADER_EXIT_CMD2){
+				if(RxDataUSB[0] == REQUEST_PC_HEADER){
+					parserRequestPC(RxDataUSB);
+				}
+				
 //				HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_11);
-//				PIN_EN_TRANSMIT_USART3(1);
-//				HAL_UART_Transmit_IT(&huart3, RxDataUSB, RxDataUSB_len);
+//				PIN_EN_TRANSMIT_USART1(1);
+//				HAL_UART_Transmit_IT(&huart1, RxDataUSB, RxDataUSB_len);
 //				HAL_Delay(3);
-//				PIN_EN_TRANSMIT_USART3(0);
-//			}
+//				PIN_EN_TRANSMIT_USART1(0);
+			}
 		}
 		else if(eModeMK == BRIDGE_TMPRTRBRD_MODE){
 			if(en_dis_interruptsBridges){
@@ -400,7 +388,7 @@ uint32_t counter_temp = 0;
 			{
 				flagsInterrupts.USB_VCP_int = 0;
 				if(RxDataUSB[0] == HEADER_METTMPR_BOARD1 && RxDataUSB[1] == HEADER_METTMPR_BOARD2){
-//					HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_11);
+					
 					PIN_EN_TRANSMIT_UART4(1);
 					HAL_UART_Transmit_IT(&huart4, RxDataUSB, RxDataUSB_len);
 					HAL_Delay(6);
@@ -473,20 +461,20 @@ void HAL_UARTEx_RxEventCallback(UART_HandleTypeDef *huart, uint16_t Size)
   if (huart->Instance == USART1) // accum
   {
 		
-////		if(eModeMK == COLLECT_DATA_MODE)
-////		{
-////			if (memcmp(RxDataUSART1, TxDataUSART1, Size)){
-////				flagsInterrupts.UART_ACCUM_int = 1;
-////			}
-////		}
-////		else if(eModeMK == BRIDGE_ACCUMULATOR_MODE){
-//		if(eModeMK == BRIDGE_ACCUMULATOR_MODE){
-//			if (memcmp(RxDataUSART1, RxDataUSB, Size)){
-//				CDC_Transmit_FS(&RxDataUSART1[0], Size);
-//			}		
+//		if(eModeMK == COLLECT_DATA_MODE)
+//		{
+//			if (memcmp(RxDataUSART1, TxDataUSART1, Size)){
+//				flagsInterrupts.UART_ACCUM_int = 1;
+//			}
 //		}
-//    else{
-//    }	
+//		else if(eModeMK == BRIDGE_ACCUMULATOR_MODE){
+		if(eModeMK == BRIDGE_ACCUMULATOR_MODE){
+			if (memcmp(RxDataUSART1, RxDataUSB, Size)){
+				CDC_Transmit_FS(&RxDataUSART1[0], Size);
+			}		
+		}
+    else{
+    }	
     HAL_UARTEx_ReceiveToIdle_IT(&huart1, RxDataUSART1, sizeof(RxDataUSART1));
   }
   if (huart->Instance == USART3) // meteoblock

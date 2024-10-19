@@ -274,10 +274,6 @@ static int8_t CDC_Receive_FS(uint8_t* Buf, uint32_t *Len)
   /* USER CODE BEGIN 6 */
 
   flagsInterrupts.USB_VCP_int = 1;
-  // flagBoard |= 1;
-  //  flagBoard = 1;
-
-//  flagBoard = 1;
 //	memcpy(RxDataUSB,Buf,*Len);
 //	RxDataUSB_len = *Len;
 	

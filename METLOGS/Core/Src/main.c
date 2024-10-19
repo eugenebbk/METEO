@@ -20,7 +20,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include "spi.h"
-#include "tim.h"
+// #include "tim.h"
 #include "usart.h"
 #include "usb_device.h"
 #include "gpio.h"
@@ -30,7 +30,7 @@
 #include "usbd_cdc_if.h"
 #include "SST26.h"
 #include "LogsSST26/LogsSST26.h"
-#include "crc/crc16.h"
+// #include "crc/crc16.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -76,10 +76,12 @@ uint16_t currentID_log_Reading = 0;
 uint32_t currentFreeAddrLog = 0;
 
 #define ziseMassive 256
+#define ziseSector 4096
 uint8_t rxDataFlash[ziseMassive + ziseMassive] = {0};
 
 uint8_t statusFlashExt = 0;
 uint8_t testMassiveExtFlash[ziseMassive] = {0};
+uint8_t rxFlashSector[ziseSector] = {0};
 
 #define ziseRBPR 14
 uint8_t rxDataFlash_RBPR[ziseRBPR] = {0};
@@ -281,7 +283,7 @@ int main(void)
   MX_USART6_UART_Init();
   MX_USART1_UART_Init();
   MX_USART3_UART_Init();
-  MX_TIM7_Init();
+  // MX_TIM7_Init();
   /* USER CODE BEGIN 2 */
 
   memset(testMassiveExtFlash, 0xAB, ziseMassive - 6);
@@ -334,6 +336,7 @@ int main(void)
   flashID1 = sFLASH_ReadID(1);
   statusFlashExt = sFLASH_ReadSimpleCommand(FLASH_CMD_RDSR, 1);
 
+//1
   SST26clearSectorLogs(0, 1);
   // sFLASH_EraseSector(0, 1);
   currentFreeAddrLog = sFLASH_SearchLastFreePageAdress(&currentID_log_buf, 1);
@@ -341,11 +344,14 @@ int main(void)
   log3 = SST26readIDLogsReturn(currentID_log_buf, 1);
 //	sFLASH_WritePage(testMassiveExtFlash, 0, sizeof(testMassiveExtFlash), 1);
 //  SST26writeLog1(log3, currentID_log_buf, 1);
+
+//2
   writeTestLog(1);
 
 //00
-  memset(rxDataFlash, 0x00, ziseMassive + ziseMassive);
-  sFLASH_ReadBuffer(rxDataFlash, 0, sizeof(rxDataFlash), 1);
+//подготовка приемного массива
+//  memset(rxDataFlash, 0x00, ziseMassive + ziseMassive);
+//  sFLASH_ReadBuffer(rxDataFlash, 0, sizeof(rxDataFlash), 1);
   log3 = SST26readIDLogsReturn(currentID_log_buf-1, 1);
   currentFreeAddrLog = sFLASH_SearchLastFreePageAdress(&currentID_log_buf, 1);
   writeTestLog(1);

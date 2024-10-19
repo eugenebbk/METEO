@@ -32,7 +32,7 @@ extern "C" {
 #define INTERRUPT_USB_MASK 1
 #define PIN_EN_TRANSMIT_UART4(x) HAL_GPIO_WritePin(GPIOC, GPIO_PIN_10, x);
 #define PIN_EN_TRANSMIT_USART3(x) HAL_GPIO_WritePin(GPIOC, GPIO_PIN_4, x);
-
+#define PIN_EN_TRANSMIT_USART1(x) HAL_GPIO_WritePin(GPIOB, GPIO_PIN_5, x);
 
 /* USER CODE END Includes */
 
