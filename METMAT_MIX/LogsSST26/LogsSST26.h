@@ -67,9 +67,10 @@ typedef struct
   int16_t ExtMetSpeedUltrasound_oX;
   int16_t ExtMetSpeedUltrasound_oY;
 //96
-  uint16_t Reserved1;
+  uint16_t Reserved1[2];
   uint32_t Reserved2[38];
   uint32_t EndOfLog;
+  //158
 } log3_t;
 //+6b
 

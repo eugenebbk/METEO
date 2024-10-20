@@ -28,7 +28,7 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "usbd_cdc_if.h"
-#include "SST26.h"
+//#include "SST26.h"
 #include "parserPC.h"
 #include "LogsSST26.h"
 #include "parserTemperatureBoard.h"
@@ -224,6 +224,7 @@ int main(void)
   HAL_Delay(10);
   PIN_EN_TRANSMIT_UART3(0);
 uint32_t counter_temp = 0;
+
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -258,6 +259,7 @@ uint32_t counter_temp = 0;
 			if (flagsInterrupts.USB_VCP_int == 1)
 			{
 				flagsInterrupts.USB_VCP_int = 0;
+
 //				if(RxDataUSB[0] == HEADER_TO_DEFAULT_MODE && RxDataUSB[1] == HEADER_TO_DEFAULT_MODE){
 //					memset(&log3.ID, 0, sizeof(log3_t));
 //					enableInterruptInterfaces();
@@ -269,6 +271,7 @@ uint32_t counter_temp = 0;
 ////					eModeMK = DEFAULT_MODE;
 //					parserRequestPC(RxDataUSB);
 //				}
+
 				parserRequestPC(RxDataUSB);
 			}
 
@@ -369,8 +372,13 @@ uint32_t counter_temp = 0;
 				if(RxDataUSB[0] == REQUEST_PC_HEADER){
 					parserRequestPC(RxDataUSB);
 				}
+				else{
+					PIN_EN_TRANSMIT_USART1(1);
+					HAL_UART_Transmit_IT(&huart1, RxDataUSB, RxDataUSB_len);
+					HAL_Delay(6);
+					PIN_EN_TRANSMIT_USART1(0);
+				}
 				
-//				HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_11);
 //				PIN_EN_TRANSMIT_USART1(1);
 //				HAL_UART_Transmit_IT(&huart1, RxDataUSB, RxDataUSB_len);
 //				HAL_Delay(3);
@@ -714,7 +722,7 @@ uint8_t stateMachineCollectData(void)
     break;
 
   //
-  case 2:
+  case 2:  //TNP BOARD
     // formMeteoRequestCMD_simple(CMD_READ_DATA, TxDataUSART4);
     TxDataUSART4 = 0x5e;
     PIN_EN_TRANSMIT_UART4(1);
@@ -795,39 +803,7 @@ uint8_t enableInterruptInterfaces(void){
 	resultOperation |= HAL_UARTEx_ReceiveToIdle_IT(&huart3, RxDataUSART3, sizeof(RxDataUSART3));
 	resultOperation |= HAL_UARTEx_ReceiveToIdle_IT(&huart1, RxDataUSART1, sizeof(RxDataUSART1));
 	resultOperation |= HAL_UARTEx_ReceiveToIdle_IT(&huart4, RxDataUSART4, sizeof(RxDataUSART4));
-//	
-//	//disable uart
-//	switch (modeMK) {
-//		case BRIDGE_METEOBLOCK_MODE:
-//    resultOperation = HAL_UARTEx_ReceiveToIdle_IT(&huart6, RxDataUSART6, sizeof(RxDataUSART6));
-//    resultOperation = HAL_UARTEx_ReceiveToIdle_IT(&huart1, RxDataUSART1, sizeof(RxDataUSART1));
-//    resultOperation = HAL_UARTEx_ReceiveToIdle_IT(&huart4, RxDataUSART4, sizeof(RxDataUSART4));	
-//		break;
-//		
-//		case BRIDGE_GNSS_MODE:
-//    resultOperation = HAL_UARTEx_ReceiveToIdle_IT(&huart3, RxDataUSART3, sizeof(RxDataUSART3));
-//    resultOperation = HAL_UARTEx_ReceiveToIdle_IT(&huart1, RxDataUSART1, sizeof(RxDataUSART1));
-//    resultOperation = HAL_UARTEx_ReceiveToIdle_IT(&huart4, RxDataUSART4, sizeof(RxDataUSART4));
-//		break;
-//		
-//		case BRIDGE_ACCUMULATOR_MODE:
-//    resultOperation = HAL_UARTEx_ReceiveToIdle_IT(&huart6, RxDataUSART6, sizeof(RxDataUSART6));
-//    resultOperation = HAL_UARTEx_ReceiveToIdle_IT(&huart3, RxDataUSART3, sizeof(RxDataUSART3));
-//    resultOperation = HAL_UARTEx_ReceiveToIdle_IT(&huart4, RxDataUSART4, sizeof(RxDataUSART4));
-//		break;
-//		
-//		case BRIDGE_TMPRTRBRD_MODE:
-//    resultOperation = HAL_UARTEx_ReceiveToIdle_IT(&huart6, RxDataUSART6, sizeof(RxDataUSART6));
-//    resultOperation = HAL_UARTEx_ReceiveToIdle_IT(&huart3, RxDataUSART3, sizeof(RxDataUSART3));
-//    resultOperation = HAL_UARTEx_ReceiveToIdle_IT(&huart1, RxDataUSART1, sizeof(RxDataUSART1));
-//		break;
-//		
-//		/*...*/
-//		default:
-//		/*���, ������� ����������, ���� ������ �� ���������� �������� �� ������������� �������� � ���������� variable*/
-//		return;
-//		break;
-//		}
+
 	//timer
 //      __HAL_TIM_SET_COUNTER(&htim2, 0);
 //      HAL_TIM_Base_Start_IT(&htim2);
