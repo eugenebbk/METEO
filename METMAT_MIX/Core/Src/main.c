@@ -28,9 +28,11 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "usbd_cdc_if.h"
-//#include "SST26.h"
-#include "parserPC.h"
+
+#include "SST26.h"
 #include "LogsSST26.h"
+
+#include "parserPC.h"
 #include "parserTemperatureBoard.h"
 #include "parserMETEO.h"
 #include "formCMD.h"
@@ -60,7 +62,9 @@
 configureModeMK_t configureModeMK = {0};
 flagsInterrupts_t flagsInterrupts = {0};
 log3_t log3 = {0};
-
+flagsCollectData_t flagsCollectData = {0};
+uint8_t *flagsCollectData_ptr = &flagsCollectData;
+#define COLLECT_DATA_CMPBYTE 0x0F
 //------------------------usb
 
 uint8_t requestUSB[SIZE_RX_USB_BUFFER] = {0};
@@ -88,13 +92,14 @@ uint8_t RxDataUSART4[12] = {0};
 #define SIZE_MASSIVE_FOR_NMEA 128
 uint8_t RxDataUSART6[SIZE_MASSIVE_FOR_NMEA] = {0};
 
+uint8_t TxDataUSART1[8] = {0}; // meteostation
 uint8_t TxDataUSART3[8] = {0}; // meteostation
 // uint8_t TxDataUSART4[12] = {0}; // meteostation
 uint8_t TxDataUSART4 = 0; // meteostation
 
 //-------------gnss
 
-//int indxGNSS = 0;
+// int indxGNSS = 0;
 struct minmea_sentence_zda frame_zda = {0};
 struct minmea_sentence_gll frame_gll = {0};
 uint8_t *massiveParser_ptr = NULL;
@@ -207,7 +212,7 @@ int main(void)
 
   __HAL_TIM_CLEAR_FLAG(&htim2, TIM_SR_UIF);
   // HAL_TIM_Base_Start_IT(&htim2);
-//-------init massive for nmea
+  //-------init massive for nmea
 
   memset(&RxDataUSART6, '$', SIZE_MASSIVE_FOR_NMEA);
 
@@ -217,13 +222,16 @@ int main(void)
   HAL_UARTEx_ReceiveToIdle_IT(&huart6, RxDataUSART6, sizeof(RxDataUSART6));
 
 
-//---------------
+
+
+
+  //---------------
   formMeteoRequestCMD_simple(CMD_METEOSTATION_START, TxDataUSART3);
   PIN_EN_TRANSMIT_UART3(1);
   HAL_UART_Transmit_IT(&huart3, TxDataUSART3, CMD_METEOSTATION_START_SiZE);
   HAL_Delay(10);
   PIN_EN_TRANSMIT_UART3(0);
-uint32_t counter_temp = 0;
+  uint32_t counter_temp = 0;
 
   /* USER CODE END 2 */
 
@@ -231,183 +239,231 @@ uint32_t counter_temp = 0;
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-		counter_temp++;
-		if(counter_temp==3600000){ //debug
-			counter_temp = 0;
+    counter_temp++;
+    if (counter_temp == 3600000)
+    { // debug
+      counter_temp = 0;
       HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_11);
-		}
-		
-		if(eModeMK == DEFAULT_MODE){
-			if(en_dis_interruptsBridges){
-				en_dis_interruptsBridges = 0;
-				enableInterruptInterfaces();
-			}
-			
-			if (flagsInterrupts.USB_VCP_int == 1)
-			{
-				flagsInterrupts.USB_VCP_int = 0;
-				parserRequestPC(RxDataUSB);
-			}
-		}
-		else if(eModeMK == COLLECT_DATA_MODE){
-			if(en_dis_interruptsBridges){
-				en_dis_interruptsBridges = 0;
-				enableInterruptInterfaces();
-			}
-			stateMachineCollectData();
-			
-			if (flagsInterrupts.USB_VCP_int == 1)
-			{
-				flagsInterrupts.USB_VCP_int = 0;
+    }
 
-//				if(RxDataUSB[0] == HEADER_TO_DEFAULT_MODE && RxDataUSB[1] == HEADER_TO_DEFAULT_MODE){
-//					memset(&log3.ID, 0, sizeof(log3_t));
-//					enableInterruptInterfaces();
-//					eModeMK = DEFAULT_MODE;
-////					parserRequestPC(RxDataUSB);
-//				}
-//				if(RxDataUSB[1] == ExitFromCmdToDefault){
-////					enableInterruptInterfaces();
-////					eModeMK = DEFAULT_MODE;
-//					parserRequestPC(RxDataUSB);
-//				}
+    if (eModeMK == DEFAULT_MODE)
+    {
+      if (en_dis_interruptsBridges)
+      {
 
-				parserRequestPC(RxDataUSB);
-			}
+        disableInterruptInterfaces(BRIDGE_METEOBLOCK_MODE);
+        en_dis_interruptsBridges = 0;
+        enableInterruptInterfaces();
+      }
 
-			if (flagsInterrupts.UART_TEMPERATURE_int == 1)
-			{
-				flagsInterrupts.UART_TEMPERATURE_int = 0;
-				if (!parserTemperatureBoard(RxDataUSART4))
-				{
-					for (uint8_t i = 0; i < NUMB_TEMPBOARD_SENSOR; i++)
-					{
-						log3.Temperature[i] = (int32_t)dataTemperatureMETTMPR.temperatureMETTMPR[i];
-					}
-					stateCollectData = 0;
-				}
-			}
-			if (flagsInterrupts.UART_METEOBLOCK_int == 1)
-			{
-				flagsInterrupts.UART_METEOBLOCK_int = 0;
-				uint8_t resultParser = parserMeteoStation_simple(RxDataUSART3);
-				if (resultParser != 1)
-				{
-					if (resultParser == 0x43)
-					{
-						memcpy(&log3.ExtMetTMPRTR_Heater, &dataMeteostation.Tmperature_Heater, 20);
-						stateCollectData = 2;
-					}
-				}
-				else{
-					stateCollectData = 1;
-				}
-			}
-			if (flagsInterrupts.UART_GNSS_int == 1)
-			{
-				flagsInterrupts.UART_GNSS_int = 0;
-				uint8_t successDataGNSS = readData((const uint8_t *)&RxDataUSART6);
-				if(successDataGNSS){ //write to log
-					//добавить в лог данные с ГНСС //переделать в другие логи???
-					memcpy(&log3.Date[0],&frame_zda.date.day ,(12));
-					memcpy(&log3.Time[0],&frame_zda.time.hours,(16));
-					memcpy(&log3.Coordinate_oX[0],&frame_gll.longitude.value ,(8));
-					memcpy(&log3.Coordinate_oY[0],&frame_gll.latitude.value ,(8));
-				}
-				memset(&RxDataUSART6, '$', SIZE_MASSIVE_FOR_NMEA);
-				HAL_UARTEx_ReceiveToIdle_IT(&huart6, RxDataUSART6, sizeof(RxDataUSART6));
-			}
-		}
-		else if(eModeMK == BRIDGE_METEOBLOCK_MODE){
-			if(en_dis_interruptsBridges){
-				enableInterruptInterfaces();
-				disableInterruptInterfaces(BRIDGE_METEOBLOCK_MODE);
-				en_dis_interruptsBridges = 0;
-			}
-			
-			if (flagsInterrupts.USB_VCP_int == 1)
-			{
-				flagsInterrupts.USB_VCP_int = 0;
-				if(RxDataUSB[0] == METEOBLOCK_ADDRESS){
-					HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_11);
-					PIN_EN_TRANSMIT_USART3(1);
-					HAL_UART_Transmit_IT(&huart3, RxDataUSB, RxDataUSB_len);
-					HAL_Delay(6);
-					PIN_EN_TRANSMIT_USART3(0);
-					}
-//				else if(RxDataUSB[0] == REQUEST_PC_HEADER && RxDataUSB[1] == ExitFromCmdToDefault)
-				else{
-					parserRequestPC(RxDataUSB);
-				}
-			}
-		}
-		else if(eModeMK == BRIDGE_GNSS_MODE){
-			if(en_dis_interruptsBridges){
-				en_dis_interruptsBridges = 0;
-				enableInterruptInterfaces();
-				disableInterruptInterfaces(BRIDGE_GNSS_MODE);
-			}	
-			if (flagsInterrupts.USB_VCP_int == 1)
-			{
-				flagsInterrupts.USB_VCP_int = 0;
-				
-//				if(RxDataUSB[0] == REQUEST_PC_HEADER){
-//					parserRequestPC(RxDataUSB);
-//				}
-				parserRequestPC(RxDataUSB);
-			}
-		}
-		else if(eModeMK == BRIDGE_ACCUMULATOR_MODE){
-			if(en_dis_interruptsBridges){
-				en_dis_interruptsBridges = 0;
-				enableInterruptInterfaces();
-				disableInterruptInterfaces(BRIDGE_ACCUMULATOR_MODE);
-			}
-			
-			if (flagsInterrupts.USB_VCP_int == 1)
-			{
-				flagsInterrupts.USB_VCP_int = 0;
-				
-//				if(RxDataUSB[0] == REQUEST_PC_HEADER && RxDataUSB[1] == HEADER_EXIT_CMD2){
-				if(RxDataUSB[0] == REQUEST_PC_HEADER){
-					parserRequestPC(RxDataUSB);
-				}
-				else{
-					PIN_EN_TRANSMIT_USART1(1);
-					HAL_UART_Transmit_IT(&huart1, RxDataUSB, RxDataUSB_len);
-					HAL_Delay(6);
-					PIN_EN_TRANSMIT_USART1(0);
-				}
-				
-//				PIN_EN_TRANSMIT_USART1(1);
-//				HAL_UART_Transmit_IT(&huart1, RxDataUSB, RxDataUSB_len);
-//				HAL_Delay(3);
-//				PIN_EN_TRANSMIT_USART1(0);
-			}
-		}
-		else if(eModeMK == BRIDGE_TMPRTRBRD_MODE){
-			if(en_dis_interruptsBridges){
-				en_dis_interruptsBridges = 0;
-				enableInterruptInterfaces();
-				disableInterruptInterfaces(BRIDGE_TMPRTRBRD_MODE);
-			}
-			
-			if (flagsInterrupts.USB_VCP_int == 1)
-			{
-				flagsInterrupts.USB_VCP_int = 0;
-				if(RxDataUSB[0] == HEADER_METTMPR_BOARD1 && RxDataUSB[1] == HEADER_METTMPR_BOARD2){
-					
-					PIN_EN_TRANSMIT_UART4(1);
-					HAL_UART_Transmit_IT(&huart4, RxDataUSB, RxDataUSB_len);
-					HAL_Delay(6);
-					PIN_EN_TRANSMIT_UART4(0);
-					}
-				else{
-					parserRequestPC(RxDataUSB);
-				}
-			}		
-		}
-			
+      if (flagsInterrupts.USB_VCP_int == 1)
+      {
+        flagsInterrupts.USB_VCP_int = 0;
+        parserRequestPC(RxDataUSB);
+      }
+
+      if (flagsInterrupts.CLEAR_LOG_int == 1)
+      {
+        flagsInterrupts.CLEAR_LOG_int = 0;
+        // __disable_irq();
+        disableInterruptInterfaces(DEFAULT_MODE);
+        SST26clearFullBookLogs(1);
+        enableInterruptInterfaces();
+        // __enable_irq();
+      }
+    }
+    else if (eModeMK == COLLECT_DATA_MODE)
+    {
+      if (en_dis_interruptsBridges)
+      {
+        en_dis_interruptsBridges = 0;
+        enableInterruptInterfaces();
+      }
+      stateMachineCollectData();
+
+      if (flagsInterrupts.USB_VCP_int == 1)
+      {
+        flagsInterrupts.USB_VCP_int = 0;
+
+        //				if(RxDataUSB[0] == HEADER_TO_DEFAULT_MODE && RxDataUSB[1] == HEADER_TO_DEFAULT_MODE){
+        //					memset(&log3.ID, 0, sizeof(log3_t));
+        //					enableInterruptInterfaces();
+        //					eModeMK = DEFAULT_MODE;
+        ////					parserRequestPC(RxDataUSB);
+        //				}
+        //				if(RxDataUSB[1] == ExitFromCmdToDefault){
+        ////					enableInterruptInterfaces();
+        ////					eModeMK = DEFAULT_MODE;
+        //					parserRequestPC(RxDataUSB);
+        //				}
+
+        parserRequestPC(RxDataUSB);
+      }
+
+      if (flagsInterrupts.UART_TEMPERATURE_int == 1)
+      {
+        flagsInterrupts.UART_TEMPERATURE_int = 0;
+        if (!parserTemperatureBoard(RxDataUSART4))
+        {
+          for (uint8_t i = 0; i < NUMB_TEMPBOARD_SENSOR; i++)
+          {
+            log3.Temperature[i] = (int32_t)dataTemperatureMETTMPR.temperatureMETTMPR[i];
+          }
+          flagsCollectData.COLLECT_TMPRTBRD = 1;
+          stateCollectData = 0;
+        }
+      }
+      if (flagsInterrupts.UART_METEOBLOCK_int == 1)
+      {
+        flagsInterrupts.UART_METEOBLOCK_int = 0;
+        uint8_t resultParser = parserMeteoStation_simple(RxDataUSART3);
+        if (resultParser != 1)
+        {
+          if (resultParser == 0x43)
+          {
+            memcpy(&log3.ExtMetTMPRTR_Heater, &dataMeteostation.Tmperature_Heater, 20); // log
+            flagsCollectData.COLLECT_METEOBLOCK = 1;
+            stateCollectData = 2;
+          }
+        }
+        else
+        {
+          stateCollectData = 1;
+        }
+      }
+      if (flagsInterrupts.UART_GNSS_int == 1)
+      {
+        flagsInterrupts.UART_GNSS_int = 0;
+        uint8_t successDataGNSS = readData((const uint8_t *)&RxDataUSART6);
+        if (successDataGNSS)
+        { // write to log
+          // добавить в лог данные с ГНСС //переделать в другие логи???
+          memcpy(&log3.Date[0], &frame_zda.date.day, (12));
+          memcpy(&log3.Time[0], &frame_zda.time.hours, (16));
+          memcpy(&log3.Coordinate_oX[0], &frame_gll.longitude.value, (8));
+          memcpy(&log3.Coordinate_oY[0], &frame_gll.latitude.value, (8));
+          flagsCollectData.COLLECT_GNSS = 1;
+        }
+        memset(&RxDataUSART6, '$', SIZE_MASSIVE_FOR_NMEA);
+        HAL_UARTEx_ReceiveToIdle_IT(&huart6, RxDataUSART6, sizeof(RxDataUSART6));
+      }
+
+      if (flagsInterrupts.UART_ACCUM_int == 1)
+      {
+        flagsInterrupts.UART_ACCUM_int == 0;
+        flagsCollectData.COLLECT_ACCUM = 1;
+      }
+
+      if (*flagsCollectData_ptr == COLLECT_DATA_CMPBYTE)
+      {
+        *flagsCollectData_ptr = 0;
+        // uint8_t writeLogAndCheck(log3, uint16_t ID_Log, NUMB_FLASH_MEM);
+      }
+    }
+    else if (eModeMK == BRIDGE_METEOBLOCK_MODE)
+    {
+      if (en_dis_interruptsBridges)
+      {
+        enableInterruptInterfaces();
+        disableInterruptInterfaces(BRIDGE_METEOBLOCK_MODE);
+        en_dis_interruptsBridges = 0;
+      }
+
+      if (flagsInterrupts.USB_VCP_int == 1)
+      {
+        flagsInterrupts.USB_VCP_int = 0;
+        if (RxDataUSB[0] == METEOBLOCK_ADDRESS)
+        {
+          HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_11);
+          PIN_EN_TRANSMIT_USART3(1);
+          HAL_UART_Transmit_IT(&huart3, RxDataUSB, RxDataUSB_len);
+          HAL_Delay(6);
+          PIN_EN_TRANSMIT_USART3(0);
+        }
+        //				else if(RxDataUSB[0] == REQUEST_PC_HEADER && RxDataUSB[1] == ExitFromCmdToDefault)
+        else
+        {
+          parserRequestPC(RxDataUSB);
+        }
+      }
+    }
+    else if (eModeMK == BRIDGE_GNSS_MODE)
+    {
+      if (en_dis_interruptsBridges)
+      {
+        en_dis_interruptsBridges = 0;
+        enableInterruptInterfaces();
+        disableInterruptInterfaces(BRIDGE_GNSS_MODE);
+      }
+      if (flagsInterrupts.USB_VCP_int == 1)
+      {
+        flagsInterrupts.USB_VCP_int = 0;
+
+        //				if(RxDataUSB[0] == REQUEST_PC_HEADER){
+        //					parserRequestPC(RxDataUSB);
+        //				}
+        parserRequestPC(RxDataUSB);
+      }
+    }
+    else if (eModeMK == BRIDGE_ACCUMULATOR_MODE)
+    {
+      if (en_dis_interruptsBridges)
+      {
+        en_dis_interruptsBridges = 0;
+        enableInterruptInterfaces();
+        disableInterruptInterfaces(BRIDGE_ACCUMULATOR_MODE);
+      }
+
+      if (flagsInterrupts.USB_VCP_int == 1)
+      {
+        flagsInterrupts.USB_VCP_int = 0;
+
+        //				if(RxDataUSB[0] == REQUEST_PC_HEADER && RxDataUSB[1] == HEADER_EXIT_CMD2){
+        if (RxDataUSB[0] == REQUEST_PC_HEADER)
+        {
+          parserRequestPC(RxDataUSB);
+        }
+        else
+        {
+          PIN_EN_TRANSMIT_USART1(1);
+          HAL_UART_Transmit_IT(&huart1, RxDataUSB, RxDataUSB_len);
+          HAL_Delay(6);
+          PIN_EN_TRANSMIT_USART1(0);
+        }
+
+        //				PIN_EN_TRANSMIT_USART1(1);
+        //				HAL_UART_Transmit_IT(&huart1, RxDataUSB, RxDataUSB_len);
+        //				HAL_Delay(3);
+        //				PIN_EN_TRANSMIT_USART1(0);
+      }
+    }
+    else if (eModeMK == BRIDGE_TMPRTRBRD_MODE)
+    {
+      if (en_dis_interruptsBridges)
+      {
+        en_dis_interruptsBridges = 0;
+        enableInterruptInterfaces();
+        disableInterruptInterfaces(BRIDGE_TMPRTRBRD_MODE);
+      }
+
+      if (flagsInterrupts.USB_VCP_int == 1)
+      {
+        flagsInterrupts.USB_VCP_int = 0;
+        if (RxDataUSB[0] == HEADER_METTMPR_BOARD1 && RxDataUSB[1] == HEADER_METTMPR_BOARD2)
+        {
+
+          PIN_EN_TRANSMIT_UART4(1);
+          HAL_UART_Transmit_IT(&huart4, RxDataUSB, RxDataUSB_len);
+          HAL_Delay(6);
+          PIN_EN_TRANSMIT_UART4(0);
+        }
+        else
+        {
+          parserRequestPC(RxDataUSB);
+        }
+      }
+    }
+
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
@@ -468,74 +524,84 @@ void HAL_UARTEx_RxEventCallback(UART_HandleTypeDef *huart, uint16_t Size)
   indx = Size;
   if (huart->Instance == USART1) // accum
   {
-		
-//		if(eModeMK == COLLECT_DATA_MODE)
-//		{
-//			if (memcmp(RxDataUSART1, TxDataUSART1, Size)){
-//				flagsInterrupts.UART_ACCUM_int = 1;
-//			}
-//		}
-//		else if(eModeMK == BRIDGE_ACCUMULATOR_MODE){
-		if(eModeMK == BRIDGE_ACCUMULATOR_MODE){
-			if (memcmp(RxDataUSART1, RxDataUSB, Size)){
-				CDC_Transmit_FS(&RxDataUSART1[0], Size);
-			}		
-		}
-    else{
-    }	
+
+    if (eModeMK == COLLECT_DATA_MODE)
+    {
+      // if (memcmp(RxDataUSART1, TxDataUSART1, Size))
+      // {
+      flagsInterrupts.UART_ACCUM_int = 1;
+      // }
+    }
+    else if (eModeMK == BRIDGE_ACCUMULATOR_MODE)
+    // if (eModeMK == BRIDGE_ACCUMULATOR_MODE)
+    {
+      if (memcmp(RxDataUSART1, RxDataUSB, Size))
+      {
+        CDC_Transmit_FS(&RxDataUSART1[0], Size);
+      }
+    }
     HAL_UARTEx_ReceiveToIdle_IT(&huart1, RxDataUSART1, sizeof(RxDataUSART1));
   }
   if (huart->Instance == USART3) // meteoblock
   {
-		
-		if(eModeMK == COLLECT_DATA_MODE)
-		{
-			if (memcmp(RxDataUSART3, TxDataUSART3, Size)){
-				flagsInterrupts.UART_METEOBLOCK_int = 1;
-			}
-		}
-		else if(eModeMK == BRIDGE_METEOBLOCK_MODE){
-			if (memcmp(RxDataUSART3, RxDataUSB, Size)){
-				CDC_Transmit_FS(&RxDataUSART3[0], Size);
-			}		
-		}
-    else{
-			
-    }	
+
+    if (eModeMK == COLLECT_DATA_MODE)
+    {
+      if (memcmp(RxDataUSART3, TxDataUSART3, Size))
+      {
+        flagsInterrupts.UART_METEOBLOCK_int = 1;
+      }
+    }
+    else if (eModeMK == BRIDGE_METEOBLOCK_MODE)
+    {
+      if (memcmp(RxDataUSART3, RxDataUSB, Size))
+      {
+        CDC_Transmit_FS(&RxDataUSART3[0], Size);
+      }
+    }
+    else
+    {
+    }
     HAL_UARTEx_ReceiveToIdle_IT(&huart3, RxDataUSART3, sizeof(RxDataUSART3));
   }
   if (huart->Instance == UART4) // temperature
   {
-		if(eModeMK == COLLECT_DATA_MODE)
-		{
-			if (memcmp(RxDataUSART4, &TxDataUSART4, Size)){
-				flagsInterrupts.UART_TEMPERATURE_int = 1;
-			}
-		}
-		else if(eModeMK == BRIDGE_TMPRTRBRD_MODE){
-			if (memcmp(RxDataUSART4, RxDataUSB, Size)){
-				CDC_Transmit_FS(&RxDataUSART4[0], Size);
-			}		
-		}
-    else{
-    }	
+    if (eModeMK == COLLECT_DATA_MODE)
+    {
+      if (memcmp(RxDataUSART4, &TxDataUSART4, Size))
+      {
+        flagsInterrupts.UART_TEMPERATURE_int = 1;
+      }
+    }
+    else if (eModeMK == BRIDGE_TMPRTRBRD_MODE)
+    {
+      if (memcmp(RxDataUSART4, RxDataUSB, Size))
+      {
+        CDC_Transmit_FS(&RxDataUSART4[0], Size);
+      }
+    }
+    else
+    {
+    }
     HAL_UARTEx_ReceiveToIdle_IT(&huart4, RxDataUSART4, sizeof(RxDataUSART4));
-//    if (memcmp(RxDataUSART4, &TxDataUSART4, 1) != 0)
-//    {
-//      flagsInterrupts.UART_TEMPERATURE_int = 1;
-//    }
-//    HAL_UARTEx_ReceiveToIdle_IT(&huart4, RxDataUSART4, sizeof(RxDataUSART4));
+    //    if (memcmp(RxDataUSART4, &TxDataUSART4, 1) != 0)
+    //    {
+    //      flagsInterrupts.UART_TEMPERATURE_int = 1;
+    //    }
+    //    HAL_UARTEx_ReceiveToIdle_IT(&huart4, RxDataUSART4, sizeof(RxDataUSART4));
   }
-  
-	if (huart->Instance == USART6) // GNSS
+
+  if (huart->Instance == USART6) // GNSS
   {
-		if(eModeMK == BRIDGE_GNSS_MODE){
-			CDC_Transmit_FS(&RxDataUSART6[0], Size);
-		}
-		else if(eModeMK == COLLECT_DATA_MODE){
-			flagsInterrupts.UART_GNSS_int = 1;
-		}
-//    __HAL_UART_CLEAR_IDLEFLAG(&huart6);
+    if (eModeMK == BRIDGE_GNSS_MODE)
+    {
+      CDC_Transmit_FS(&RxDataUSART6[0], Size);
+    }
+    else if (eModeMK == COLLECT_DATA_MODE)
+    {
+      flagsInterrupts.UART_GNSS_int = 1;
+    }
+    //    __HAL_UART_CLEAR_IDLEFLAG(&huart6);
     HAL_UARTEx_ReceiveToIdle_IT(&huart6, RxDataUSART6, sizeof(RxDataUSART6));
   }
 }
@@ -561,101 +627,110 @@ uint8_t parserRequestPC(uint8_t *messageRequestPC)
   {
     switch (messageRequestPC[1]) // ������ ������������ ������ �������
     {
-//      if (stateMachineParserPC == 0) //
-//      {
-      case WriteTimePeriodEventLog: //
-//        configureModeMK.periodWritingDataToLog = (messageRequestPC[3] << 8) && (messageRequestPC[4]);
+      //      if (stateMachineParserPC == 0) //
+      //      {
+    case WriteTimePeriodEventLog: //
+                                  //        configureModeMK.periodWritingDataToLog = (messageRequestPC[3] << 8) && (messageRequestPC[4]);
 
-        // ����� ��������
+      // ����� ��������
 
-        usb_protocol.payloadAndCRC[0] = 0;
-        break; // ����� �� ����� �������
+      usb_protocol.payloadAndCRC[0] = 0;
+      break; // ����� �� ����� �������
 
-      case ReadEventLog: //-
-        usb_protocol.lenghtPayload = (uint16_t)SIZE_LOG;
+    case ReadEventLog: //-
+      usb_protocol.lenghtPayload = (uint16_t)SIZE_LOG;
 
-        // �������� ����� � ��� ��� �������
-        //  ����������
-        memcpy(&usb_protocol.payloadAndCRC[0], (uint8_t *)&log3.ID, SIZE_LOG); // ����������� ����
-        break;                                                                 // ����� �� ����� �������
+      // �������� ����� � ��� ��� �������
+      //  ����������
+      memcpy(&usb_protocol.payloadAndCRC[0], (uint8_t *)&log3.ID, SIZE_LOG); // ����������� ����
+      break;                                                                 // ����� �� ����� �������
 
-      case ClearEventLog:
+    case ClearEventLog:
+    {
+      // ����������
+      usb_protocol.payloadAndCRC[0] = 0;
 
-        // ����������
-        usb_protocol.payloadAndCRC[0] = 0;
-        break; // ����� �� ����� �������
+      if (eModeMK = DEFAULT_MODE)
+      {
+        flagsInterrupts.CLEAR_LOG_int = 1;
+      }
+      else
+      {
+        usb_protocol.cmd |= 0x80;
+      }
+      break; // ����� �� ����� �������
+    }
+    case ModeBridgeMeteoblock:
+      en_dis_interruptsBridges = 1;
+      //        configureModeMK.currentModeMK = ModeBridgeMeteoblock;
 
-      case ModeBridgeMeteoblock:
-				en_dis_interruptsBridges =1;
-//        configureModeMK.currentModeMK = ModeBridgeMeteoblock;
-		
-			eModeMK = BRIDGE_METEOBLOCK_MODE;
-        // ����������
-        usb_protocol.payloadAndCRC[0] = 0;
-        break; // ����� �� ����� �������
+      eModeMK = BRIDGE_METEOBLOCK_MODE;
+      // ����������
+      usb_protocol.payloadAndCRC[0] = 0;
+      break; // ����� �� ����� �������
 
-      case ModeBridgeGNSS:
-				en_dis_interruptsBridges =1;
-//        configureModeMK.currentModeMK = ModeBridgeGNSS;
-			eModeMK = BRIDGE_GNSS_MODE;
+    case ModeBridgeGNSS:
+      en_dis_interruptsBridges = 1;
+      //        configureModeMK.currentModeMK = ModeBridgeGNSS;
+      eModeMK = BRIDGE_GNSS_MODE;
 
-        // ����������
-        usb_protocol.payloadAndCRC[0] = 0;
-        break; // ����� �� ����� �������
+      // ����������
+      usb_protocol.payloadAndCRC[0] = 0;
+      break; // ����� �� ����� �������
 
-      case ModeBridgeAccumulator:
-				en_dis_interruptsBridges =1;
-//        configureModeMK.currentModeMK = ModeBridgeAccumulator;
-			eModeMK = BRIDGE_ACCUMULATOR_MODE;
+    case ModeBridgeAccumulator:
+      en_dis_interruptsBridges = 1;
+      //        configureModeMK.currentModeMK = ModeBridgeAccumulator;
+      eModeMK = BRIDGE_ACCUMULATOR_MODE;
 
-        // ����������
-        usb_protocol.payloadAndCRC[0] = 0;
-        break; // ����� �� ����� �������
-			
-			
-      case MODE_BRIDGE_TEMPRBOARD:
-				en_dis_interruptsBridges =1;
-				eModeMK = BRIDGE_TMPRTRBRD_MODE;
-        // ����������
-        usb_protocol.payloadAndCRC[0] = 0;
-        break; // ����� �� ����� �������
-			
-//      }
+      // ����������
+      usb_protocol.payloadAndCRC[0] = 0;
+      break; // ����� �� ����� �������
+
+    case MODE_BRIDGE_TEMPRBOARD:
+      en_dis_interruptsBridges = 1;
+      eModeMK = BRIDGE_TMPRTRBRD_MODE;
+      // ����������
+      usb_protocol.payloadAndCRC[0] = 0;
+      break; // ����� �� ����� �������
+
+      //      }
 
     case StopWriteDataToLog:
-////      configureModeMK.currentModeMK = StopWriteDataToLog;
-//      usb_protocol.lenghtPayload = 1;
-//      stateMachineParserPC = 0;
-//      //
-//      HAL_TIM_Base_Stop_IT(&htim2);
-//      __HAL_TIM_SET_COUNTER(&htim2, 0);
-//		
-//			eModeMK = DEFAULT_MODE;
+      ////      configureModeMK.currentModeMK = StopWriteDataToLog;
+      //      usb_protocol.lenghtPayload = 1;
+      //      stateMachineParserPC = 0;
+      //      //
+      //      HAL_TIM_Base_Stop_IT(&htim2);
+      //      __HAL_TIM_SET_COUNTER(&htim2, 0);
+      //
+      //			eModeMK = DEFAULT_MODE;
       // ����������
       usb_protocol.payloadAndCRC[0] = 0;
       break; // ����� �� ����� �������
 
     case ExitFromCmdToDefault:
       usb_protocol.lenghtPayload = 1;
-		
-		//vse obnulit`
+
+      // vse obnulit`
       stateMachineParserPC = 0;
       HAL_TIM_Base_Stop_IT(&htim2);
       __HAL_TIM_SET_COUNTER(&htim2, 0);
-			enableInterruptInterfaces();
-		
-			eModeMK = DEFAULT_MODE;
+      enableInterruptInterfaces();
+
+      eModeMK = DEFAULT_MODE;
       // ����������
       usb_protocol.payloadAndCRC[0] = 0;
       break;
 
     case StartWriteDataToLog:
-			en_dis_interruptsBridges =1;
-//      configureModeMK.currentModeMK = StartWriteDataToLog;
+      en_dis_interruptsBridges = 1;
+      //      configureModeMK.currentModeMK = StartWriteDataToLog;
       usb_protocol.lenghtPayload = 1;
       stateMachineParserPC = 1;
 
-			eModeMK = COLLECT_DATA_MODE;
+      *flagsCollectData_ptr = 0;
+      eModeMK = COLLECT_DATA_MODE;
       // ���������� �������
       HAL_TIM_Base_Start_IT(&htim2);
       // ����������
@@ -676,14 +751,14 @@ uint8_t parserRequestPC(uint8_t *messageRequestPC)
 
       uint16_t calcCRC16 = func_calc_crc16((uint8_t *)&usb_protocol.headerConst, REQUEST_PC_HEADER_SIZE + usb_protocol.lenghtPayload);
       usb_protocol.payloadAndCRC[usb_protocol.lenghtPayload] = (uint8_t)(calcCRC16 >> 8);
-      usb_protocol.payloadAndCRC[usb_protocol.lenghtPayload+1] = (uint8_t)(calcCRC16 & 0xFF);
+      usb_protocol.payloadAndCRC[usb_protocol.lenghtPayload + 1] = (uint8_t)(calcCRC16 & 0xFF);
       errorParserPC = 2; // error cmd
       break;             // �����
 
     } // ����� ������������ ������ �������
     uint16_t calcCRC16 = func_calc_crc16((uint8_t *)&usb_protocol.headerConst, REQUEST_PC_HEADER_SIZE + usb_protocol.lenghtPayload);
     usb_protocol.payloadAndCRC[usb_protocol.lenghtPayload] = (uint8_t)(calcCRC16 >> 8);
-    usb_protocol.payloadAndCRC[usb_protocol.lenghtPayload+1] = (uint8_t)(calcCRC16 & 0xFF);
+    usb_protocol.payloadAndCRC[usb_protocol.lenghtPayload + 1] = (uint8_t)(calcCRC16 & 0xFF);
   }
   else
   {
@@ -691,7 +766,7 @@ uint8_t parserRequestPC(uint8_t *messageRequestPC)
 
     uint16_t calcCRC16 = func_calc_crc16((uint8_t *)&usb_protocol.headerConst, REQUEST_PC_HEADER_SIZE + usb_protocol.lenghtPayload);
     usb_protocol.payloadAndCRC[usb_protocol.lenghtPayload] = (uint8_t)(calcCRC16 >> 8);
-    usb_protocol.payloadAndCRC[usb_protocol.lenghtPayload+1] = (uint8_t)(calcCRC16 & 0xFF);
+    usb_protocol.payloadAndCRC[usb_protocol.lenghtPayload + 1] = (uint8_t)(calcCRC16 & 0xFF);
 
     errorParserPC = 1; // error crc and header
   }
@@ -717,12 +792,12 @@ uint8_t stateMachineCollectData(void)
     HAL_UART_Transmit_IT(&huart3, TxDataUSART3, CMD_READ_DATA_SiZE);
     HAL_Delay(3);
     PIN_EN_TRANSMIT_UART3(0);
-		stateCollectData = 0;
+    stateCollectData = 0;
     // stateCollectData++;
     break;
 
   //
-  case 2:  //TNP BOARD
+  case 2: // TNP BOARD
     // formMeteoRequestCMD_simple(CMD_READ_DATA, TxDataUSART4);
     TxDataUSART4 = 0x5e;
     PIN_EN_TRANSMIT_UART4(1);
@@ -731,16 +806,16 @@ uint8_t stateMachineCollectData(void)
     PIN_EN_TRANSMIT_UART4(0);
     stateCollectData++;
     break;
-	
-//  case 3:
-//    // formMeteoRequestCMD_simple(CMD_READ_DATA, TxDataUSART4);
-////    TxDataUSART4 = 0x5e;
-////    PIN_EN_TRANSMIT_UART4(1);
-////    HAL_UART_Transmit_IT(&huart4, &TxDataUSART4, CMD_READ_DATA_SiZE);
-////    HAL_Delay(10);
-////    PIN_EN_TRANSMIT_UART4(0);
-//    stateCollectData++;
-//    break;
+
+    //  case 3:
+    //    // formMeteoRequestCMD_simple(CMD_READ_DATA, TxDataUSART4);
+    ////    TxDataUSART4 = 0x5e;
+    ////    PIN_EN_TRANSMIT_UART4(1);
+    ////    HAL_UART_Transmit_IT(&huart4, &TxDataUSART4, CMD_READ_DATA_SiZE);
+    ////    HAL_Delay(10);
+    ////    PIN_EN_TRANSMIT_UART4(0);
+    //    stateCollectData++;
+    //    break;
 
   default:
     stateCollectData = 0;
@@ -750,72 +825,72 @@ uint8_t stateMachineCollectData(void)
   return 0x00; // busy
 }
 
+uint8_t disableInterruptInterfaces(uint8_t modeMK)
+{
 
-uint8_t disableInterruptInterfaces(uint8_t modeMK){
+  HAL_StatusTypeDef resultOperation = 0;
+  // disable uart
+  switch (modeMK)
+  {
+  case DEFAULT_MODE: // all
+    resultOperation = HAL_UART_AbortReceive_IT(&huart6);
+    resultOperation |= HAL_UART_AbortReceive_IT(&huart1);
+    resultOperation |= HAL_UART_AbortReceive_IT(&huart4);
+    resultOperation = HAL_UART_AbortReceive_IT(&huart3);
+    break;
 
-	HAL_StatusTypeDef resultOperation = 0;
-	//disable uart
-	switch (modeMK) {
-		case BRIDGE_METEOBLOCK_MODE:
-			resultOperation = HAL_UART_AbortReceive_IT (&huart6);
-			resultOperation |= HAL_UART_AbortReceive_IT (&huart1);
-			resultOperation |= HAL_UART_AbortReceive_IT (&huart4);
-		break;
-		
-		case BRIDGE_GNSS_MODE:
-			resultOperation = HAL_UART_AbortReceive_IT (&huart3);
-			resultOperation |= HAL_UART_AbortReceive_IT (&huart1);
-			resultOperation |= HAL_UART_AbortReceive_IT (&huart4);
-		break;
-		
-		case BRIDGE_ACCUMULATOR_MODE:
-			resultOperation = HAL_UART_AbortReceive_IT (&huart3);
-			resultOperation |= HAL_UART_AbortReceive_IT (&huart6);
-			resultOperation |= HAL_UART_AbortReceive_IT (&huart4);
-		break;
-		
-		case BRIDGE_TMPRTRBRD_MODE:
-			resultOperation = HAL_UART_AbortReceive_IT (&huart3);
-			resultOperation |= HAL_UART_AbortReceive_IT (&huart6);
-			resultOperation |= HAL_UART_AbortReceive_IT (&huart1);
-		break;
-		
-		/*...*/
-		default:
-		/*���, ������� ����������, ���� ������ �� ���������� �������� �� ������������� �������� � ���������� variable*/
-		return 255;
-		break;
-		}
-	
-	//timer
-		HAL_TIM_Base_Stop_IT(&htim2);
-		__HAL_TIM_SET_COUNTER(&htim2, 0);
-		return resultOperation;
+  case BRIDGE_METEOBLOCK_MODE:
+    resultOperation = HAL_UART_AbortReceive_IT(&huart6);
+    resultOperation |= HAL_UART_AbortReceive_IT(&huart1);
+    resultOperation |= HAL_UART_AbortReceive_IT(&huart4);
+    break;
+
+  case BRIDGE_GNSS_MODE:
+    resultOperation = HAL_UART_AbortReceive_IT(&huart3);
+    resultOperation |= HAL_UART_AbortReceive_IT(&huart1);
+    resultOperation |= HAL_UART_AbortReceive_IT(&huart4);
+    break;
+
+  case BRIDGE_ACCUMULATOR_MODE:
+    resultOperation = HAL_UART_AbortReceive_IT(&huart3);
+    resultOperation |= HAL_UART_AbortReceive_IT(&huart6);
+    resultOperation |= HAL_UART_AbortReceive_IT(&huart4);
+    break;
+
+  case BRIDGE_TMPRTRBRD_MODE:
+    resultOperation = HAL_UART_AbortReceive_IT(&huart3);
+    resultOperation |= HAL_UART_AbortReceive_IT(&huart6);
+    resultOperation |= HAL_UART_AbortReceive_IT(&huart1);
+    break;
+
+  /*...*/
+  default:
+    /*���, ������� ����������, ���� ������ �� ���������� �������� �� ������������� �������� � ���������� variable*/
+    return 255;
+    break;
+  }
+
+  // timer
+  HAL_TIM_Base_Stop_IT(&htim2);
+  __HAL_TIM_SET_COUNTER(&htim2, 0);
+  return resultOperation;
 }
 
+// void enableInterruptInterfaces(uint8_t modeMK){
+uint8_t enableInterruptInterfaces(void)
+{
 
+  HAL_StatusTypeDef resultOperation = 0;
+  resultOperation |= HAL_UARTEx_ReceiveToIdle_IT(&huart6, RxDataUSART6, sizeof(RxDataUSART6));
+  resultOperation |= HAL_UARTEx_ReceiveToIdle_IT(&huart3, RxDataUSART3, sizeof(RxDataUSART3));
+  resultOperation |= HAL_UARTEx_ReceiveToIdle_IT(&huart1, RxDataUSART1, sizeof(RxDataUSART1));
+  resultOperation |= HAL_UARTEx_ReceiveToIdle_IT(&huart4, RxDataUSART4, sizeof(RxDataUSART4));
 
-//void enableInterruptInterfaces(uint8_t modeMK){
-uint8_t enableInterruptInterfaces(void){
-
-	HAL_StatusTypeDef resultOperation = 0;
-	resultOperation |= HAL_UARTEx_ReceiveToIdle_IT(&huart6, RxDataUSART6, sizeof(RxDataUSART6));
-	resultOperation |= HAL_UARTEx_ReceiveToIdle_IT(&huart3, RxDataUSART3, sizeof(RxDataUSART3));
-	resultOperation |= HAL_UARTEx_ReceiveToIdle_IT(&huart1, RxDataUSART1, sizeof(RxDataUSART1));
-	resultOperation |= HAL_UARTEx_ReceiveToIdle_IT(&huart4, RxDataUSART4, sizeof(RxDataUSART4));
-
-	//timer
-//      __HAL_TIM_SET_COUNTER(&htim2, 0);
-//      HAL_TIM_Base_Start_IT(&htim2);
-	return resultOperation;
+  // timer --??
+  __HAL_TIM_SET_COUNTER(&htim2, 0); // snyal comment
+  HAL_TIM_Base_Start_IT(&htim2);    // snyal comment
+  return resultOperation;
 }
-
-
-
-
-
-
-
 
 /* USER CODE END 4 */
 

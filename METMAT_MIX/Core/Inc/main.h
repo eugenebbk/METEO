@@ -41,6 +41,7 @@ extern "C"{
 #define HEADER_METTMPR_BOARD2 0x22
 
 #define HEADER_EXIT_CMD2 0x19
+#define NUMB_FLASH_MEM 1
 //#define HEADER_METTMPR_BOARD2 0x55
 
   /* USER CODE END Includes */
@@ -92,7 +93,7 @@ extern "C"{
     uint8_t UART_GNSS_int : 1;    // 0-1
     uint8_t COLLECT_DATA_int : 1;   // 0-1
     uint8_t UART_ACCUM_int : 1;   // 0-1
-    // uint8_t Reserved4 : 1;   // 0-1
+    uint8_t CLEAR_LOG_int : 1;   // 0-1
     // uint8_t PVD_PWR_int : 1; // 0-1
   } flagsInterrupts_t;
 
@@ -105,6 +106,18 @@ extern "C"{
 		BRIDGE_ACCUMULATOR_MODE,
 		BRIDGE_TMPRTRBRD_MODE
   } eModeMK_t;
+
+
+  
+  typedef struct
+  {
+    uint8_t COLLECT_GNSS : 1; // 0-1
+    uint8_t COLLECT_METEOBLOCK : 1;  // 0-1
+    uint8_t COLLECT_TMPRTBRD : 1;   // 0-1
+    uint8_t COLLECT_ACCUM : 1;   // 0-1
+    // uint8_t PVD_PWR_int : 1; // 0-1
+  } flagsCollectData_t;
+
   /* USER CODE END ET */
 
   /* Exported constants --------------------------------------------------------*/

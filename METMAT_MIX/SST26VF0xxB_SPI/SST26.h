@@ -4,6 +4,7 @@
 #include "main.h"
 
 
+
 //--config pin extern
 #define FLASH1_CS_Pin GPIO_PIN_4
 #define FLASH1_CS_GPIO_Port GPIOA
@@ -150,7 +151,8 @@ void sFLASH_ReadCommand(uint8_t command, uint8_t* massiveAnswer, uint8_t sizeAns
 
 //----------
 
-uint32_t sFLASH_SearchLastFreePageAdress(uint16_t *ID_log, uint8_t numbFlashMemory);
+uint32_t sFLASH_SearchLastFreePageAdress(uint16_t *ID_log, uint16_t freeBytesSearch, uint8_t numbFlashMemory);
+// uint32_t sFLASH_SearchLastFreePageAdress(uint16_t *ID_log, uint8_t numbFlashMemory);
 // uint32_t sFLASH_SearchLastFreePageAdress (uint8_t numbFlashMemory);
 
 #endif /* _STM32_SPI_FLASH_H_ */
